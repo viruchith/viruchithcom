@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node ./node_modules/astro/astro.js dev",
     "build": "node ./node_modules/astro/astro.js build",
-    "preview": "node ./node_modules/astro/astro.js preview"
+    "preview": "node ./node_modules/astro/astro.js preview",
+    "deploy": "npm run build && wrangler pages deploy",
+    "pages:deploy": "wrangler pages deploy"
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.1.4",
@@ -22,7 +24,8 @@
     "cssnano": "^7.0.6",
     "postcss": "^8.4.49",
     "terser": "^5.36.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "wrangler": "^4.0.0"
   },
   "browserslist": [
     "> 0.5%",

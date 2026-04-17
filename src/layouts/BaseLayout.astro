@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title: string;
@@ -7,8 +7,14 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://viruchith.com');
-const ogImage = new URL('/og-image.svg', Astro.site ?? 'https://viruchith.com').toString();
+const canonical = new URL(
+  Astro.url.pathname,
+  Astro.site ?? "https://viruchith.com",
+);
+const ogImage = new URL(
+  "/og-image.svg",
+  Astro.site ?? "https://viruchith.com",
+).toString();
 ---
 
 <!doctype html>
@@ -32,8 +38,16 @@ const ogImage = new URL('/og-image.svg', Astro.site ?? 'https://viruchith.com').
     <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
 
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fcf9f8" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#131313" />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#fcf9f8"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#131313"
+    />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -42,7 +56,10 @@ const ogImage = new URL('/og-image.svg', Astro.site ?? 'https://viruchith.com').
     <meta property="og:site_name" content="viruchith.com" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content="Viruchith Ganesan portfolio preview" />
+    <meta
+      property="og:image:alt"
+      content="Viruchith Ganesan portfolio preview"
+    />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -51,65 +68,96 @@ const ogImage = new URL('/og-image.svg', Astro.site ?? 'https://viruchith.com').
     <title>{title}</title>
     <script is:inline>
       (function () {
-        var k = 'viruchith-theme';
+        var k = "viruchith-theme";
         try {
           var s = localStorage.getItem(k);
-          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
           var root = document.documentElement;
-          root.classList.remove('dark');
-          if (s === 'dark' || (s !== 'light' && prefersDark)) {
-            root.classList.add('dark');
+          root.classList.remove("dark");
+          if (s === "dark" || (s !== "light" && prefersDark)) {
+            root.classList.add("dark");
           }
         } catch (e) {
-          document.documentElement.classList.add('dark');
+          document.documentElement.classList.add("dark");
         }
       })();
     </script>
-    <script type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Person',
-      name: 'Viruchith Ganesan',
-      url: 'https://viruchith.com',
-      email: 'contact@viruchith.com',
-      jobTitle: 'Software Development Engineer',
-      knowsAbout: [
-        'Java',
-        'Spring Boot',
-        'Microservices',
-        'Google Cloud Platform',
-        'Kubernetes',
-        'REST APIs',
-      ],
-      alumniOf: {
-        '@type': 'CollegeOrUniversity',
-        name: 'Sona College of Technology',
-      },
-      worksFor: {
-        '@type': 'Organization',
-        name: 'Lumen Technologies',
-      },
-    })} />
-    <script type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'ProfessionalService',
-      name: 'Viruchith Ganesan — Java & Microservices Consultancy',
-      url: 'https://viruchith.com',
-      description:
-        'Backend engineering, Spring Boot modernization, cloud-native microservices on GCP, and API platform ownership.',
-      areaServed: 'Worldwide',
-      serviceType: [
-        'Java backend development',
-        'Spring Boot modernization',
-        'Microservices architecture',
-        'GCP and Kubernetes deployment',
-      ],
-      provider: {
-        '@type': 'Person',
-        name: 'Viruchith Ganesan',
-      },
-    })} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: "Viruchith Ganesan",
+        url: "https://viruchith.com",
+        email: "contact@viruchith.com",
+        jobTitle: "Software Development Engineer",
+        knowsAbout: [
+          "Java",
+          "Spring Boot",
+          "Microservices",
+          "Google Cloud Platform",
+          "Kubernetes",
+          "REST APIs",
+        ],
+        alumniOf: {
+          "@type": "CollegeOrUniversity",
+          name: "Sona College of Technology",
+        },
+        worksFor: {
+          "@type": "Organization",
+          name: "Lumen Technologies",
+        },
+      })}
+    />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        name: "Viruchith Ganesan — Java & Microservices Consultancy",
+        url: "https://viruchith.com",
+        description:
+          "Backend engineering, Spring Boot modernization, cloud-native microservices on GCP, and API platform ownership.",
+        areaServed: "Worldwide",
+        serviceType: [
+          "Java backend development",
+          "Spring Boot modernization",
+          "Microservices architecture",
+          "GCP and Kubernetes deployment",
+        ],
+        provider: {
+          "@type": "Person",
+          name: "Viruchith Ganesan",
+        },
+      })}
+    />
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-WFS47GTS");
+    </script>
+    <!-- End Google Tag Manager -->
   </head>
   <body class="min-h-screen">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-WFS47GTS"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe></noscript
+    >
+    <!-- End Google Tag Manager (noscript) -->
     <slot />
   </body>
 </html>
