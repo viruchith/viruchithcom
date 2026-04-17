@@ -1,0 +1,119 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { Menu, X } from '@lucide/astro';
+
+const links = [
+  { href: '#expertise', label: 'Expertise' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#education', label: 'Education' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header
+  class="fixed top-0 z-50 w-full border-b border-slate-200 bg-white/80 shadow-nav backdrop-blur-xl transition-colors duration-300 dark:border-none dark:bg-[#131313]/60 dark:shadow-nav-dark"
+>
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-5 md:px-8">
+    <a
+      href="/"
+      class="font-headline text-lg font-bold tracking-tighter text-slate-900 dark:text-white sm:text-xl"
+    >
+      VIRUCHITH.COM
+    </a>
+
+    <nav class="hidden items-center gap-6 md:flex md:gap-8" aria-label="Primary">
+      {
+        links.map((l) => (
+          <a
+            class="font-body text-sm font-medium uppercase tracking-wide text-slate-600 transition-colors hover:text-slate-900 dark:text-gray-400 dark:hover:text-white"
+            href={l.href}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <a
+        class="stitch-gradient-primary ml-2 scale-95 rounded-lg px-6 py-2.5 text-sm font-medium transition-opacity hover:opacity-90 active:duration-100"
+        href="https://www.linkedin.com/in/viruchith/"
+        target="_blank"
+      >
+        Hire Me
+      </a>
+      <ThemeToggle />
+    </nav>
+
+    <div class="flex items-center gap-2 md:hidden">
+      <ThemeToggle />
+      <button
+        type="button"
+        class="flex h-10 w-10 items-center justify-center rounded-full text-slate-900 transition hover:bg-slate-100 dark:text-white dark:hover:bg-white/10"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        data-mobile-menu-open
+      >
+        <span class="menu-icon-open"><Menu class="h-6 w-6" stroke-width={1.5} aria-hidden="true" /></span>
+        <span class="menu-icon-close hidden"><X class="h-6 w-6" stroke-width={1.5} aria-hidden="true" /></span>
+        <span class="sr-only">Open menu</span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-nav"
+    class="hidden border-t border-slate-200 bg-white/95 px-6 py-6 backdrop-blur-xl dark:border-white/10 dark:bg-[#131313]/95 md:hidden"
+    data-mobile-panel
+  >
+    <nav class="flex flex-col gap-4" aria-label="Mobile">
+      {
+        links.map((l) => (
+          <a
+            class="font-body text-sm font-medium uppercase tracking-wide text-slate-700 transition hover:text-slate-900 dark:text-gray-300 dark:hover:text-white"
+            href={l.href}
+            data-mobile-link
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <a class="stitch-gradient-primary mt-2 inline-flex justify-center rounded-lg px-6 py-3 text-sm font-medium" href="#contact">
+        Hire Me
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  function initMobileNav() {
+    const btn = document.querySelector<HTMLElement>('[data-mobile-menu-open]');
+    const panel = document.querySelector<HTMLElement>('[data-mobile-panel]');
+    const openIcon = document.querySelector('.menu-icon-open');
+    const closeIcon = document.querySelector('.menu-icon-close');
+    if (!btn) return;
+    if (!panel) return;
+    const menuBtn = btn;
+    const menuPanel = panel;
+    if (menuBtn.dataset.navInit) return;
+    menuBtn.dataset.navInit = '1';
+
+    function setOpen(isOpen: boolean) {
+      menuPanel.classList.toggle('hidden', !isOpen);
+      menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      openIcon?.classList.toggle('hidden', isOpen);
+      closeIcon?.classList.toggle('hidden', !isOpen);
+    }
+
+    menuBtn.addEventListener('click', function () {
+      setOpen(menuPanel.classList.contains('hidden'));
+    });
+
+    menuPanel.querySelectorAll<HTMLElement>('[data-mobile-link]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        setOpen(false);
+      });
+    });
+  }
+
+  initMobileNav();
+  document.addEventListener('astro:after-swap', initMobileNav);
+</script>

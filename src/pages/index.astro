@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Hero from '../components/Hero.astro';
+import Expertise from '../components/Expertise.astro';
+import Experience from '../components/Experience.astro';
+import Projects from '../components/Projects.astro';
+import EducationCerts from '../components/EducationCerts.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+const title = 'Viruchith Ganesan | Software Engineer';
+const description =
+  'Software Development Engineer specializing in Java, Spring Boot, and cloud-native systems on Google Cloud Platform. Microservices, GEOAM-style APIs, RabbitMQ, and production observability.';
+---
+
+<BaseLayout {title} {description}>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+  <SiteHeader />
+  <main id="main" class="mx-auto max-w-screen-2xl pb-24 pt-28 md:pt-32">
+    <Hero />
+    <div class="deferred-render">
+      <Expertise />
+    </div>
+    <div class="deferred-render">
+      <Experience />
+    </div>
+    <div class="deferred-render">
+      <Projects />
+    </div>
+    <div class="deferred-render">
+      <EducationCerts />
+    </div>
+  </main>
+  <SiteFooter />
+</BaseLayout>

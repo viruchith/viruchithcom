@@ -1,0 +1,64 @@
+@import '@fontsource-variable/manrope';
+@import '@fontsource-variable/inter';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+    color-scheme: light dark;
+    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    @apply bg-slate-50 font-body text-slate-800 dark:bg-surface dark:text-on-surface;
+    transition:
+      background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Theme cross-fade on layout shells (links/buttons keep snappy hovers via their own classes) */
+  :where(header, main, footer, section, nav, article) {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::selection {
+    @apply bg-primary-container/30 text-on-primary dark:bg-primary-container dark:text-on-primary;
+  }
+
+  /* Optional: soften View Transitions API theme flips (Chromium) */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.45s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer components {
+  .skip-to-content {
+    @apply sr-only;
+  }
+
+  .skip-to-content:focus {
+    @apply fixed left-4 top-4 z-[100] m-0 inline-flex h-auto w-auto overflow-visible rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-900 outline-none ring-2 ring-primary/40 dark:bg-surface-container-highest dark:text-on-surface;
+  }
+
+  .stitch-gradient-primary {
+    @apply bg-gradient-to-br from-[#00a8d6] to-[#007ea3] text-white shadow-cta-light dark:from-primary dark:to-primary-container dark:text-on-primary dark:shadow-cta;
+  }
+
+  .stitch-gradient-hero {
+    @apply bg-gradient-to-br from-[#00a8d6] to-[#007ea3] text-white shadow-hero-light dark:from-primary dark:to-primary-container dark:text-on-primary dark:shadow-hero;
+  }
+
+  /* Render below-the-fold blocks lazily for faster initial paint */
+  .deferred-render {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 900px;
+  }
+}

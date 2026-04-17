@@ -1,0 +1,63 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  darkMode: 'class',
+  content: ['./src/**/*.{astro,html,js,ts}'],
+  theme: {
+    extend: {
+      fontFamily: {
+        headline: ['Manrope', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
+        label: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        'label-md': ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.1em' }],
+      },
+      colors: {
+        /* Stitch / obsidian_flux tokens (dark surfaces) */
+        'surface-container-lowest': '#0e0e0e',
+        'surface-container-low': '#1c1b1b',
+        'surface-container': '#201f1f',
+        'surface-container-high': '#2a2a2a',
+        'surface-container-highest': '#353534',
+        'surface-variant': '#353534',
+        surface: '#131313',
+        background: '#131313',
+        'on-surface': '#e5e2e1',
+        'on-surface-variant': '#bbc9cf',
+        'on-primary': '#003642',
+        'on-primary-container': '#00586b',
+        primary: '#a8e8ff',
+        'primary-container': '#00d4ff',
+        'inverse-primary': '#00677e',
+        secondary: '#c8c6c5',
+        'on-secondary': '#313030',
+        'on-secondary-container': '#b7b5b4',
+        outline: '#859398',
+        'outline-variant': '#3c494e',
+        tertiary: '#ffd9a1',
+        'on-tertiary': '#432c00',
+        'tertiary-container': '#feb528',
+        error: '#ffb4ab',
+        'on-error': '#690005',
+        'error-container': '#93000a',
+        'inverse-surface': '#e5e2e1',
+        'inverse-on-surface': '#313030',
+      },
+      borderRadius: {
+        DEFAULT: '0.125rem',
+        lg: '0.25rem',
+        xl: '0.5rem',
+        '2xl': '0.75rem',
+      },
+      boxShadow: {
+        nav: '0 4px 20px rgba(0, 0, 0, 0.05)',
+        'nav-dark': '0 20px 40px rgba(0, 0, 0, 0.4)',
+        cta: '0 10px 20px rgba(0, 212, 255, 0.1)',
+        'cta-light': '0 10px 20px rgba(0, 168, 214, 0.1)',
+        hero: '0 20px 40px rgba(0, 212, 255, 0.15)',
+        'hero-light': '0 20px 40px rgba(0, 168, 214, 0.15)',
+      },
+    },
+  },
+  plugins: [],
+};

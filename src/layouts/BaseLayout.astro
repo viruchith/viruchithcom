@@ -1,0 +1,116 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://viruchith.com');
+const ogImage = new URL('/og-image.svg', Astro.site ?? 'https://viruchith.com').toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="Viruchith Ganesan, Java backend developer, Spring Boot consultant, microservices architect, GCP, Kubernetes, RabbitMQ, API modernization"
+    />
+    <meta name="author" content="Viruchith Ganesan" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
+    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fcf9f8" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#131313" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="viruchith.com" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Viruchith Ganesan portfolio preview" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <title>{title}</title>
+    <script is:inline>
+      (function () {
+        var k = 'viruchith-theme';
+        try {
+          var s = localStorage.getItem(k);
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var root = document.documentElement;
+          root.classList.remove('dark');
+          if (s === 'dark' || (s !== 'light' && prefersDark)) {
+            root.classList.add('dark');
+          }
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Viruchith Ganesan',
+      url: 'https://viruchith.com',
+      email: 'contact@viruchith.com',
+      jobTitle: 'Software Development Engineer',
+      knowsAbout: [
+        'Java',
+        'Spring Boot',
+        'Microservices',
+        'Google Cloud Platform',
+        'Kubernetes',
+        'REST APIs',
+      ],
+      alumniOf: {
+        '@type': 'CollegeOrUniversity',
+        name: 'Sona College of Technology',
+      },
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Lumen Technologies',
+      },
+    })} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'ProfessionalService',
+      name: 'Viruchith Ganesan — Java & Microservices Consultancy',
+      url: 'https://viruchith.com',
+      description:
+        'Backend engineering, Spring Boot modernization, cloud-native microservices on GCP, and API platform ownership.',
+      areaServed: 'Worldwide',
+      serviceType: [
+        'Java backend development',
+        'Spring Boot modernization',
+        'Microservices architecture',
+        'GCP and Kubernetes deployment',
+      ],
+      provider: {
+        '@type': 'Person',
+        name: 'Viruchith Ganesan',
+      },
+    })} />
+  </head>
+  <body class="min-h-screen">
+    <slot />
+  </body>
+</html>

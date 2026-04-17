@@ -1,0 +1,132 @@
+---
+import { Code2, Cloud, Network, LayoutGrid } from '@lucide/astro';
+
+const languages = [
+  'Java',
+  'Python',
+  'TypeScript',
+  'JavaScript',
+  'Spring Boot',
+  'JEE',
+  'Restlet',
+  'React',
+  'JUnit',
+  'Mockito',
+];
+
+const cloud = [
+  'GCP (ACE)',
+  'Kubernetes',
+  'Rancher',
+  'Docker',
+  'RabbitMQ',
+  'Jenkins',
+  'Linux',
+];
+
+const architecture = [
+  'Microservices',
+  'REST APIs',
+  'GEOAM / AJAX services',
+  'MySQL',
+  'MongoDB',
+  'Redis',
+  'Solr',
+  'Git',
+];
+---
+
+<section id="expertise" class="mb-40 px-6 md:px-12 lg:px-24">
+  <div
+    class="mb-16 flex items-end justify-between border-b border-slate-200 pb-8 transition-colors dark:border-surface-container-low"
+  >
+    <div>
+      <h2 class="font-headline mb-2 text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">Technical Engine</h2>
+      <p class="font-body text-slate-600 dark:text-on-surface-variant">Core competencies and technological stack.</p>
+    </div>
+    <LayoutGrid class="h-10 w-10 shrink-0 text-blue-600 opacity-50 dark:text-primary md:h-11 md:w-11" stroke-width={1.25} aria-hidden="true" />
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+    <div
+      class="group relative overflow-hidden rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-colors dark:border-transparent dark:bg-surface-container-low dark:shadow-none"
+    >
+      <div
+        class="absolute right-0 top-0 h-32 w-32 rounded-bl-full bg-blue-500/5 transition-transform group-hover:scale-110 dark:bg-primary/5"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="mb-8 flex items-center gap-4">
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 dark:border-outline-variant/20 dark:bg-surface-container-lowest"
+        >
+          <Code2 class="h-6 w-6 text-blue-600 dark:text-primary" stroke-width={1.5} aria-hidden="true" />
+        </div>
+        <h3 class="font-headline text-xl font-bold text-slate-900 dark:text-white">Languages &amp; Frameworks</h3>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        {
+          languages.map((tag) => (
+            <span class="rounded-md border border-slate-200 bg-slate-50 px-4 py-2 font-body text-sm text-slate-700 transition-colors dark:border-outline-variant/20 dark:bg-surface-container-lowest dark:text-on-surface">
+              {tag}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <div
+      class="group relative overflow-hidden rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-colors dark:border-transparent dark:bg-surface-container-low dark:shadow-none"
+    >
+      <div
+        class="absolute right-0 top-0 h-32 w-32 rounded-bl-full bg-blue-500/5 transition-transform group-hover:scale-110 dark:bg-primary/5"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="mb-8 flex items-center gap-4">
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 dark:border-outline-variant/20 dark:bg-surface-container-lowest"
+        >
+          <Cloud class="h-6 w-6 text-blue-600 dark:text-primary" stroke-width={1.5} aria-hidden="true" />
+        </div>
+        <h3 class="font-headline text-xl font-bold text-slate-900 dark:text-white">Cloud &amp; DevOps</h3>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        {
+          cloud.map((tag) => (
+            <span class="rounded-md border border-slate-200 bg-slate-50 px-4 py-2 font-body text-sm text-slate-700 transition-colors dark:border-outline-variant/20 dark:bg-surface-container-lowest dark:text-on-surface">
+              {tag}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <div
+      class="group relative overflow-hidden rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-colors dark:border-transparent dark:bg-surface-container-low dark:shadow-none"
+    >
+      <div
+        class="absolute right-0 top-0 h-32 w-32 rounded-bl-full bg-blue-500/5 transition-transform group-hover:scale-110 dark:bg-primary/5"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="mb-8 flex items-center gap-4">
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 dark:border-outline-variant/20 dark:bg-surface-container-lowest"
+        >
+          <Network class="h-6 w-6 text-blue-600 dark:text-primary" stroke-width={1.5} aria-hidden="true" />
+        </div>
+        <h3 class="font-headline text-xl font-bold text-slate-900 dark:text-white">Architecture &amp; Data</h3>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        {
+          architecture.map((tag) => (
+            <span class="rounded-md border border-slate-200 bg-slate-50 px-4 py-2 font-body text-sm text-slate-700 transition-colors dark:border-outline-variant/20 dark:bg-surface-container-lowest dark:text-on-surface">
+              {tag}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
