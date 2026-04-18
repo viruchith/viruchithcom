@@ -1,24 +1,45 @@
 ---
 import { ChevronLeft, ChevronRight } from '@lucide/astro';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import SiteHeader from '../../components/SiteHeader.astro';
-import SiteFooter from '../../components/SiteFooter.astro';
-import ArticleCard from '../../components/ArticleCard.astro';
-import { getAllBlogPosts, mapBlogPost } from '../../lib/blog';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SiteHeader from '../../../components/SiteHeader.astro';
+import SiteFooter from '../../../components/SiteFooter.astro';
+import ArticleCard from '../../../components/ArticleCard.astro';
+import { getAllBlogPosts, mapBlogPost } from '../../../lib/blog';
 
-const pageSize = 6;
+export async function getStaticPaths() {
+  const PAGE_SIZE = 6;
+  const posts = await getAllBlogPosts();
+  const totalPages = Math.ceil(posts.length / PAGE_SIZE);
+  
+  return Array.from({ length: totalPages }, (_, i) => ({
+    params: { page: String(i + 2) }, // pages 2 onwards; page 1 is /articles/
+  }));
+}
+
+const PAGE_SIZE = 6;
 const allPosts = (await getAllBlogPosts())
   .sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
   .map(mapBlogPost);
 
-const totalPages = Math.ceil(allPosts.length / pageSize);
-const posts = allPosts.slice(0, pageSize);
+const totalPages = Math.ceil(allPosts.length / PAGE_SIZE);
+const pageNum = parseInt(Astro.params.page || '1', 10);
 
-const title = 'Articles | Viruchith Ganesan';
-const description =
-  'Technical writing on architecture, platform engineering, cloud-native delivery, observability, and resilient backend systems.';
-const canonicalUrl = 'https://viruchith.com/articles/';
-const nextUrl = totalPages > 1 ? '/articles/page/2/' : undefined;
+// Validate page number
+if (isNaN(pageNum) || pageNum < 2 || pageNum > totalPages) {
+  return Astro.redirect('/articles/');
+}
+
+const start = (pageNum - 1) * PAGE_SIZE;
+const end = start + PAGE_SIZE;
+const posts = allPosts.slice(start, end);
+
+const title = `Articles - Page ${pageNum} | Viruchith Ganesan`;
+const description = 'Technical writing on architecture, platform engineering, cloud-native delivery, observability, and resilient backend systems.';
+
+const baseUrl = 'https://viruchith.com/articles/';
+const canonicalUrl = pageNum === 1 ? baseUrl : `${baseUrl}page/${pageNum}/`;
+const prevUrl = pageNum > 2 ? `${baseUrl}page/${pageNum - 1}/` : (pageNum === 2 ? baseUrl : undefined);
+const nextUrl = pageNum < totalPages ? `${baseUrl}page/${pageNum + 1}/` : undefined;
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -34,9 +55,14 @@ const structuredData = {
 };
 ---
 
-<BaseLayout title={title} description={description} structuredData={structuredData}>
+<BaseLayout 
+  title={title} 
+  description={description} 
+  structuredData={structuredData}
+>
   <Fragment slot="head">
     <link rel="canonical" href={canonicalUrl} />
+    {prevUrl && <link rel="prev" href={prevUrl} />}
     {nextUrl && <link rel="next" href={nextUrl} />}
   </Fragment>
 
@@ -72,19 +98,25 @@ const structuredData = {
           class="mt-12 flex items-center justify-between gap-4" 
           aria-label="Pagination"
         >
-          <div 
-            class="inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] pointer-events-none border-outline-variant/10 text-on-surface/40"
-            aria-disabled="true"
+          <a 
+            href={prevUrl || '#'}
+            rel={prevUrl ? 'prev' : undefined}
+            class={`inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] transition ${
+              prevUrl
+                ? 'border-outline-variant/20 text-on-surface hover:border-primary-container/35 hover:text-primary-container'
+                : 'pointer-events-none border-outline-variant/10 text-on-surface/40'
+            }`}
+            aria-disabled={!prevUrl}
           >
             <ChevronLeft class="h-5 w-5" stroke-width={1.8} aria-hidden="true" />
             <span>Previous</span>
-          </div>
+          </a>
 
           <div class="flex flex-wrap items-center justify-center gap-2">
             {Array.from({ length: totalPages }, (_, i) => {
               const page = i + 1;
               const url = page === 1 ? '/articles/' : `/articles/page/${page}/`;
-              const isCurrentPage = page === 1;
+              const isCurrentPage = page === pageNum;
               
               return (
                 <a

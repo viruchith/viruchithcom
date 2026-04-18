@@ -25,7 +25,7 @@ Imagine you own a bakery in Delhi famous for its cookies. If someone in Mumbai w
 
 What are PoPs (Points of Presence)?
 
-![Points of Presence](/articles/images/cdn-pops.png" "Points of Presence illustration")
+![Points of Presence](/articles/images/cdn-pops.png "Points of Presence illustration")
 
 In the bakery analogy, the physical shop in Mumbai is the Point of Presence (PoP). A PoP is a physical data center located in a specific geographic area that contains CDN caching servers. The goal of a CDN is to have as many PoPs as possible, situated as close to end-users as possible. The closer the PoP is to the user, the lower the latency (the time it takes for data to travel).
 
