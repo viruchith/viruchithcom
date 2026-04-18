@@ -9,7 +9,7 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 - Homepage sections for profile, expertise, experience, projects, education, and latest articles.
 - Articles homepage carousel showing the latest 5 posts.
 - Markdown-powered blog using Astro content collections.
-- Article listing page with client-side search and pagination.
+- Article listing page with SEO-friendly URL path-based pagination (`/articles/page/2/`, `/articles/page/3/`, etc.).
 - Article detail pages with optimized images, canonical metadata, Open Graph tags, and structured data.
 - Sitemap generation and `robots.txt` support.
 
@@ -86,7 +86,8 @@ For the full publishing workflow, authoring rules, and recommended patterns, see
 ## Key routes
 
 - `/` homepage and portfolio sections
-- `/articles/` article index with search and pagination
+- `/articles/` article index (first page, 6 articles per page)
+- `/articles/page/[number]/` paginated article listings
 - `/articles/[slug]/` individual article pages
 - `/sitemap.xml` generated sitemap
 

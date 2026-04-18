@@ -5,7 +5,7 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
-  ogType?: 'website' | 'article';
+  ogType?: "website" | "article";
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
@@ -13,7 +13,7 @@ const {
   title,
   description,
   ogImage,
-  ogType = 'website',
+  ogType = "website",
   structuredData,
 } = Astro.props;
 const canonical = new URL(
@@ -21,8 +21,7 @@ const canonical = new URL(
   Astro.site ?? "https://viruchith.com",
 );
 const resolvedOgImage = new URL(
-  ogImage ??
-    "/og-image.svg",
+  ogImage ?? "/og-image.svg",
   Astro.site ?? "https://viruchith.com",
 ).toString();
 const structuredDataItems = structuredData
@@ -35,6 +34,7 @@ const structuredDataItems = structuredData
 <!doctype html>
 <html lang="en">
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
@@ -75,46 +75,46 @@ const structuredDataItems = structuredData
     {
       [
         {
-          '@context': 'https://schema.org',
-          '@type': 'Person',
-          name: 'Viruchith Ganesan',
-          url: 'https://viruchith.com',
-          email: 'contact@viruchith.com',
-          jobTitle: 'Software Development Engineer',
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "Viruchith Ganesan",
+          url: "https://viruchith.com",
+          email: "contact@viruchith.com",
+          jobTitle: "Software Development Engineer",
           knowsAbout: [
-            'Java',
-            'Spring Boot',
-            'Microservices',
-            'Google Cloud Platform',
-            'Kubernetes',
-            'REST APIs',
+            "Java",
+            "Spring Boot",
+            "Microservices",
+            "Google Cloud Platform",
+            "Kubernetes",
+            "REST APIs",
           ],
           alumniOf: {
-            '@type': 'CollegeOrUniversity',
-            name: 'Sona College of Technology',
+            "@type": "CollegeOrUniversity",
+            name: "Sona College of Technology",
           },
           worksFor: {
-            '@type': 'Organization',
-            name: 'Lumen Technologies',
+            "@type": "Organization",
+            name: "Lumen Technologies",
           },
         },
         {
-          '@context': 'https://schema.org',
-          '@type': 'ProfessionalService',
-          name: 'Viruchith Ganesan — Java & Microservices Consultancy',
-          url: 'https://viruchith.com',
+          "@context": "https://schema.org",
+          "@type": "ProfessionalService",
+          name: "Viruchith Ganesan — Java & Microservices Consultancy",
+          url: "https://viruchith.com",
           description:
-            'Backend engineering, Spring Boot modernization, cloud-native microservices on GCP, and API platform ownership.',
-          areaServed: 'Worldwide',
+            "Backend engineering, Spring Boot modernization, cloud-native microservices on GCP, and API platform ownership.",
+          areaServed: "Worldwide",
           serviceType: [
-            'Java backend development',
-            'Spring Boot modernization',
-            'Microservices architecture',
-            'GCP and Kubernetes deployment',
+            "Java backend development",
+            "Spring Boot modernization",
+            "Microservices architecture",
+            "GCP and Kubernetes deployment",
           ],
           provider: {
-            '@type': 'Person',
-            name: 'Viruchith Ganesan',
+            "@type": "Person",
+            name: "Viruchith Ganesan",
           },
         },
         ...structuredDataItems,
@@ -137,7 +137,9 @@ const structuredDataItems = structuredData
           f.parentNode.insertBefore(j, f);
         }
       })(
-        window as Window & typeof globalThis & Record<string, Array<Record<string, unknown>>>,
+        window as Window &
+          typeof globalThis &
+          Record<string, Array<Record<string, unknown>>>,
         document,
         "script",
         "dataLayer",
