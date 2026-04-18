@@ -1,0 +1,184 @@
+---
+import { ArrowLeft, CalendarDays, Clock3, Copy, Share2 } from '@lucide/astro';
+import { Image } from 'astro:assets';
+import type { BlogEntry } from '../../lib/blog';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getAllBlogPosts, mapBlogPost, formatArticleDate } from '../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = await getAllBlogPosts();
+
+  return posts.map((post: BlogEntry) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props as { post: BlogEntry };
+const article = mapBlogPost(post);
+const { Content } = await post.render();
+
+const relatedPosts = (await getAllBlogPosts())
+  .filter((entry: BlogEntry) => entry.slug !== post.slug)
+  .slice(0, 3)
+  .map(mapBlogPost);
+
+const title = `${article.title} | Viruchith Ganesan`;
+const description = article.description;
+const articleUrl = `https://viruchith.com/articles/${article.slug}/`;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.title,
+  description,
+  datePublished: article.publishDate.toISOString(),
+  dateModified: (article.updatedDate ?? article.publishDate).toISOString(),
+  image: [`https://viruchith.com${article.heroImage.src}`],
+  mainEntityOfPage: articleUrl,
+  articleSection: article.category,
+  keywords: article.tags.join(', '),
+  author: {
+    '@type': 'Person',
+    name: 'Viruchith Ganesan',
+    url: 'https://viruchith.com',
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Viruchith Ganesan',
+    url: 'https://viruchith.com',
+  },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="article"
+  ogImage={article.heroImage.src}
+  structuredData={structuredData}
+>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+  <SiteHeader />
+
+  <main id="main" class="relative overflow-hidden px-6 pb-24 pt-32 md:px-12 md:pt-36 lg:px-24">
+    <div class="absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(circle_at_8%_12%,rgba(0,240,255,0.18),transparent_28%),radial-gradient(circle_at_90%_8%,rgba(49,49,192,0.2),transparent_28%),radial-gradient(circle_at_60%_100%,rgba(105,0,179,0.18),transparent_34%)] blur-3xl"></div>
+
+    <article class="mx-auto max-w-5xl">
+      <header class="mb-14">
+        <a
+          href="/articles/"
+          class="group inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.24em] text-secondary transition-colors hover:text-primary-container"
+        >
+          <ArrowLeft class="h-4 w-4 transition-transform group-hover:-translate-x-0.5" stroke-width={1.7} aria-hidden="true" />
+          Back to articles
+        </a>
+
+        <div class="mt-8 flex flex-wrap gap-2">
+          <span class="chip">{article.category}</span>
+          {article.tags.map((tag) => <span class="chip">{tag}</span>)}
+        </div>
+
+        <h1 class="mt-8 font-headline text-5xl font-extrabold leading-[0.95] tracking-[-0.05em] text-on-background md:text-7xl">
+          {article.title}
+        </h1>
+
+        <p class="mt-6 max-w-3xl text-xl leading-9 text-on-surface md:text-2xl md:leading-10">
+          {article.description}
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-6 border-y border-outline-variant/15 py-6 text-sm text-on-surface-variant">
+          <div>
+            <p class="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-on-surface-variant/70">Author</p>
+            <p class="mt-1 font-headline text-lg font-bold text-on-background">Viruchith Ganesan</p>
+          </div>
+          <div class="inline-flex items-center gap-2">
+            <CalendarDays class="h-4 w-4 text-primary-container" stroke-width={1.75} aria-hidden="true" />
+            <span>{formatArticleDate(article.publishDate)}</span>
+          </div>
+          <div class="inline-flex items-center gap-2">
+            <Clock3 class="h-4 w-4 text-primary-container" stroke-width={1.75} aria-hidden="true" />
+            <span>{article.readingTime}</span>
+          </div>
+          <div class="ml-auto flex items-center gap-2">
+            <button type="button" class="icon-button" data-copy-link={articleUrl} aria-label="Copy article link">
+              <Copy class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
+            </button>
+            <a
+              class="icon-button"
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Share article on LinkedIn"
+            >
+              <Share2 class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <div class="overflow-hidden rounded-[1.75rem] border border-outline-variant/15 bg-surface-container-lowest">
+        <Image
+          src={article.heroImage}
+          alt={article.heroAlt}
+          class="aspect-[16/9] w-full object-cover"
+          loading="eager"
+        />
+      </div>
+
+      <div class="article-prose mt-12 rounded-[1.75rem] border border-outline-variant/15 bg-surface-container-low/45 p-6 md:p-10">
+        <Content />
+      </div>
+    </article>
+
+    {relatedPosts.length > 0 && (
+      <section class="mx-auto mt-20 max-w-screen-2xl">
+        <div class="mb-8 flex items-end justify-between gap-6">
+          <div>
+            <p class="font-mono text-[0.72rem] uppercase tracking-[0.24em] text-primary-container">Continue reading</p>
+            <h2 class="mt-3 font-headline text-3xl font-extrabold tracking-[-0.04em] text-on-background md:text-4xl">
+              Related articles
+            </h2>
+          </div>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          {relatedPosts.map((relatedPost: (typeof relatedPosts)[number]) => <ArticleCard post={relatedPost} />)}
+        </div>
+      </section>
+    )}
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
+
+<script>
+  function initCopyArticleLink() {
+    document.querySelectorAll<HTMLElement>('[data-copy-link]').forEach(function (button) {
+      if (button.dataset.copyInit === '1') return;
+      button.dataset.copyInit = '1';
+
+      button.addEventListener('click', async function () {
+        const url = button.dataset.copyLink;
+        if (!url) return;
+
+        try {
+          await navigator.clipboard.writeText(url);
+          button.setAttribute('aria-label', 'Article link copied');
+          button.classList.add('is-copied');
+          window.setTimeout(function () {
+            button.setAttribute('aria-label', 'Copy article link');
+            button.classList.remove('is-copied');
+          }, 1600);
+        } catch {
+          window.prompt('Copy article URL', url);
+        }
+      });
+    });
+  }
+
+  initCopyArticleLink();
+  document.addEventListener('astro:after-swap', initCopyArticleLink);
+</script>

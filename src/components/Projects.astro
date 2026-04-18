@@ -8,61 +8,61 @@ const projects = [
     desc:
       'Web platform for YAML-defined lab environments with plans for browser-based SSH, VNC, and RDP—cloud-native, horizontally scalable, and security-conscious.',
     tags: ['GCP', 'Kubernetes', 'Spring Boot'],
-    gradient: 'from-slate-200 to-slate-300 dark:from-surface-container-lowest dark:to-surface-container-high',
+    gradient: 'from-surface-container-lowest to-surface-container-high',
   },
   {
     title: 'IT Ticketing Queuing System',
     desc:
       'Smart ticketing with auto-bucket routing powered by Ollama-based inference—faster triage and better queue discipline.',
     tags: ['Java', 'Spring Boot', 'AI routing'],
-    gradient: 'from-cyan-900/30 to-slate-800/40 dark:from-primary/20 dark:to-surface-container-high',
+    gradient: 'from-primary/20 to-surface-container-high',
   },
   {
     title: 'Confidentiality Safeguard',
     desc:
       'Protects confidential web data from malicious extensions using Shadow DOM isolation and vault-style secret handling.',
     tags: ['Security', 'Browser', 'Shadow DOM'],
-    gradient: 'from-indigo-200/80 to-slate-300 dark:from-surface-container-high/80 dark:to-surface-container-lowest',
+    gradient: 'from-surface-container-high/80 to-surface-container-lowest',
   },
   {
     title: 'Instant Lab Provisioning',
     tag: 'Internal',
     desc: 'Reproducible lab clusters on K3s with Longhorn-backed storage—fast spin-up and teardown for internal environments.',
     tags: ['K3s', 'Longhorn'],
-    gradient: 'from-emerald-900/25 to-slate-800/35 dark:from-emerald-900/30 dark:to-surface-container-lowest',
+    gradient: 'from-emerald-900/30 to-surface-container-lowest',
   },
   {
     title: 'File Shredder',
     tag: 'Internal',
     desc: 'JDK 21-native secure file lifecycle workflow with minimal attack surface for sensitive artifacts.',
     tags: ['JDK 21'],
-    gradient: 'from-rose-900/20 to-slate-800/35 dark:from-rose-900/25 dark:to-surface-container-high',
+    gradient: 'from-rose-900/25 to-surface-container-high',
   },
   {
     title: 'Beaver Expense Tracker',
     tag: 'Internal',
     desc: 'Beaver Expense Tracker is a responsive web application for managing construction expenses across sites, categories, and timelines. It is built for day-to-day project accounting tasks such as entry, filtering, reporting, receipt management, and export.',
     tags: ['Vite','React','Typescript','Firebase'],
-    gradient: 'from-blue-900/20 to-slate-800/35 dark:from-blue-900/25 dark:to-surface-container-high',
+    gradient: 'from-blue-900/25 to-surface-container-high',
   },
 ];
 ---
 
 <section id="projects" class="mb-40 px-6 md:px-12 lg:px-24">
   <div
-    class="mb-16 flex items-end justify-between border-b border-slate-200 pb-8 transition-colors dark:border-surface-container-low"
+    class="mb-16 flex items-end justify-between border-b border-surface-container-low pb-8 transition-colors"
   >
     <div>
-      <h2 class="font-headline mb-2 text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">Deployed Architecture</h2>
-      <p class="font-body text-slate-600 dark:text-on-surface-variant">Selected systems and solutions.</p>
+      <h2 class="font-headline mb-2 text-3xl font-bold text-on-background md:text-4xl">Deployed Architecture</h2>
+      <p class="font-body text-on-surface-variant">Selected systems and solutions.</p>
     </div>
-    <Rocket class="h-10 w-10 shrink-0 text-blue-600 opacity-50 dark:text-primary md:h-11 md:w-11" stroke-width={1.25} aria-hidden="true" />
+    <Rocket class="h-10 w-10 shrink-0 text-primary opacity-50 md:h-11 md:w-11" stroke-width={1.25} aria-hidden="true" />
   </div>
 
   <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
     {
       projects.map((p) => (
-        <article class="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-colors dark:border-transparent dark:bg-surface-container-low dark:shadow-none">
+        <article class="group overflow-hidden rounded-2xl border border-outline-variant/15 bg-surface-container-low transition-colors">
           <div class={`relative h-64 overflow-hidden bg-gradient-to-br ${p.gradient}`}>
             <div
               class="absolute inset-0 opacity-40 mix-blend-luminosity transition-opacity duration-700 group-hover:opacity-60"
@@ -70,32 +70,32 @@ const projects = [
             />
             {p.status && (
               <div class="absolute left-6 top-6 flex gap-2">
-                <span class="font-label rounded border border-blue-200/80 bg-blue-100/50 px-3 py-1 text-xs uppercase tracking-wider text-blue-700 backdrop-blur-md dark:border-primary/20 dark:bg-primary/10 dark:text-primary">
+                <span class="font-label rounded border border-primary/20 bg-primary/10 px-3 py-1 text-xs uppercase tracking-wider text-primary backdrop-blur-md">
                   {p.status}
                 </span>
               </div>
             )}
             {p.tag && (
               <div class="absolute left-6 top-6 flex gap-2">
-                <span class="font-label rounded border border-slate-200 bg-white/80 px-3 py-1 text-xs uppercase tracking-wider text-slate-700 backdrop-blur-md dark:border-outline-variant/30 dark:bg-surface-container-lowest/90 dark:text-on-surface">
+                <span class="font-label rounded border border-outline-variant/30 bg-surface-container-lowest/90 px-3 py-1 text-xs uppercase tracking-wider text-on-surface backdrop-blur-md">
                   {p.tag}
                 </span>
               </div>
             )}
           </div>
           <div class="p-8">
-            <h3 class="font-headline mb-3 text-2xl font-bold text-slate-900 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-primary">
+            <h3 class="font-headline mb-3 text-2xl font-bold text-on-background transition-colors group-hover:text-primary">
               {p.title}
             </h3>
-            <p class="font-body mb-6 line-clamp-4 text-slate-600 dark:text-on-surface-variant">{p.desc}</p>
+            <p class="font-body mb-6 line-clamp-4 text-on-surface-variant">{p.desc}</p>
             <div class="mb-8 flex flex-wrap gap-2">
               {p.tags.map((t) => (
-                <span class="font-label rounded border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-600 transition-colors dark:border-none dark:bg-surface-container-lowest dark:text-on-surface-variant">
+                <span class="font-label rounded border border-outline-variant/20 bg-surface-container-lowest px-2 py-1 text-xs text-on-surface-variant transition-colors">
                   {t}
                 </span>
               ))}
             </div>
-            <span class="inline-flex items-center gap-2 font-medium text-blue-600 opacity-60 dark:text-primary">
+            <span class="inline-flex items-center gap-2 font-medium text-primary opacity-70">
               Details on request
               <ExternalLink class="h-4 w-4" stroke-width={1.5} aria-hidden="true" />
             </span>

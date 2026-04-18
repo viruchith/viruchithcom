@@ -1,0 +1,15 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#0B1326"/>
+  <circle cx="280" cy="182" r="250" fill="#6900B3" fill-opacity="0.2"/>
+  <circle cx="1294" cy="682" r="282" fill="#00F0FF" fill-opacity="0.16"/>
+  <rect x="128" y="132" width="1344" height="636" rx="30" fill="#131B2E" stroke="#3B494B" stroke-opacity="0.3"/>
+  <path d="M280 548C372 428 450 372 546 372C670 372 724 548 846 548C972 548 1040 278 1168 278C1252 278 1314 330 1388 444" stroke="#00F0FF" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="546" cy="372" r="20" fill="#DBFCFF"/>
+  <circle cx="846" cy="548" r="20" fill="#C0C1FF"/>
+  <circle cx="1168" cy="278" r="20" fill="#EACFFF"/>
+  <rect x="240" y="620" width="1120" height="34" rx="10" fill="#171F33"/>
+  <rect x="240" y="682" width="412" height="18" rx="6" fill="#849495" fill-opacity="0.55"/>
+  <rect x="692" y="682" width="296" height="18" rx="6" fill="#849495" fill-opacity="0.35"/>
+  <rect x="1028" y="682" width="332" height="18" rx="6" fill="#849495" fill-opacity="0.35"/>
+  <text x="188" y="104" fill="#DBFCFF" font-family="Manrope, sans-serif" font-size="68" font-weight="800">Observability in Event-Driven Systems</text>
+</svg>
