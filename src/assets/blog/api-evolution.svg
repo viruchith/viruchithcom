@@ -1,0 +1,18 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#0B1326"/>
+  <circle cx="1322" cy="182" r="280" fill="#3131C0" fill-opacity="0.18"/>
+  <circle cx="282" cy="662" r="300" fill="#00F0FF" fill-opacity="0.12"/>
+  <rect x="152" y="128" width="1296" height="644" rx="30" fill="#131B2E"/>
+  <rect x="256" y="236" width="318" height="190" rx="24" fill="#171F33" stroke="#00F0FF" stroke-opacity="0.35"/>
+  <text x="308" y="332" fill="#DBFCFF" font-family="JetBrains Mono, monospace" font-size="54" font-weight="700">v1</text>
+  <rect x="644" y="236" width="318" height="190" rx="24" fill="#171F33" stroke="#C0C1FF" stroke-opacity="0.35"/>
+  <text x="696" y="332" fill="#DBFCFF" font-family="JetBrains Mono, monospace" font-size="54" font-weight="700">v1.5</text>
+  <rect x="1032" y="236" width="318" height="190" rx="24" fill="#171F33" stroke="#EACFFF" stroke-opacity="0.35"/>
+  <text x="1084" y="332" fill="#DBFCFF" font-family="JetBrains Mono, monospace" font-size="54" font-weight="700">v2</text>
+  <path d="M574 332H642" stroke="#849495" stroke-width="10" stroke-linecap="round" stroke-dasharray="16 14"/>
+  <path d="M962 332H1030" stroke="#849495" stroke-width="10" stroke-linecap="round" stroke-dasharray="16 14"/>
+  <rect x="256" y="520" width="1094" height="40" rx="12" fill="#171F33"/>
+  <rect x="256" y="596" width="488" height="18" rx="6" fill="#849495" fill-opacity="0.5"/>
+  <rect x="784" y="596" width="566" height="18" rx="6" fill="#849495" fill-opacity="0.32"/>
+  <text x="152" y="96" fill="#DBFCFF" font-family="Manrope, sans-serif" font-size="68" font-weight="800">API Evolution Without Platform Breakage</text>
+</svg>

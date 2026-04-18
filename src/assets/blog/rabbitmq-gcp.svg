@@ -1,0 +1,17 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#0B1326"/>
+  <circle cx="242" cy="188" r="244" fill="#00F0FF" fill-opacity="0.12"/>
+  <circle cx="1342" cy="730" r="314" fill="#6900B3" fill-opacity="0.16"/>
+  <rect x="136" y="126" width="1328" height="648" rx="34" fill="#131B2E" stroke="#3B494B" stroke-opacity="0.26"/>
+  <rect x="238" y="240" width="228" height="146" rx="22" fill="#171F33"/>
+  <rect x="686" y="240" width="228" height="146" rx="22" fill="#171F33"/>
+  <rect x="1134" y="240" width="228" height="146" rx="22" fill="#171F33"/>
+  <path d="M466 312H686" stroke="#00F0FF" stroke-width="10" stroke-linecap="round" stroke-dasharray="18 16"/>
+  <path d="M914 312H1134" stroke="#C0C1FF" stroke-width="10" stroke-linecap="round" stroke-dasharray="18 16"/>
+  <rect x="238" y="514" width="1124" height="170" rx="24" fill="#171F33"/>
+  <rect x="296" y="564" width="274" height="20" rx="6" fill="#DBFCFF"/>
+  <rect x="296" y="608" width="486" height="20" rx="6" fill="#849495" fill-opacity="0.46"/>
+  <rect x="840" y="564" width="256" height="20" rx="6" fill="#EACFFF"/>
+  <rect x="840" y="608" width="340" height="20" rx="6" fill="#849495" fill-opacity="0.4"/>
+  <text x="136" y="94" fill="#DBFCFF" font-family="Manrope, sans-serif" font-size="70" font-weight="800">RabbitMQ Patterns for GCP Production Workloads</text>
+</svg>

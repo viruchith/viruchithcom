@@ -1,0 +1,162 @@
+---
+import { ArrowLeft, ArrowRight } from '@lucide/astro';
+import type { BlogPostSummary } from '../lib/blog';
+import ArticleCard from './ArticleCard.astro';
+
+interface Props {
+  posts: BlogPostSummary[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section id="articles" class="relative px-6 py-24 md:px-12 lg:px-24">
+  <div class="absolute inset-x-0 top-12 -z-10 h-72 bg-[radial-gradient(circle_at_15%_10%,rgba(0,240,255,0.14),transparent_35%),radial-gradient(circle_at_85%_20%,rgba(49,49,192,0.18),transparent_32%),radial-gradient(circle_at_50%_100%,rgba(105,0,179,0.14),transparent_35%)] blur-3xl"></div>
+
+  <div class="mx-auto max-w-screen-2xl">
+    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <div class="max-w-3xl">
+        <p class="mb-4 font-mono text-[0.72rem] uppercase tracking-[0.28em] text-primary-container">
+          The Repository
+        </p>
+        <h2 class="font-headline text-4xl font-extrabold tracking-[-0.04em] text-on-background sm:text-5xl md:text-6xl">
+          Latest articles on architecture, systems, and cloud-native delivery.
+        </h2>
+        <p class="mt-5 max-w-2xl text-base leading-8 text-on-surface-variant md:text-lg">
+          Editorial deep-dives written in markdown and rendered through Astro content collections, optimized assets, and SEO-aware article routes.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3 self-start md:self-auto">
+        <a
+          href="/articles/"
+          class="inline-flex items-center rounded-full border border-outline-variant/20 px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-on-surface transition hover:border-primary-container/35 hover:text-primary-container"
+        >
+          All articles
+        </a>
+        <div class="hidden items-center gap-2 md:flex">
+          <button
+            type="button"
+            class="carousel-button"
+            aria-label="Scroll articles left"
+            data-carousel-prev
+          >
+            <ArrowLeft class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            class="carousel-button"
+            aria-label="Scroll articles right"
+            data-carousel-next
+          >
+            <ArrowRight class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12" data-carousel>
+      <div
+        class="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4"
+        data-carousel-track
+      >
+        {posts.map((post, index) => (
+          <div class="min-w-[86%] snap-start sm:min-w-[78%] md:min-w-[48%] lg:min-w-[32%]" data-carousel-slide>
+            <ArticleCard post={post} priority={index === 0} />
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-6 flex items-center justify-between gap-4 md:hidden">
+        <div class="flex items-center gap-2" data-carousel-dots>
+          {posts.map((post, index) => (
+            <button
+              type="button"
+              class={`h-2.5 rounded-full transition-all ${index === 0 ? 'w-8 bg-primary-container' : 'w-2.5 bg-outline-variant/70'}`}
+              aria-label={`Go to article ${index + 1}: ${post.title}`}
+              data-carousel-dot
+              data-index={index}
+            ></button>
+          ))}
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button type="button" class="carousel-button" aria-label="Scroll articles left" data-carousel-prev>
+            <ArrowLeft class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+          </button>
+          <button type="button" class="carousel-button" aria-label="Scroll articles right" data-carousel-next>
+            <ArrowRight class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initArticlesCarousel() {
+    document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(function (carousel) {
+      if (carousel.dataset.carouselInit === '1') return;
+      carousel.dataset.carouselInit = '1';
+
+      const track = carousel.querySelector<HTMLElement>('[data-carousel-track]');
+      if (!track) return;
+      const carouselTrack = track;
+
+      const slides = Array.from(carouselTrack.querySelectorAll<HTMLElement>('[data-carousel-slide]'));
+      const prevButtons = Array.from(carousel.parentElement?.querySelectorAll<HTMLElement>('[data-carousel-prev]') || []);
+      const nextButtons = Array.from(carousel.parentElement?.querySelectorAll<HTMLElement>('[data-carousel-next]') || []);
+      const dots = Array.from(carousel.querySelectorAll<HTMLElement>('[data-carousel-dot]'));
+
+      function getStep() {
+        const firstSlide = slides[0];
+        if (!firstSlide) return carouselTrack.clientWidth;
+        const gap = Number.parseFloat(window.getComputedStyle(carouselTrack).gap || '0');
+        return firstSlide.getBoundingClientRect().width + gap;
+      }
+
+      function updateDots() {
+        const step = getStep();
+        const activeIndex = Math.round(carouselTrack.scrollLeft / step);
+        dots.forEach(function (dot, index) {
+          const isActive = index === activeIndex;
+          dot.classList.toggle('w-8', isActive);
+          dot.classList.toggle('bg-primary-container', isActive);
+          dot.classList.toggle('w-2.5', !isActive);
+          dot.classList.toggle('bg-outline-variant/70', !isActive);
+          dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+      }
+
+      function scrollByStep(direction: number) {
+        carouselTrack.scrollBy({ left: getStep() * direction, behavior: 'smooth' });
+      }
+
+      prevButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          scrollByStep(-1);
+        });
+      });
+
+      nextButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          scrollByStep(1);
+        });
+      });
+
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function () {
+          const index = Number(dot.dataset.index || '0');
+          carouselTrack.scrollTo({ left: getStep() * index, behavior: 'smooth' });
+        });
+      });
+
+      carouselTrack.addEventListener('scroll', updateDots, { passive: true });
+      window.addEventListener('resize', updateDots);
+      updateDots();
+    });
+  }
+
+  initArticlesCarousel();
+  document.addEventListener('astro:after-swap', initArticlesCarousel);
+</script>

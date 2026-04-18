@@ -1,0 +1,59 @@
+---
+import { CalendarDays, ArrowRight } from '@lucide/astro';
+import { Image } from 'astro:assets';
+import type { BlogPostSummary } from '../lib/blog';
+import { formatArticleDate } from '../lib/blog';
+
+interface Props {
+  post: BlogPostSummary;
+  priority?: boolean;
+}
+
+const { post, priority = false } = Astro.props;
+---
+
+<article class="group h-full">
+  <a
+    href={`/articles/${post.slug}/`}
+    class="glass-panel flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-outline-variant/15 bg-surface-container-low/70 transition duration-500 hover:-translate-y-1 hover:border-primary-container/30 hover:bg-surface-container/90"
+  >
+    <div class="relative overflow-hidden">
+      <Image
+        src={post.heroImage}
+        alt={post.heroAlt}
+        class="aspect-[16/10] w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+        loading={priority ? 'eager' : 'lazy'}
+      />
+      <div class="absolute inset-x-0 top-0 flex items-center justify-between gap-3 p-4">
+        <span class="chip">{post.category}</span>
+        {post.featured && <span class="chip chip--accent">Featured</span>}
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent opacity-70"></div>
+    </div>
+
+    <div class="flex flex-1 flex-col gap-5 p-6">
+      <div class="flex flex-wrap items-center gap-3 text-[0.72rem] uppercase tracking-[0.18em] text-on-surface-variant/75">
+        <span class="inline-flex items-center gap-2">
+          <CalendarDays class="h-3.5 w-3.5" stroke-width={1.6} aria-hidden="true" />
+          {formatArticleDate(post.publishDate)}
+        </span>
+        <span class="h-1 w-1 rounded-full bg-outline-variant/80"></span>
+        <span>{post.readingTime}</span>
+      </div>
+
+      <div class="space-y-3">
+        <h3 class="font-headline text-2xl font-extrabold tracking-[-0.03em] text-on-background transition-colors group-hover:text-primary-container">
+          {post.title}
+        </h3>
+        <p class="text-sm leading-7 text-on-surface-variant [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] overflow-hidden">
+          {post.description}
+        </p>
+      </div>
+
+      <div class="mt-auto inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-primary-container transition-all group-hover:gap-3">
+        Read article
+        <ArrowRight class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
+      </div>
+    </div>
+  </a>
+</article>

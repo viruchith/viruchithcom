@@ -1,0 +1,18 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#0B1326"/>
+  <circle cx="1380" cy="164" r="244" fill="#00F0FF" fill-opacity="0.13"/>
+  <circle cx="180" cy="702" r="280" fill="#3131C0" fill-opacity="0.16"/>
+  <rect x="150" y="128" width="1300" height="644" rx="32" fill="#131B2E"/>
+  <ellipse cx="462" cy="292" rx="170" ry="54" fill="#00F0FF" fill-opacity="0.88"/>
+  <path d="M292 292V508C292 538 368 562 462 562C556 562 632 538 632 508V292" fill="#00F0FF" fill-opacity="0.22" stroke="#00F0FF" stroke-width="10"/>
+  <ellipse cx="462" cy="508" rx="170" ry="54" fill="#00F0FF" fill-opacity="0.18" stroke="#00F0FF" stroke-width="10"/>
+  <rect x="792" y="232" width="492" height="92" rx="20" fill="#171F33"/>
+  <rect x="840" y="268" width="180" height="18" rx="6" fill="#C0C1FF"/>
+  <rect x="792" y="372" width="492" height="92" rx="20" fill="#171F33"/>
+  <rect x="840" y="408" width="252" height="18" rx="6" fill="#DBFCFF"/>
+  <rect x="792" y="512" width="492" height="92" rx="20" fill="#171F33"/>
+  <rect x="840" y="548" width="224" height="18" rx="6" fill="#EACFFF"/>
+  <path d="M632 292H736" stroke="#849495" stroke-width="8" stroke-linecap="round" stroke-dasharray="14 14"/>
+  <path d="M632 508H736" stroke="#849495" stroke-width="8" stroke-linecap="round" stroke-dasharray="14 14"/>
+  <text x="150" y="96" fill="#DBFCFF" font-family="Manrope, sans-serif" font-size="68" font-weight="800">Zero-Downtime PostgreSQL Migrations</text>
+</svg>
