@@ -1,47 +1,66 @@
 ---
-import { Terminal, ArrowRight } from '@lucide/astro';
+import { Terminal, ArrowRight, Orbit, Blocks } from '@lucide/astro';
 ---
 
-<section class="relative mb-32 flex min-h-[min(716px,90vh)] flex-col justify-center px-6 pt-32 md:px-12 lg:px-24">
-  <div
-    class="pointer-events-none absolute right-0 top-0 -z-10 h-[500px] w-[500px] rounded-full bg-blue-500/10 blur-[120px] dark:bg-primary/5"
-    aria-hidden="true"
-  >
-  </div>
+<section class="relative mb-20 px-6 pt-16 md:px-12 lg:px-24 lg:pt-24">
+  <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(circle_at_10%_10%,rgba(0,240,255,0.18),transparent_28%),radial-gradient(circle_at_88%_16%,rgba(49,49,192,0.18),transparent_24%),radial-gradient(circle_at_54%_90%,rgba(105,0,179,0.16),transparent_34%)] blur-3xl" aria-hidden="true"></div>
 
-  <p
-    class="font-label text-label-md mb-6 flex items-center gap-2 uppercase tracking-[0.1em] text-blue-600 dark:text-primary"
-  >
-    <Terminal class="h-4 w-4 shrink-0" stroke-width={1.5} aria-hidden="true" />
-    System Architect &amp; Engineer
-  </p>
+  <div class="grid gap-12 border-b border-outline-variant/15 pb-16 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-end">
+    <div>
+      <p class="font-label text-label-md mb-6 flex items-center gap-2 uppercase tracking-[0.18em] text-primary-container">
+        <Terminal class="h-4 w-4 shrink-0" stroke-width={1.5} aria-hidden="true" />
+        Systems Architecture
+      </p>
 
-  <h1
-    class="font-headline mb-8 max-w-5xl text-5xl font-extrabold leading-[1.1] tracking-tight text-slate-900 dark:text-white md:text-7xl lg:text-8xl"
-  >
-    <span data-typewriter data-full-text="Viruchith Ganesan">Viruchith Ganesan</span>
-  </h1>
+      <h1 class="font-headline max-w-5xl text-5xl font-extrabold leading-[0.96] tracking-[-0.05em] text-on-background md:text-7xl lg:text-[5.5rem]">
+        Designing resilient backend systems for modern traffic, cloud scale, and long-lived APIs.
+      </h1>
 
-  <p class="font-body mb-12 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-on-surface-variant md:text-xl">
-    Software Development Engineer specializing in cloud-native applications and scalable architectures. Java, Spring
-    Boot, and GCP-backed microservices—with production observability and message-driven pipelines you can run at
-    volume.
-  </p>
+      <p class="mt-8 max-w-3xl text-lg leading-8 text-on-surface-variant md:text-xl md:leading-9">
+        I build Java and Spring Boot platforms with measurable reliability. The focus is not just shipping services, but shaping migration paths, observability, and message-driven systems that hold up in production.
+      </p>
 
-  <div class="flex flex-wrap gap-6">
-    <a
-      class="stitch-gradient-hero group inline-flex items-center gap-3 rounded-lg px-8 py-4 text-sm font-medium transition-opacity hover:opacity-90"
-      href="#projects"
-    >
-      View My Work
-      <ArrowRight class="h-5 w-5 transition-transform group-hover:translate-x-1" stroke-width={1.5} aria-hidden="true" />
-    </a>
-    <a
-      class="inline-flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-8 py-4 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 dark:border-outline-variant/20 dark:bg-surface-container-highest dark:text-white dark:hover:bg-surface-container-high"
-      href="#contact"
-    >
-      Contact Me
-    </a>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a
+          class="stitch-gradient-hero group inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.16em] transition hover:shadow-[0_0_24px_rgba(0,240,255,0.28)]"
+          href="/#projects"
+        >
+          View selected work
+          <ArrowRight class="h-5 w-5 transition-transform group-hover:translate-x-1" stroke-width={1.6} aria-hidden="true" />
+        </a>
+        <a
+          class="inline-flex items-center gap-3 rounded-full border border-outline-variant/20 bg-surface-variant/30 px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.16em] text-on-surface transition hover:border-primary-container/35 hover:text-primary-container"
+          href="/articles/"
+        >
+          Read articles
+        </a>
+      </div>
+    </div>
+
+    <aside class="glass-panel rounded-[1.5rem] border border-outline-variant/15 bg-surface-container-low/70 p-6">
+      <div class="space-y-6">
+        <div>
+          <p class="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-on-surface-variant/70">Role</p>
+          <p class="mt-2 font-headline text-2xl font-extrabold tracking-[-0.03em] text-on-background">Software Engineer</p>
+        </div>
+        <div class="grid gap-4">
+          <div class="rounded-2xl bg-surface-container-high/80 p-4">
+            <p class="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-primary-container">
+              <Orbit class="h-3.5 w-3.5" stroke-width={1.8} aria-hidden="true" />
+              Platform focus
+            </p>
+            <p class="mt-2 text-sm leading-7 text-on-surface">Spring Boot, GCP, Kubernetes, RabbitMQ, observability.</p>
+          </div>
+          <div class="rounded-2xl bg-surface-container-high/80 p-4">
+            <p class="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-primary-container">
+              <Blocks class="h-3.5 w-3.5" stroke-width={1.8} aria-hidden="true" />
+              Current work
+            </p>
+            <p class="mt-2 text-sm leading-7 text-on-surface">Modernization, API ownership, production reliability, and internal platform tooling.</p>
+          </div>
+        </div>
+      </div>
+    </aside>
   </div>
 </section>
 
