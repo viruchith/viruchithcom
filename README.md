@@ -132,6 +132,20 @@ Article pages add article-specific metadata and schema automatically from markdo
 
 The project builds to `dist/` and can be deployed to any static host. Keep the `site` value in `astro.config.mjs` aligned with the production domain so sitemap and canonical URLs stay correct.
 
+### Deploy with Cloudflare Wrangler
+
+1. Authenticate Wrangler with your Cloudflare account:
+
+```bash
+npx wrangler login
+```
+
+2. Deploy the site:
+
+```bash
+npx wrangler deploy
+```
+
 ## Status
 
 The current site state includes:
