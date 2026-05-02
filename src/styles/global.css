@@ -41,6 +41,8 @@
     animation-duration: 0.45s;
     animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+
 }
 
 @layer components {
@@ -147,5 +149,30 @@
 
   .article-prose :where(code):not(pre code) {
     @apply rounded bg-surface-container-high px-1.5 py-0.5 text-sm;
+  }
+
+  .article-prose :where(table) {
+    @apply mt-6 w-full border-collapse;
+  }
+
+  .article-prose :where(th, td) {
+    @apply border border-outline-variant px-4 py-3 text-left;
+  }
+
+  .article-prose :where(th) {
+    @apply bg-surface-container font-semibold text-on-background;
+  }
+
+  .bordered-table {
+    @apply mt-6 w-full border-collapse;
+  }
+
+  .bordered-table th,
+  .bordered-table td {
+    @apply border border-outline-variant px-4 py-3 text-left;
+  }
+
+  .bordered-table th {
+    @apply bg-surface-container font-semibold text-on-background;
   }
 }
