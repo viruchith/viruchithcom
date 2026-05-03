@@ -1,0 +1,182 @@
+---
+import { Copy, Share2, Mail } from '@lucide/astro';
+import { siX, siFacebook, siWhatsapp } from 'simple-icons';
+
+interface Props {
+  url: string;
+  title: string;
+  description?: string;
+}
+
+const { url, title, description } = Astro.props;
+---
+
+<div class="flex items-center gap-2">
+  <!-- Copy Link Button -->
+  <button
+    type="button"
+    class="icon-button"
+    data-copy-link={url}
+    aria-label="Copy article link"
+    title="Copy link"
+  >
+    <Copy class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
+  </button>
+
+  <!-- Share Menu Toggle -->
+  <div class="relative group">
+    <button
+      type="button"
+      class="icon-button"
+      aria-label="Open sharing options"
+      title="Share article"
+      aria-expanded="false"
+      aria-haspopup="menu"
+    >
+      <Share2 class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
+    </button>
+
+    <!-- Share Dropdown Menu -->
+    <div
+      class="absolute right-0 top-full mt-2 hidden w-48 rounded-lg border border-outline-variant/15 bg-surface-container shadow-lg group-hover:block z-10"
+      role="menu"
+    >
+      <!-- Twitter Share -->
+      <button
+        type="button"
+        class="sharer w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container-high transition-colors"
+        data-sharer="twitter"
+        data-url={url}
+        data-title={title}
+        role="menuitem"
+        aria-label="Share on Twitter"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d={siX.path} />
+        </svg>
+        <span class="text-sm">Twitter / X</span>
+      </button>
+
+      <!-- Facebook Share -->
+      <button
+        type="button"
+        class="sharer w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container-high transition-colors border-t border-outline-variant/15"
+        data-sharer="facebook"
+        data-url={url}
+        role="menuitem"
+        aria-label="Share on Facebook"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d={siFacebook.path} />
+        </svg>
+        <span class="text-sm">Facebook</span>
+      </button>
+
+      <!-- LinkedIn Share -->
+      <button
+        type="button"
+        class="sharer w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container-high transition-colors border-t border-outline-variant/15"
+        data-sharer="linkedin"
+        data-url={url}
+        role="menuitem"
+        aria-label="Share on LinkedIn"
+      >
+    
+        <span class="text-sm">LinkedIn</span>
+      </button>
+
+      <!-- WhatsApp Share -->
+      <button
+        type="button"
+        class="sharer w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container-high transition-colors border-t border-outline-variant/15"
+        data-sharer="whatsapp"
+        data-url={url}
+        data-title={title}
+        role="menuitem"
+        aria-label="Share on WhatsApp"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d={siWhatsapp.path} />
+        </svg>
+        <span class="text-sm">WhatsApp</span>
+      </button>
+
+      <!-- Email Share -->
+      <a
+        href={`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(description ? `${description}\n\n${url}` : url)}`}
+        class="flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container-high transition-colors border-t border-outline-variant/15"
+        role="menuitem"
+        aria-label="Share via Email"
+      >
+        <Mail class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
+        <span class="text-sm">Email</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script is:inline src="/sharer.min.js"></script>
+<script is:inline define:vars={{ url }}>
+  function initShareButtons() {
+    // Handle copy link functionality
+    document.querySelectorAll('[data-copy-link]').forEach(function (button) {
+      if (button.dataset.copyInit === '1') return;
+      button.dataset.copyInit = '1';
+
+      button.addEventListener('click', async function (e) {
+        e.preventDefault();
+        const linkUrl = button.getAttribute('data-copy-link');
+        if (!linkUrl) return;
+
+        try {
+          await navigator.clipboard.writeText(linkUrl);
+          button.setAttribute('aria-label', 'Article link copied');
+          button.classList.add('is-copied');
+          window.setTimeout(function () {
+            button.setAttribute('aria-label', 'Copy article link');
+            button.classList.remove('is-copied');
+          }, 1600);
+        } catch {
+          window.prompt('Copy article URL', linkUrl);
+        }
+      });
+    });
+
+    // Handle share menu toggle
+    document.querySelectorAll('[aria-haspopup="menu"]').forEach(function (button) {
+      if (button.dataset.shareInit === '1') return;
+      button.dataset.shareInit = '1';
+
+      const menu = button.nextElementSibling;
+      if (!menu) return;
+
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', String(!isExpanded));
+        menu.classList.toggle('hidden');
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', function (e) {
+        if (!button.contains(e.target) && !menu.contains(e.target)) {
+          button.setAttribute('aria-expanded', 'false');
+          menu.classList.add('hidden');
+        }
+      });
+    });
+  }
+
+  initShareButtons();
+  document.addEventListener('astro:after-swap', initShareButtons);
+</script>
+
+<style>
+  .icon-button {
+    @apply inline-flex items-center justify-center rounded-full p-2 transition-colors hover:bg-surface-container-high;
+  }
+
+  .icon-button.is-copied {
+    @apply text-primary-container;
+  }
+</style>
