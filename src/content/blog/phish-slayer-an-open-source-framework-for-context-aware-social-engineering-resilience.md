@@ -63,7 +63,8 @@ CMDB Data Fetched: Project "Odin Migration," Lead Dev "Marcus Thorne".
 - **The Hook:** It leverages peer trust and the specific context of an active migration project.
 
 
-**Ethical Guardrails and Safety**
+## Ethical Guardrails and Safety
+
 To remain an effective training tool rather than a workplace stressor, PHISH SLAYER implements strict guardrails:  
 - **Read-Only Access:** The MCP bridge is strictly read-only, ensuring no production data can be altered.  
 - **Non-Punitive Learning:** Employees who fall for a simulation are not reprimanded. Instead, they are redirected to a brief "Glory Kill" module—a positive, 2-minute interactive training session that highlights the red flags missed.  
