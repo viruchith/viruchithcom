@@ -1,11 +1,12 @@
 ---
-import { ArrowLeft, CalendarDays, Clock3, Copy, Share2 } from '@lucide/astro';
+import { ArrowLeft, CalendarDays, Clock3 } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import type { BlogEntry } from '../../lib/blog';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
 import { getAllBlogPosts, mapBlogPost, formatArticleDate } from '../../lib/blog';
 
 export async function getStaticPaths() {
@@ -102,19 +103,8 @@ const structuredData = {
             <Clock3 class="h-4 w-4 text-primary-container" stroke-width={1.75} aria-hidden="true" />
             <span>{article.readingTime}</span>
           </div>
-          <div class="ml-auto flex items-center gap-2">
-            <button type="button" class="icon-button" data-copy-link={articleUrl} aria-label="Copy article link">
-              <Copy class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
-            </button>
-            <a
-              class="icon-button"
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Share article on LinkedIn"
-            >
-              <Share2 class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
-            </a>
+          <div class="ml-auto">
+            <ShareButtons url={articleUrl} title={article.title} description={article.description} />
           </div>
         </div>
       </header>
@@ -153,32 +143,3 @@ const structuredData = {
 
   <SiteFooter />
 </BaseLayout>
-
-<script>
-  function initCopyArticleLink() {
-    document.querySelectorAll<HTMLElement>('[data-copy-link]').forEach(function (button) {
-      if (button.dataset.copyInit === '1') return;
-      button.dataset.copyInit = '1';
-
-      button.addEventListener('click', async function () {
-        const url = button.dataset.copyLink;
-        if (!url) return;
-
-        try {
-          await navigator.clipboard.writeText(url);
-          button.setAttribute('aria-label', 'Article link copied');
-          button.classList.add('is-copied');
-          window.setTimeout(function () {
-            button.setAttribute('aria-label', 'Copy article link');
-            button.classList.remove('is-copied');
-          }, 1600);
-        } catch {
-          window.prompt('Copy article URL', url);
-        }
-      });
-    });
-  }
-
-  initCopyArticleLink();
-  document.addEventListener('astro:after-swap', initCopyArticleLink);
-</script>
