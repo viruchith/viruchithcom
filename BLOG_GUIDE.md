@@ -8,7 +8,7 @@ This site uses Astro content collections for writing, validating, and publishing
 2. Add valid frontmatter that matches the schema in `src/content/config.ts`.
 3. Reference a local hero asset from `src/assets/blog/`.
 4. Write the article body in markdown with code fences, lists, blockquotes, and internal links.
-5. Run `npm run build` to validate the content collection schema and generated routes.
+5. Run `pnpm build` to validate the content collection schema and generated routes.
 6. Publish by committing the new content file and any related assets.
 
 ## Required Frontmatter
@@ -199,7 +199,7 @@ These are the next Astro features that would improve the blog the most:
 - Code fences specify a language.
 - Internal links use final production paths.
 - `draft` is set correctly.
-- `npm run build` passes.
+- `pnpm build` passes.
 
 ## Fast Start Template
 

@@ -30,30 +30,30 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 ### Prerequisites
 
 - Node.js 18+ recommended
-- npm
+- pnpm
 
 ### Install
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Start the dev server
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ### Build for production
 
 ```bash
-npm run build
+pnpm build
 ```
 
 ### Preview the built output
 
 ```bash
-npm run preview
+pnpm preview
 ```
 
 ## Content workflow
@@ -137,13 +137,13 @@ The project builds to `dist/` and can be deployed to any static host. Keep the `
 1. Authenticate Wrangler with your Cloudflare account:
 
 ```bash
-npx wrangler login
+pnpm exec wrangler login
 ```
 
 2. Deploy the site:
 
 ```bash
-npx wrangler deploy
+pnpm exec wrangler deploy
 ```
 
 ## Status
