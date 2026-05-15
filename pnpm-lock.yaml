@@ -26,6 +26,9 @@ importers:
       sharer.js:
         specifier: ^0.5.4
         version: 0.5.4
+      sharp:
+        specifier: ^0.34.2
+        version: 0.34.5
       simple-icons:
         specifier: ^16.18.1
         version: 16.19.0
