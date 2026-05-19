@@ -33,7 +33,7 @@ To keep the database engine completely "blind," all cryptographic transformation
 
 To generate an anonymous index, the raw PII is processed through a Keyed-Hash Message Authentication Code (HMAC) combined with a highly guarded, server-side secret key (often called a **pepper**) that is stored entirely outside the database cluster.
 
-$$\text{Anonymous Index} = \text{HMAC-SHA256}(\text{Normalized PII}, \text{Secret Pepper})$$
+Anonymous Index=HMAC-SHA256(Normalized PII,Secret Pepper)
 
 By using a dedicated secret pepper distinct from the data encryption keys, even a bad actor who gains full root access to the database layer cannot reverse-engineer or brute-force the index columns.
 
