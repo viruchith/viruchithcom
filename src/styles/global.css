@@ -127,6 +127,14 @@
     @apply space-y-3 pl-6;
   }
 
+  .article-prose :where(ul) {
+    @apply list-disc;
+  }
+
+  .article-prose :where(ol) {
+    @apply list-decimal;
+  }
+
   .article-prose :where(li)::marker {
     @apply text-primary-container;
   }
@@ -152,11 +160,15 @@
   }
 
   .article-prose :where(table) {
-    @apply mt-6 w-full border-collapse;
+    @apply w-full border-collapse;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .article-prose :where(th, td) {
     @apply border border-outline-variant px-4 py-3 text-left;
+    min-width: 8rem;
   }
 
   .article-prose :where(th) {
@@ -164,7 +176,10 @@
   }
 
   .bordered-table {
-    @apply mt-6 w-full border-collapse;
+    @apply w-full border-collapse;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .bordered-table th,
