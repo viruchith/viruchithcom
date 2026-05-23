@@ -5,6 +5,9 @@ import legacy from '@vitejs/plugin-legacy';
 export default defineConfig({
   site: 'https://viruchith.com',
   compressHTML: true,
+  devToolbar: {
+    enabled: false,
+  },
   integrations: [
     tailwind({
       applyBaseStyles: false,
