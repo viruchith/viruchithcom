@@ -147,6 +147,18 @@ const structuredDataItems = structuredData
       );
     </script>
     <!-- End Google Tag Manager -->
+    <style>
+      #cat-widget-container {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483647;
+        pointer-events: none;
+      }
+
+      #cat-widget-container canvas {
+        display: block;
+      }
+    </style>
   </head>
   <body class="min-h-screen bg-background text-on-background">
     <!-- Google Tag Manager (noscript) -->
@@ -158,6 +170,11 @@ const structuredDataItems = structuredData
         style="display:none;visibility:hidden"></iframe></noscript
     >
     <!-- End Google Tag Manager (noscript) -->
+    <div id="cat-widget-container" aria-hidden="true"></div>
     <slot />
+    <script>
+      import { initCatWidget } from "../lib/cat-widget";
+      initCatWidget();
+    </script>
   </body>
 </html>

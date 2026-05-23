@@ -21,10 +21,11 @@
     "@fontsource-variable/manrope": "^5.2.8",
     "@lucide/astro": "^1.8.0",
     "astro": "^4.16.18",
-    "sharp": "^0.34.2",
     "sharer.js": "^0.5.4",
+    "sharp": "^0.34.2",
     "simple-icons": "^16.18.1",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "^5.4.3",
