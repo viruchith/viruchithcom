@@ -56,6 +56,20 @@ class CatWidget {
 
   private tailBones: THREE.Object3D[] = [];
 
+  private legBones: THREE.Object3D[] = [];
+
+  private headBones: THREE.Object3D[] = [];
+
+  private isStaring = false;
+
+  private stareTimer = 0;
+
+  private isVisible = true;
+
+  private currentOpacity = 1;
+
+  private visibilityTimer = 10 + Math.random() * 20;
+
   constructor(containerId: string, private modelUrl: string, meowUrl: string) {
     this.container = document.getElementById(containerId);
 
@@ -94,18 +108,8 @@ class CatWidget {
   }
 
   private init() {
-    const fallbackTexture =
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgwJ/l7H6bwAAAABJRU5ErkJggg==";
-    const manager = new THREE.LoadingManager();
-    manager.setURLModifier((url) => {
-      if (url.toLowerCase().includes("textures/colormap.png")) {
-        return fallbackTexture;
-      }
-
-      return url;
-    });
-
-    const loader = new GLTFLoader(manager);
+    const loader = new GLTFLoader();
+    loader.setResourcePath("/");
     loader.load(
       this.modelUrl,
       (gltf) => {
@@ -115,6 +119,20 @@ class CatWidget {
           const nameInfo = child.name.toLowerCase();
           if (nameInfo.includes("tail")) {
             this.tailBones.push(child);
+            child.userData.baseRotation = child.rotation.clone();
+          }
+          if (
+            nameInfo.includes("leg") ||
+            nameInfo.includes("arm") ||
+            nameInfo.includes("paw") ||
+            nameInfo.includes("foot") ||
+            nameInfo.includes("hand")
+          ) {
+            this.legBones.push(child);
+            child.userData.baseRotation = child.rotation.clone();
+          }
+          if (nameInfo.includes("head") || nameInfo.includes("neck")) {
+            this.headBones.push(child);
             child.userData.baseRotation = child.rotation.clone();
           }
 
@@ -128,6 +146,8 @@ class CatWidget {
             roughness: 0.9,
             metalness: 0.1,
             color: 0xffffff,
+            transparent: true,
+            opacity: 1,
           });
 
           const material = mesh.material as THREE.MeshStandardMaterial;
@@ -316,7 +336,7 @@ diffuseColor.rgb = spatialColor;`,
   }
 
   private onClick(event: MouseEvent) {
-    if (!this.catModel || this.isJumping || !this.modelWrapper) {
+    if (!this.catModel || this.isJumping || !this.modelWrapper || !this.isVisible) {
       return;
     }
 
@@ -328,6 +348,10 @@ diffuseColor.rgb = spatialColor;`,
 
     if (intersects.length === 0) {
       return;
+    }
+
+    if (this.isStaring) {
+      this.isStaring = false;
     }
 
     this.isMoving = false;
@@ -370,26 +394,85 @@ diffuseColor.rgb = spatialColor;`,
     this.timer.update(timestamp);
     const delta = Math.min(this.timer.getDelta(), 0.1);
 
+    this.visibilityTimer -= delta;
+    if (this.visibilityTimer <= 0) {
+      this.isVisible = !this.isVisible;
+      this.visibilityTimer = this.isVisible
+        ? 15 + Math.random() * 30
+        : 10 + Math.random() * 20;
+    }
+
+    const targetOpacity = this.isVisible ? 1 : 0;
+    if (this.currentOpacity !== targetOpacity) {
+      const fadeSpeed = 0.5; // 2 seconds fade
+      if (this.currentOpacity < targetOpacity) {
+        this.currentOpacity = Math.min(1, this.currentOpacity + fadeSpeed * delta);
+      } else {
+        this.currentOpacity = Math.max(0, this.currentOpacity - fadeSpeed * delta);
+      }
+
+      if (this.catModel) {
+        this.catModel.traverse((child) => {
+          if ((child as THREE.Mesh).isMesh) {
+            ((child as THREE.Mesh).material as THREE.Material).opacity = this.currentOpacity;
+          }
+        });
+      }
+
+      if (this.modelWrapper) {
+        this.modelWrapper.visible = this.currentOpacity > 0;
+      }
+    }
+
     if (this.mixer) {
       this.mixer.update(delta);
     }
 
+    if (this.modelWrapper && !this.isStaring && !this.isJumping && Math.random() < 0.001) {
+      this.isStaring = true;
+      this.stareTimer = 10;
+      this.isMoving = false;
+      this.playAnimation("idle");
+      this.modelWrapper.lookAt(
+        this.camera.position.x,
+        this.modelWrapper.position.y,
+        this.camera.position.z,
+      );
+    }
+
+    const time = this.timer.getElapsed();
+
     if (this.tailBones.length > 0) {
-      const time = this.timer.getElapsed();
       this.tailBones.forEach((bone, index) => {
         if (!bone.userData.baseRotation) {
           return;
         }
 
+        const speed = this.isStaring ? 30 : 15;
+        const amplitude = this.isStaring ? 0.8 : 0.4;
+
         bone.rotation.z =
-          bone.userData.baseRotation.z + Math.sin(time * 15 + index * 0.2) * 0.4;
+          bone.userData.baseRotation.z + Math.sin(time * speed + index * 0.2) * amplitude;
         bone.rotation.y =
-          bone.userData.baseRotation.y + Math.cos(time * 15 + index * 0.2) * 0.2;
+          bone.userData.baseRotation.y + Math.cos(time * speed + index * 0.2) * (amplitude / 2);
+      });
+    }
+
+    if (this.isStaring) {
+      this.headBones.forEach((bone, index) => {
+        if (!bone.userData.baseRotation) return;
+        bone.rotation.z = bone.userData.baseRotation.z + Math.sin(time * 3 + index) * 0.4;
       });
     }
 
     if (this.modelWrapper) {
-      if (this.isMoving) {
+      if (this.isStaring) {
+        this.stareTimer -= delta;
+        if (this.stareTimer <= 0) {
+          this.isStaring = false;
+          this.scheduleNextMove();
+        }
+      } else if (this.isMoving) {
         const currentPos = new THREE.Vector3(
           this.modelWrapper.position.x,
           this.modelWrapper.position.y,
