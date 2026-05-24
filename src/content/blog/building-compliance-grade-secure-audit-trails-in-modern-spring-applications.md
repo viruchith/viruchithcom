@@ -1,6 +1,6 @@
 ---
 title: "Building Compliance-Grade, Secure Audit Trails in Modern Spring Applications"
-description: "Master secure, compliance-grade audit trails in Spring Boot 3.3+. Learn how to implement AOP method auditing, track entity changes, and secure logs with HMAC blockchain hashing for GDPR, HIPAA, and PCI-DSS compliance."
+description: "Master secure, compliance-grade audit trails in Spring Boot 3.3+. Learn how to implement AOP method auditing, track entity changes, and secure logs for GDPR, HIPAA, and PCI-DSS compliance."
 publishDate: 2026-05-24
 category: "Security"
 tags:
@@ -10,10 +10,8 @@ tags:
     - GDPR
     - HIPAA
     - PCI-DSS
-    - HMAC
-    - Blockchain Hashing
 heroImage: ../../assets/blog/building-compliance-grade-secure-audit-trails-in-modern-spring-applications-cover.png
-heroAlt: Illustration of a secure audit trail system in a Spring application, featuring blockchain hashing and compliance symbols for GDPR, HIPAA, and PCI-DSS.
+heroAlt: Illustration of a secure audit trail system in a Spring application, featuring compliance symbols for GDPR, HIPAA, and PCI-DSS.
 featured: false
 draft: false
 ---
