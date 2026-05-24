@@ -10,6 +10,8 @@ function stripMarkdown(md: string): string {
     .replace(/`([^`]+)`/g, '$1')
     // Remove HTML tags
     .replace(/<[^>]*>/g, '')
+    // Remove HTML angle brackets to prevent tag/script injection patterns
+    .replace(/[<>]/g, '')
     // Remove links [text](url) -> text
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     // Remove image links ![alt](url) -> alt
