@@ -9,7 +9,7 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 - Homepage sections for profile, expertise, experience, projects, education, and latest articles.
 - Articles homepage carousel showing the latest 5 posts.
 - Markdown-powered blog using Astro content collections.
-- Article listing page with SEO-friendly URL path-based pagination (`/articles/page/2/`, `/articles/page/3/`, etc.).
+- Article listing page with SEO-friendly URL path-based pagination (`/articles/page/2/`, `/articles/page/3/`, etc.) and instant client-side fuzzy search.
 - Article detail pages with optimized images, canonical metadata, Open Graph tags, and structured data.
 - Sitemap generation and `robots.txt` support.
 
@@ -23,6 +23,7 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 | Images | `astro:assets` |
 | Icons | [@lucide/astro](https://lucide.dev/) |
 | Fonts | [@fontsource-variable/manrope](https://fontsource.org/), [@fontsource-variable/inter](https://fontsource.org/) |
+| Search | [Fuse.JS](https://www.fusejs.io/) 7.x |
 | Tooling | Vite via Astro, PostCSS, Autoprefixer, cssnano, `@vitejs/plugin-legacy` |
 
 ## Local development
@@ -88,6 +89,7 @@ For the full publishing workflow, authoring rules, and recommended patterns, see
 - `/` homepage and portfolio sections
 - `/articles/` article index (first page, 6 articles per page)
 - `/articles/page/[number]/` paginated article listings
+- `/articles/search.json` generated fuzzy search index
 - `/articles/[slug]/` individual article pages
 - `/sitemap.xml` generated sitemap
 
@@ -153,5 +155,5 @@ The current site state includes:
 - portfolio redesign applied
 - markdown article publishing in place
 - homepage article carousel in place
-- article search and pagination in place
+- article fuzzy search (Fuse.JS) and pagination in place
 - production build verified

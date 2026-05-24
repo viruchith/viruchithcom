@@ -1,7 +1,7 @@
 {
   "name": "viruchith-portfolio",
   "type": "module",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "packageManager": "pnpm@10.11.1",
   "pnpm": {
@@ -21,6 +21,7 @@
     "@fontsource-variable/manrope": "^5.2.8",
     "@lucide/astro": "^1.16.0",
     "astro": "^4.16.19",
+    "fuse.js": "^7.3.0",
     "sharer.js": "^0.5.4",
     "sharp": "^0.34.5",
     "simple-icons": "^16.21.0",

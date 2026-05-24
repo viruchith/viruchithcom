@@ -3,6 +3,7 @@ import { Mail } from '@lucide/astro';
 import BrandGithub from './icons/BrandGithub.astro';
 import BrandLinkedin from './icons/BrandLinkedin.astro';
 import BrandX from './icons/BrandX.astro';
+import { version } from '../../package.json';
 
 const year = new Date().getFullYear();
 
@@ -47,7 +48,7 @@ const emailClass =
     <p
       class="font-body text-center text-sm tracking-wide text-on-surface-variant transition-colors duration-500 ease-out"
     >
-      © {year} Viruchith Ganesan. Built with precision.
+      © {year} Viruchith Ganesan. Built with precision. <span class="opacity-60 text-xs font-mono">v{version}</span>
     </p>
   </div>
 </footer>
