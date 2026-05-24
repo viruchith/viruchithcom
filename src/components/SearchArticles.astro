@@ -1,0 +1,369 @@
+---
+import ArticleCard from './ArticleCard.astro';
+import { getAllBlogPosts } from '../lib/blog';
+
+const posts = await getAllBlogPosts();
+const firstPost = posts[0];
+
+// Dummy post to instantiate ArticleCard inside the <template>
+const dummyPost = {
+  slug: '', // Empty slug signifies template card
+  title: 'TEMPLATE_TITLE',
+  description: 'TEMPLATE_DESCRIPTION',
+  publishDate: new Date(),
+  category: 'TEMPLATE_CATEGORY',
+  tags: [],
+  heroImage: firstPost?.data.heroImage,
+  heroAlt: 'TEMPLATE_ALT',
+  featured: true, // Rendered so we can toggle hidden classes on the client
+  readingTime: 'TEMPLATE_READING_TIME',
+};
+---
+
+<div class="w-full mb-12">
+  <div class="relative max-w-xl">
+    <!-- Search Bar -->
+    <div 
+      class="glass-panel flex items-center gap-3 rounded-full border border-outline-variant/15 px-5 py-3 focus-within:border-primary-container/40 focus-within:shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all duration-300"
+    >
+      <!-- Search Icon -->
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        class="h-5 w-5 text-on-surface-variant/70 shrink-0" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.3-4.3"></path>
+      </svg>
+      
+      <!-- Input -->
+      <input 
+        type="text" 
+        id="search-input" 
+        placeholder="Search articles (Press '/' to focus)..." 
+        class="w-full bg-transparent text-on-background placeholder:text-on-surface-variant/50 focus:outline-none text-sm md:text-base"
+        autocomplete="off"
+        aria-label="Search blog articles"
+      />
+      
+      <!-- Spinner -->
+      <div 
+        id="search-spinner" 
+        class="hidden h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent shrink-0"
+        role="status"
+        aria-label="Loading search index"
+      >
+      </div>
+
+      <!-- Clear Button -->
+      <button 
+        type="button" 
+        id="search-clear" 
+        class="hidden p-1 rounded-full text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition shrink-0"
+        aria-label="Clear search"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          class="h-4 w-4" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          stroke-width="2" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+        >
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Search Results Container -->
+  <div id="search-results-view" class="hidden mt-12">
+    <div 
+      id="search-results-summary" 
+      class="mb-8 font-mono text-xs uppercase tracking-[0.2em] text-primary-container"
+    >
+    </div>
+    
+    <!-- Dynamic Search Cards Grid -->
+    <div id="search-results-grid" class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+    </div>
+
+    <!-- No Results Display -->
+    <div 
+      id="search-no-results" 
+      class="hidden glass-panel border border-outline-variant/15 rounded-[1.25rem] text-center p-12 md:p-16 max-w-2xl mx-auto"
+    >
+      <div class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-surface-container-high border border-outline-variant/10 text-on-surface-variant mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+      </div>
+      <h3 class="font-headline text-xl font-bold text-on-background">No articles found</h3>
+      <p class="mt-3 text-sm leading-6 text-on-surface-variant max-w-md mx-auto">
+        No articles matched your query "<span id="search-query-highlight" class="text-primary font-semibold"></span>". Try checking the spelling or using other keywords.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Template Card for Client Cloning -->
+<template id="article-card-template">
+  <ArticleCard post={dummyPost} />
+</template>
+
+<style>
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-card-appear {
+    animation: slideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+</style>
+
+<script>
+  import Fuse from 'fuse.js';
+
+  interface SearchItem {
+    slug: string;
+    title: string;
+    description: string;
+    category: string;
+    tags: string[];
+    publishDate: string;
+    formattedDate: string;
+    readingTime: string;
+    heroImage: string;
+    heroAlt: string;
+    featured: boolean;
+    body: string;
+  }
+
+  let searchIndex: SearchItem[] | null = null;
+  let fuse: Fuse<SearchItem> | null = null;
+  let isFetching = false;
+
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const searchClear = document.getElementById('search-clear') as HTMLButtonElement | null;
+  const searchSpinner = document.getElementById('search-spinner') as HTMLDivElement | null;
+  const defaultView = document.getElementById('default-articles-view') as HTMLDivElement | null;
+  const resultsView = document.getElementById('search-results-view') as HTMLDivElement | null;
+  const resultsSummary = document.getElementById('search-results-summary') as HTMLDivElement | null;
+  const resultsGrid = document.getElementById('search-results-grid') as HTMLDivElement | null;
+  const noResults = document.getElementById('search-no-results') as HTMLDivElement | null;
+  const queryHighlight = document.getElementById('search-query-highlight') as HTMLSpanElement | null;
+  const template = document.getElementById('article-card-template') as HTMLTemplateElement | null;
+
+  async function loadSearchIndex() {
+    if (searchIndex || isFetching) return;
+    isFetching = true;
+    if (searchSpinner) searchSpinner.classList.remove('hidden');
+
+    try {
+      const res = await fetch('/articles/search.json');
+      if (!res.ok) throw new Error('Failed to load search data');
+      searchIndex = await res.json();
+      
+      if (searchIndex) {
+        fuse = new Fuse(searchIndex, {
+          keys: [
+            { name: 'title', weight: 0.4 },
+            { name: 'description', weight: 0.2 },
+            { name: 'body', weight: 0.25 },
+            { name: 'category', weight: 0.075 },
+            { name: 'tags', weight: 0.075 }
+          ],
+          threshold: 0.4,
+          ignoreLocation: true,
+        });
+      }
+    } catch (err) {
+      console.error('[Search] Error loading search database:', err);
+    } finally {
+      isFetching = false;
+      if (searchSpinner) searchSpinner.classList.add('hidden');
+    }
+  }
+
+  function escapeRegExp(string: string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function highlightText(text: string, query: string): string {
+    if (!query) return text;
+    const cleanQuery = query.trim();
+    if (cleanQuery.length < 2) return text;
+    
+    // Support basic multi-word search highlight
+    const words = cleanQuery.split(/\s+/).filter(w => w.length >= 2).map(escapeRegExp);
+    if (words.length === 0) return text;
+
+    const regex = new RegExp(`(${words.join('|')})`, 'gi');
+    return text.replace(regex, '<mark class="bg-primary-container/25 text-primary-container rounded px-0.5">$1</mark>');
+  }
+
+  function performSearch() {
+    if (!fuse || !searchInput || !resultsView || !defaultView || !resultsGrid || !resultsSummary || !noResults || !queryHighlight || !template) return;
+
+    const query = searchInput.value.trim();
+    
+    if (query.length < 2) {
+      // Restore default view
+      if (searchClear) searchClear.classList.add('hidden');
+      resultsView.classList.add('hidden');
+      defaultView.classList.remove('hidden');
+      resultsGrid.innerHTML = '';
+      return;
+    }
+
+    // Show clear button and custom view
+    if (searchClear) searchClear.classList.remove('hidden');
+    defaultView.classList.add('hidden');
+    resultsView.classList.remove('hidden');
+    resultsGrid.innerHTML = '';
+
+    const results = fuse.search(query);
+
+    if (results.length === 0) {
+      resultsSummary.textContent = 'No matches found';
+      queryHighlight.textContent = query;
+      noResults.classList.remove('hidden');
+      resultsGrid.classList.add('hidden');
+    } else {
+      noResults.classList.add('hidden');
+      resultsGrid.classList.remove('hidden');
+      resultsSummary.textContent = `Found ${results.length} article${results.length === 1 ? '' : 's'} matching "${query}"`;
+
+      results.forEach((result, index) => {
+        const item = result.item;
+        const clone = template.content.cloneNode(true) as DocumentFragment;
+        
+        // Add animation delay to cards for staggered slide-up effect
+        const article = clone.querySelector('article');
+        if (article) {
+          article.classList.add('animate-card-appear');
+          article.style.animationDelay = `${Math.min(index * 50, 300)}ms`;
+        }
+
+        // Link
+        const link = clone.querySelector('[data-card-link]') as HTMLAnchorElement | null;
+        if (link) link.href = `/articles/${item.slug}/`;
+
+        // Image
+        const img = clone.querySelector('[data-card-img]') as HTMLImageElement | null;
+        if (img) {
+          img.removeAttribute('srcset');
+          img.src = item.heroImage;
+          img.alt = item.heroAlt;
+        }
+
+        // Category
+        const category = clone.querySelector('[data-card-category]') as HTMLSpanElement | null;
+        if (category) category.innerHTML = highlightText(item.category, query);
+
+        // Featured Badge
+        const featuredBadge = clone.querySelector('[data-card-featured]') as HTMLSpanElement | null;
+        if (featuredBadge) {
+          if (item.featured) {
+            featuredBadge.classList.remove('hidden');
+          } else {
+            featuredBadge.classList.add('hidden');
+          }
+        }
+
+        // Date
+        const dateSpan = clone.querySelector('[data-card-date]') as HTMLSpanElement | null;
+        if (dateSpan) dateSpan.textContent = item.formattedDate;
+
+        // Reading Time
+        const readingTimeSpan = clone.querySelector('[data-card-reading-time]') as HTMLSpanElement | null;
+        if (readingTimeSpan) readingTimeSpan.textContent = item.readingTime;
+
+        // Title
+        const title = clone.querySelector('[data-card-title]') as HTMLHeadingElement | null;
+        if (title) title.innerHTML = highlightText(item.title, query);
+
+        // Description
+        const desc = clone.querySelector('[data-card-description]') as HTMLParagraphElement | null;
+        if (desc) desc.innerHTML = highlightText(item.description, query);
+
+        resultsGrid.appendChild(clone);
+      });
+    }
+  }
+
+  let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+  function handleInput() {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      performSearch();
+    }, 120);
+  }
+
+  // Pre-load on input focus
+  if (searchInput) {
+    searchInput.addEventListener('focus', () => {
+      loadSearchIndex();
+    });
+
+    searchInput.addEventListener('input', () => {
+      // Ensure index is loaded, then perform search
+      if (!searchIndex) {
+        loadSearchIndex().then(() => performSearch());
+      } else {
+        handleInput();
+      }
+    });
+  }
+
+  // Clear Button action
+  if (searchClear && searchInput) {
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      searchInput.focus();
+      performSearch();
+    });
+  }
+
+  // Global Keyboard Shortcuts
+  window.addEventListener('keydown', (e) => {
+    // Press '/' to focus search input (if not already focused on another input/textarea)
+    const activeEl = document.activeElement;
+    const isEditing = activeEl && (
+      activeEl.tagName === 'INPUT' || 
+      activeEl.tagName === 'TEXTAREA' || 
+      activeEl.getAttribute('contenteditable') === 'true'
+    );
+
+    if (e.key === '/' && !isEditing && searchInput) {
+      e.preventDefault();
+      searchInput.focus();
+      loadSearchIndex();
+    }
+
+    // Escape inside search input clears and blurs it
+    if (e.key === 'Escape' && activeEl === searchInput && searchInput) {
+      e.preventDefault();
+      searchInput.value = '';
+      performSearch();
+      searchInput.blur();
+    }
+  });
+</script>
