@@ -17,7 +17,7 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 
 | Area | Choice |
 |------|--------|
-| Framework | [Astro](https://astro.build/) 4.x |
+| Framework | [Astro](https://astro.build/) 6.4 |
 | Styling | [Tailwind CSS](https://tailwindcss.com/) 3.x |
 | Content | Astro content collections |
 | Images | `astro:assets` |
@@ -59,7 +59,7 @@ pnpm preview
 
 ## Content workflow
 
-Articles live under `src/content/blog/` and are validated by the blog collection schema in `src/content/config.ts`.
+Articles live under `src/content/blog/` and are validated by the blog collection schema in `src/content.config.ts`.
 
 Each post needs frontmatter like:
 
@@ -118,7 +118,7 @@ Article pages add article-specific metadata and schema automatically from markdo
 │   ├── components/           # Portfolio and article UI
 │   ├── content/
 │   │   ├── blog/             # Markdown articles
-│   │   └── config.ts         # Content collection schema
+│   └── content.config.ts     # Content collection schema
 │   ├── layouts/              # Shared page shell and SEO
 │   ├── lib/                  # Blog helpers
 │   ├── pages/
@@ -156,4 +156,5 @@ The current site state includes:
 - markdown article publishing in place
 - homepage article carousel in place
 - article fuzzy search (Fuse.JS) and pagination in place
+- Astro 6.4 migration complete (content collections and rendering APIs updated)
 - production build verified

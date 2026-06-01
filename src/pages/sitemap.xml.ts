@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getAllBlogPosts } from '../lib/blog';
+import { getAllBlogPosts, getBlogSlug } from '../lib/blog';
 
 const site = 'https://viruchith.com';
 
@@ -19,7 +19,7 @@ export const GET: APIRoute = async () => {
     { loc: `${site}/`, lastmod: new Date().toISOString() },
     { loc: `${site}/articles/`, lastmod: posts[0]?.data.publishDate.toISOString() ?? new Date().toISOString() },
     ...posts.map((post) => ({
-      loc: `${site}/articles/${post.slug}/`,
+      loc: `${site}/articles/${getBlogSlug(post)}/`,
       lastmod: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
     })),
   ];

@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getAllBlogPosts, getReadingTime } from '../../lib/blog';
+import { getAllBlogPosts, getReadingTime, getBlogSlug } from '../../lib/blog';
 
 function stripMarkdown(md: string): string {
   if (!md) return '';
@@ -23,13 +23,13 @@ function stripMarkdown(md: string): string {
       // Remove image links ![alt](url) -> alt
       .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
       // Remove bold/italics/strikes
-      .replace(/[\*_~]{1,3}/g, '')
+      .replace(/[*_~]{1,3}/g, '')
       // Remove headings (# Heading)
       .replace(/^#+\s+/gm, '')
       // Remove blockquotes (> quote)
       .replace(/^\s*>\s+/gm, '')
       // Remove lists (- list, 1. list)
-      .replace(/^\s*[\-\*\+]\s+/gm, '')
+      .replace(/^\s*[-*+]\s+/gm, '')
       .replace(/^\s*\d+\.\s+/gm, '')
       // Replace multiple newlines or spaces with a single space
       .replace(/\s+/g, ' ')
@@ -43,7 +43,7 @@ export const GET: APIRoute = async () => {
   const posts = await getAllBlogPosts();
 
   const data = posts.map((post) => ({
-    slug: post.slug,
+    slug: getBlogSlug(post),
     title: post.data.title,
     description: post.data.description,
     category: post.data.category,
