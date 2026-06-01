@@ -173,8 +173,37 @@ const structuredDataItems = structuredData
     <div id="cat-widget-container" aria-hidden="true"></div>
     <slot />
     <script>
-      import { initCatWidget } from "../lib/cat-widget";
-      initCatWidget();
+      let widgetLoaded = false;
+
+      const bootCatWidget = () => {
+        if (widgetLoaded) {
+          return;
+        }
+
+        widgetLoaded = true;
+        import("../lib/cat-widget")
+          .then(({ initCatWidget }) => {
+            initCatWidget();
+          })
+          .catch((error) => {
+            console.warn("Cat widget failed to load", error);
+          });
+      };
+
+      const onFirstInteraction = () => {
+        window.removeEventListener("pointerdown", onFirstInteraction);
+        window.removeEventListener("keydown", onFirstInteraction);
+        bootCatWidget();
+      };
+
+      window.addEventListener("pointerdown", onFirstInteraction, { once: true });
+      window.addEventListener("keydown", onFirstInteraction, { once: true });
+
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(() => bootCatWidget(), { timeout: 6000 });
+      } else {
+        window.setTimeout(() => bootCatWidget(), 3000);
+      }
     </script>
   </body>
 </html>

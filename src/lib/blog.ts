@@ -32,9 +32,17 @@ export function getReadingTime(content: string) {
   return `${minutes} min read`;
 }
 
+export function getBlogSlug(post: BlogEntry) {
+  if (post.slug) return post.slug;
+
+  return post.id
+    .replace(/\.(md|mdx)$/i, '')
+    .replace(/\/index$/i, '');
+}
+
 export function mapBlogPost(post: BlogEntry): BlogPostSummary {
   return {
-    slug: post.slug,
+    slug: getBlogSlug(post),
     title: post.data.title,
     description: post.data.description,
     publishDate: post.data.publishDate,

@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
 import legacy from '@vitejs/plugin-legacy';
 
 export default defineConfig({
@@ -8,11 +7,6 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-  ],
   vite: {
     plugins: [
       legacy({
@@ -25,6 +19,7 @@ export default defineConfig({
     build: {
       minify: 'esbuild',
       cssMinify: true,
+      chunkSizeWarningLimit: 700,
     },
   },
 });

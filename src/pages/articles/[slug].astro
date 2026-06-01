@@ -1,31 +1,32 @@
 ---
 import { ArrowLeft, CalendarDays, Clock3 } from '@lucide/astro';
 import { Image } from 'astro:assets';
+import { render } from 'astro:content';
 import type { BlogEntry } from '../../lib/blog';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
-import { getAllBlogPosts, mapBlogPost, formatArticleDate } from '../../lib/blog';
+import { getAllBlogPosts, mapBlogPost, formatArticleDate, getBlogSlug } from '../../lib/blog';
 
 export async function getStaticPaths() {
   const posts = await getAllBlogPosts();
 
   return posts.map((post: BlogEntry) => ({
-    params: { slug: post.slug },
+    params: { slug: getBlogSlug(post) },
     props: { post },
   }));
 }
 
 const { post } = Astro.props as { post: BlogEntry };
 const article = mapBlogPost(post);
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 const relatedPosts = (await getAllBlogPosts())
-  .filter((entry: BlogEntry) => entry.slug !== post.slug)
-  .slice(0, 3)
-  .map(mapBlogPost);
+  .map(mapBlogPost)
+  .filter((entry) => entry.slug !== article.slug)
+  .slice(0, 3);
 
 const title = `${article.title} | Viruchith Ganesan`;
 const description = article.description;
