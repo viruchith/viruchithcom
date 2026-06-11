@@ -2,7 +2,7 @@
 title: "Eliminating Microservice Blind Spots: Introducing Project VEGA, an Open-Source GraphRAG Architecture Engine"
 description: "Discover Project VEGA, an open-source GraphRAG discovery engine built with SvelteKit, Qdrant, and Memgraph to map microservices, eliminate duplicate code, and kill tribal knowledge."
 publishDate: 2026-06-11
-category: "Software"
+category: "LLM"
 tags:
     - Project VEGA
     - GraphRAG
@@ -150,3 +150,5 @@ Because VEGA is conceived to parse sensitive enterprise intellectual property, s
 
 
 * **Repository-Mirroring RBAC:** Every node injected into Qdrant or Memgraph would be cryptographically tagged with a metadata `RepoID` matching its source Git permissions. When a user searches VEGA, the engine is designed to automatically inject a security filter directly into the vector and graph queries. If an architect does not possess explicit read access to a highly confidential repository within the corporate Git provider, VEGA would mathematically filter out those nodes, ensuring the restricted infrastructure remains completely invisible to the LLM context.
+
+***Checkout the project repository for the full technical proposal*** - [https://github.com/viruchith/VEGA](https://github.com/viruchith/VEGA).
