@@ -1,6 +1,6 @@
 ---
 title: "Eliminating Microservice Blind Spots: Introducing Project VEGA, an Open-Source GraphRAG Architecture Engine"
-description: "Discover Project VEGA, an open-source GraphRAG discovery engine built with SvelteKit, Qdrant, and Memgraph to map microservices, eliminate duplicate code, and kill tribal knowledge."
+description: "Tired of microservice documentation going instantly obsolete? Discover the proposal for Project VEGA, a secure, zero-trust GraphRAG discovery engine built on SvelteKit."
 publishDate: 2026-06-11
 category: "LLM"
 tags:
