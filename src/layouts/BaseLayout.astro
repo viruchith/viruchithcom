@@ -125,26 +125,15 @@ const structuredDataItems = structuredData
     <!-- Google Tag Manager -->
     <script>
       (function (w, d, s, l, i) {
-        var win = w;
-        win[l] = win[l] || [];
-        win[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0] as HTMLScriptElement,
-          j = d.createElement(s) as HTMLScriptElement,
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
           dl = l != "dataLayer" ? "&l=" + l : "";
         j.async = true;
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        if (f.parentNode) {
-          f.parentNode.insertBefore(j, f);
-        }
-      })(
-        window as Window &
-          typeof globalThis &
-          Record<string, Array<Record<string, unknown>>>,
-        document,
-        "script",
-        "dataLayer",
-        "GTM-WFS47GTS",
-      );
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-WFS47GTS");
     </script>
     <!-- End Google Tag Manager -->
     <style>
@@ -196,7 +185,9 @@ const structuredDataItems = structuredData
         bootCatWidget();
       };
 
-      window.addEventListener("pointerdown", onFirstInteraction, { once: true });
+      window.addEventListener("pointerdown", onFirstInteraction, {
+        once: true,
+      });
       window.addEventListener("keydown", onFirstInteraction, { once: true });
 
       if ("requestIdleCallback" in window) {
