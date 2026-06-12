@@ -29,6 +29,10 @@ const structuredDataItems = structuredData
     ? structuredData
     : [structuredData]
   : [];
+const isIndex = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html";
+const resolvedTitle = isIndex
+  ? "Viruchith Ganesan | Backend Engineer & Spring Boot Consultant"
+  : title;
 ---
 
 <!doctype html>
@@ -56,7 +60,7 @@ const structuredDataItems = structuredData
     <meta name="theme-color" content="#0b1326" />
 
     <meta property="og:type" content={ogType} />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={resolvedTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="viruchith.com" />
@@ -68,10 +72,10 @@ const structuredDataItems = structuredData
     />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={resolvedTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={resolvedOgImage} />
-    <title>{title}</title>
+    <title>{resolvedTitle}</title>
     {
       [
         {
@@ -122,6 +126,9 @@ const structuredDataItems = structuredData
         <script type="application/ld+json" set:html={JSON.stringify(item)} />
       ))
     }
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://static.cloudflareinsights.com">
     <!-- Google Tag Manager -->
     <script>
       (function (w, d, s, l, i) {

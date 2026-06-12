@@ -8,7 +8,21 @@ interface Props {
 }
 
 const { posts } = Astro.props;
+
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Latest technical articles by Viruchith Ganesan",
+  "numberOfItems": posts.length,
+  "itemListElement": posts.map((post, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "url": `https://viruchith.com/articles/${post.slug}/`,
+  })),
+};
 ---
+
+<script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
 
 <section id="articles" class="relative px-6 py-24 md:px-12 lg:px-24">
   <div class="absolute inset-x-0 top-12 -z-10 h-72 bg-[radial-gradient(circle_at_15%_10%,rgba(0,240,255,0.14),transparent_35%),radial-gradient(circle_at_85%_20%,rgba(49,49,192,0.18),transparent_32%),radial-gradient(circle_at_50%_100%,rgba(105,0,179,0.14),transparent_35%)] blur-3xl"></div>
