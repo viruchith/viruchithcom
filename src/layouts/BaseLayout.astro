@@ -29,6 +29,10 @@ const structuredDataItems = structuredData
     ? structuredData
     : [structuredData]
   : [];
+const isIndex = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html";
+const resolvedTitle = isIndex
+  ? "Viruchith Ganesan | Backend Engineer & Spring Boot Consultant"
+  : title;
 ---
 
 <!doctype html>
@@ -56,7 +60,7 @@ const structuredDataItems = structuredData
     <meta name="theme-color" content="#0b1326" />
 
     <meta property="og:type" content={ogType} />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={resolvedTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="viruchith.com" />
@@ -68,10 +72,10 @@ const structuredDataItems = structuredData
     />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={resolvedTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={resolvedOgImage} />
-    <title>{title}</title>
+    <title>{resolvedTitle}</title>
     {
       [
         {
@@ -122,29 +126,21 @@ const structuredDataItems = structuredData
         <script type="application/ld+json" set:html={JSON.stringify(item)} />
       ))
     }
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://static.cloudflareinsights.com">
     <!-- Google Tag Manager -->
     <script>
       (function (w, d, s, l, i) {
-        var win = w;
-        win[l] = win[l] || [];
-        win[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0] as HTMLScriptElement,
-          j = d.createElement(s) as HTMLScriptElement,
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
           dl = l != "dataLayer" ? "&l=" + l : "";
         j.async = true;
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        if (f.parentNode) {
-          f.parentNode.insertBefore(j, f);
-        }
-      })(
-        window as Window &
-          typeof globalThis &
-          Record<string, Array<Record<string, unknown>>>,
-        document,
-        "script",
-        "dataLayer",
-        "GTM-WFS47GTS",
-      );
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-WFS47GTS");
     </script>
     <!-- End Google Tag Manager -->
     <style>
@@ -196,7 +192,9 @@ const structuredDataItems = structuredData
         bootCatWidget();
       };
 
-      window.addEventListener("pointerdown", onFirstInteraction, { once: true });
+      window.addEventListener("pointerdown", onFirstInteraction, {
+        once: true,
+      });
       window.addEventListener("keydown", onFirstInteraction, { once: true });
 
       if ("requestIdleCallback" in window) {
