@@ -48,9 +48,9 @@ draft: false
 
 ## Astro Features Already Wired In
 
-The current implementation already gives you these Astro capabilities without extra work:
+The current implementation already gives you these Astro capabilities without extra work (Astro 7.0, Vite 8, Sätteri Rust markdown processor):
 
-- Content collections: Posts are type-checked through `src/content/config.ts`.
+- Content collections: Posts are type-checked through `src/content.config.ts`.
 - Static routes: Each markdown file generates an article page at `/articles/[slug]/`.
 - Asset optimization: Article cards and hero media render through `astro:assets` in the page and card components.
 - SEO metadata: Titles, descriptions, Open Graph tags, Twitter cards, canonical URLs, and structured data are set in `src/layouts/BaseLayout.astro` and `src/pages/articles/[slug].astro`.

@@ -17,7 +17,7 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 
 | Area | Choice |
 |------|--------|
-| Framework | [Astro](https://astro.build/) 6.4 |
+| Framework | [Astro](https://astro.build/) 7.0 |
 | Styling | [Tailwind CSS](https://tailwindcss.com/) 3.x |
 | Content | Astro content collections |
 | Images | `astro:assets` |
@@ -156,5 +156,5 @@ The current site state includes:
 - markdown article publishing in place
 - homepage article carousel in place
 - article fuzzy search (Fuse.JS) and pagination in place
-- Astro 6.4 migration complete (content collections and rendering APIs updated)
+- Astro 7.0 migration complete (Vite 8, Rolldown bundler, Sätteri Rust markdown processor)
 - production build verified
