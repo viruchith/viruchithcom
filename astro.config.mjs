@@ -17,7 +17,7 @@ export default defineConfig({
       }),
     ],
     build: {
-      minify: 'esbuild',
+      minify: true,
       cssMinify: true,
       chunkSizeWarningLimit: 700,
     },
