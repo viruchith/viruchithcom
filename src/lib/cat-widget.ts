@@ -520,5 +520,18 @@ diffuseColor.rgb = spatialColor;`,
 }
 
 export function initCatWidget() {
+  const hasDOM = typeof document !== "undefined";
+  const hasWindow = typeof window !== "undefined";
+  const hasWebGL = hasWindow && !!window.WebGLRenderingContext;
+
+  if (!hasDOM || !hasWindow || !hasWebGL) {
+    return null;
+  }
+
+  const container = document.getElementById("cat-widget-container");
+  if (!container) {
+    return null;
+  }
+
   return new CatWidget("cat-widget-container", "/animal-cat.glb", "/meow.mp3");
 }

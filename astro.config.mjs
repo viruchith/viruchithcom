@@ -4,6 +4,9 @@ import legacy from '@vitejs/plugin-legacy';
 export default defineConfig({
   site: 'https://viruchith.com',
   compressHTML: true,
+  build: {
+    inlineStylesheets: 'never',
+  },
   devToolbar: {
     enabled: false,
   },
