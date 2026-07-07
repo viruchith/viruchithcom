@@ -170,6 +170,8 @@ const resolvedTitle = isIndex
     <slot />
     <script>
       let widgetLoaded = false;
+      let widgetTimerId = 0;
+      const WIDGET_DELAY_MS = 60_000;
 
       const bootCatWidget = () => {
         if (widgetLoaded) {
@@ -186,22 +188,53 @@ const resolvedTitle = isIndex
           });
       };
 
-      const onFirstInteraction = () => {
-        window.removeEventListener("pointerdown", onFirstInteraction);
-        window.removeEventListener("keydown", onFirstInteraction);
-        bootCatWidget();
+      const scheduleCatWidgetBoot = () => {
+        if (widgetLoaded) {
+          return;
+        }
+
+        if (widgetTimerId) {
+          globalThis.clearTimeout(widgetTimerId);
+        }
+
+        widgetTimerId = globalThis.setTimeout(() => {
+          widgetTimerId = 0;
+
+          if (document.visibilityState !== "visible") {
+            const onVisible = () => {
+              if (document.visibilityState !== "visible") {
+                return;
+              }
+
+              document.removeEventListener("visibilitychange", onVisible);
+              bootCatWidget();
+            };
+
+            document.addEventListener("visibilitychange", onVisible, {
+              once: true,
+            });
+            return;
+          }
+
+          bootCatWidget();
+        }, WIDGET_DELAY_MS);
       };
 
-      window.addEventListener("pointerdown", onFirstInteraction, {
-        once: true,
-      });
-      window.addEventListener("keydown", onFirstInteraction, { once: true });
-
-      if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(() => bootCatWidget(), { timeout: 6000 });
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", scheduleCatWidgetBoot, {
+          once: true,
+        });
       } else {
-        window.setTimeout(() => bootCatWidget(), 3000);
+        scheduleCatWidgetBoot();
       }
+
+      document.addEventListener("astro:page-load", scheduleCatWidgetBoot);
+      globalThis.addEventListener("pagehide", () => {
+        if (widgetTimerId) {
+          globalThis.clearTimeout(widgetTimerId);
+          widgetTimerId = 0;
+        }
+      });
     </script>
   </body>
 </html>
