@@ -71,7 +71,7 @@ Faced with the exact same tracking requirement, the architect would avoid schedu
 
 ### 3. Proposed Solution
 
-![Vega Architecture Diagram](/articles/images/vega-architecture.png)
+![Vega Architecture Diagram](/articles/images/vega-architecture.webp)
 
 Project VEGA is conceptualized as an omniscient, hyper-efficient, and lightweight architecture discovery framework designed to continuously index an organization's engineering ecosystem. Instead of forcing developers to manually document their code, the proposed application would hook directly into Version Control Systems (like GitHub or GitLab) and CI/CD pipelines to harvest non-intrusive "structural blueprints".
 

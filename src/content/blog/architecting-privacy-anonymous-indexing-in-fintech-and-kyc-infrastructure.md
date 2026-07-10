@@ -57,7 +57,7 @@ In a relational or document database, the PII record is split into three distinc
 
 When a user submits their National ID during a KYC check, the backend application processes the data through the following pipeline:
 
-![Data Ingestion Flow Diagram](/articles/images/blind-index-architecture.png)
+![Data Ingestion Flow Diagram](/articles/images/blind-index-architecture.webp)
 
 ### 3. Execution Code Example (Python/Pseudocode)
 

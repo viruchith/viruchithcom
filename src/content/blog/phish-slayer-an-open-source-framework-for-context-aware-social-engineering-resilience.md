@@ -25,7 +25,7 @@ Generic phishing templates (e.g., "Your mailbox is full") have high ignore rates
 ## Core Technological Pillars
 The PHISH SLAYER project utilizes a sophisticated "CASE" (Context-Aware Simulation Engine) stack to ensure realism and security.
 
-![PHISH SLAYER Architecture](/articles/images/phish_slayer_architecture.png "PHISH SLAYER Architecture") 
+![PHISH SLAYER Architecture](/articles/images/phish_slayer_architecture.webp "PHISH SLAYER Architecture") 
 
 1. **Large Language Models (LLM)** The LLM provides the "linguistic intelligence" needed to synthesize professional narratives. It can mimic the corporate tone and specific jargon of various departments, ensuring that no two employees receive identical templates. This prevents pattern recognition and "cheat-sheeting" among staff.  
 2. **Model Context Protocol (MCP)** MCP acts as the secure, standardized bridge between the AI and internal company data. It allows the system to query specific metadata in real-time without the LLM ever needing direct access to sensitive raw data or being trained on private company info.  

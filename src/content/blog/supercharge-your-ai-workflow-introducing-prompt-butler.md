@@ -60,18 +60,18 @@ Prompt Butler is engineered for speed, low memory overhead, and true cross-platf
 
 Prompt Butler separates its footprint into two primary UX concepts: the **Main Overlay** and the **Modeless Variables Window**.
 
-![Prompt Butler Architecture](/articles/images/prompt-butler-architecture.png "Diagram illustrating the architecture of Prompt Butler, showing the Main Overlay and Modeless Variables Window")
+![Prompt Butler Architecture](/articles/images/prompt-butler-architecture.webp "Diagram illustrating the architecture of Prompt Butler, showing the Main Overlay and Modeless Variables Window")
 
 ### 1. Fast Activation & Fuzzy Search
 
 By hitting `Ctrl+Alt+P` (`Cmd+Alt+P` on macOS), the overlay instantly snaps to the front of your screen. Type your search query immediately—the app executes an instantaneous fuzzy match against both template **titles** and **tags**.
 
-![Screenshot of Prompt Butler's main overlay with a search query and results](/articles/images/prompt-butler-sc-1.png "Screenshot of Prompt Butler's main overlay with a search query and results")
+![Screenshot of Prompt Butler's main overlay with a search query and results](/articles/images/prompt-butler-sc-1.webp "Screenshot of Prompt Butler's main overlay with a search query and results")
 
 ### 2. Variable Compilation
 
 When you build a template, you can declare dynamic parameters using standard `{{double_curly_braces}}` syntax. For example:
-![Screenshot of Prompt Butler's variable compilation with dynamic parameters](/articles/images/prompt-butler-sc-2.png "Screenshot of Prompt Butler's variable compilation with dynamic parameters")
+![Screenshot of Prompt Butler's variable compilation with dynamic parameters](/articles/images/prompt-butler-sc-2.webp "Screenshot of Prompt Butler's variable compilation with dynamic parameters")
 ```text
 Act as an expert {{language}} developer and refactor the following code with {{style}} conventions:
 

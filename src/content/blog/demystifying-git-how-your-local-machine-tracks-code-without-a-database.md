@@ -60,7 +60,7 @@ Beyond Git, this architecture is used heavily in modern infrastructure:
 
 ## 2. Where History Lives: The Core Git Objects
 
-![Git Storage Architecture](/articles/images/git-storage-architecture.png)
+![Git Storage Architecture](/articles/images/git-storage-architecture.webp)
 
 When you run `git init`, Git creates a hidden `.git` directory. The absolute heart of this directory is `.git/objects/`, which is your content-addressable store. Everything Git cares about is broken down into three types of immutable objects:
 

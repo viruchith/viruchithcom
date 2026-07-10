@@ -25,7 +25,7 @@ To scale horizontally—meaning adding more servers to handle more traffic—you
 
 ## The Architecture: Decoupling State
 
-![Moving from stateful to stateless](/articles/images/stateful-to-stateless-architecture.png "Moving from stateful to stateless")
+![Moving from stateful to stateless](/articles/images/stateful-to-stateless-architecture.webp "Moving from stateful to stateless")
 
 In a stateless architecture, the web server becomes a "disposable" worker. It doesn't remember who the user is; instead, it fetches that information from a shared database for every request.
 

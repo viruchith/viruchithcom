@@ -25,7 +25,7 @@ There is no single "Global Database" that tracks every hotel room. Instead, the 
 2.  **Channel Manager:** The "Central Sync Engine." This middleware acts as a high-speed router between the hotel's PMS and the various booking sites.
 3.  **Online Travel Agencies (OTAs):** The front-end applications (Agoda, Expedia) that users interact with.
 
-![Hotel Booking Architecture](public/articles/images/hotel-booking-architecture.png "Hotel Booking Architecture")
+![Hotel Booking Architecture](/articles/images/hotel-booking-architecture.webp "Hotel Booking Architecture")
 
 ## 2. Preventing the "Race Condition": The Two-Phase Booking Flow
 The most critical challenge is the **Race Condition**: two people on two different continents clicking "Pay" at the exact same millisecond for the last available room.

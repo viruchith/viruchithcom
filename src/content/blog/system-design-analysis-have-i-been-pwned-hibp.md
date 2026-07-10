@@ -20,7 +20,7 @@ draft: false
 
 ## 1. High-Level Architecture
 
-![HIBP Architecture](/articles/images/hibp-architecture.png "HIBP Architecture")  
+![HIBP Architecture](/articles/images/hibp-architecture.webp "HIBP Architecture")  
 
 The HIBP architecture is designed to be stateless, serverless, and cache-heavy. Instead of a monolithic server, it relies on a distributed cloud pipeline.
 
