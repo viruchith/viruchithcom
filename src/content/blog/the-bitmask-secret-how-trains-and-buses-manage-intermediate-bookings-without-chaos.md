@@ -56,13 +56,13 @@ This is where the bitmask is updated. It requires strict ACID compliance (Atomic
 A simplified schema for a system like IRCTC looks like this:
 
 Table: Train_Schedule
-![Train Schedule Schema](/articles/images/train_schedule.png "Train Schedule Schema")
+![Train Schedule Schema](/articles/images/train_schedule.webp "Train Schedule Schema")
 
 Table: Seat_Inventory
-![Seat Inventory Schema](/articles/images/seat_inventory.png "Seat Inventory Schema")
+![Seat Inventory Schema](/articles/images/seat_inventory.webp "Seat Inventory Schema")
 
 Table: Booking_History
-![Booking History Schema](/articles/images/booking_history.png "Booking History Schema")  
+![Booking History Schema](/articles/images/booking_history.webp "Booking History Schema")  
 
 ## 4. The "End-to-End" Priority Logic
 Why is it sometimes harder to book a "Short Distance" ticket than a "Long Distance" one? This is due to Pooled Quotas.

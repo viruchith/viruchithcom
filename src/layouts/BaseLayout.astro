@@ -126,23 +126,8 @@ const resolvedTitle = isIndex
         <script type="application/ld+json" set:html={JSON.stringify(item)} />
       ))
     }
-    <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://static.cloudflareinsights.com">
-    <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-WFS47GTS");
-    </script>
-    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager is deferred to protect initial paint on mobile -->
     <style>
       #cat-widget-container {
         position: fixed;
@@ -169,6 +154,70 @@ const resolvedTitle = isIndex
     <div id="cat-widget-container" aria-hidden="true"></div>
     <slot />
     <script>
+      const browserWindow = window;
+
+      const loadGtm = () => {
+        if (browserWindow["__gtmLoaded"]) {
+          return;
+        }
+
+        browserWindow["__gtmLoaded"] = true;
+        browserWindow["dataLayer"] = browserWindow["dataLayer"] || [];
+        browserWindow["dataLayer"].push({
+          "gtm.start": new Date().getTime(),
+          event: "gtm.js",
+        });
+
+        const firstScript = document.getElementsByTagName("script")[0];
+        const gtmScript = document.createElement("script");
+        gtmScript.async = true;
+        gtmScript.src = "https://www.googletagmanager.com/gtm.js?id=GTM-WFS47GTS";
+
+        if (firstScript?.parentNode) {
+          firstScript.parentNode.insertBefore(gtmScript, firstScript);
+        } else {
+          document.head.appendChild(gtmScript);
+        }
+      };
+
+      const scheduleGtm = () => {
+        const boot = () => {
+          if ("requestIdleCallback" in browserWindow) {
+            browserWindow.requestIdleCallback(() => loadGtm(), { timeout: 7000 });
+          } else {
+            globalThis.setTimeout(() => loadGtm(), 12000);
+          }
+        };
+
+        const onFirstInteraction = () => {
+          window.removeEventListener("pointerdown", onFirstInteraction);
+          window.removeEventListener("keydown", onFirstInteraction);
+          window.removeEventListener("touchstart", onFirstInteraction);
+          window.removeEventListener("scroll", onFirstInteraction);
+          boot();
+        };
+
+        window.addEventListener("pointerdown", onFirstInteraction, { once: true, passive: true });
+        window.addEventListener("keydown", onFirstInteraction, { once: true });
+        window.addEventListener("touchstart", onFirstInteraction, { once: true, passive: true });
+        window.addEventListener("scroll", onFirstInteraction, { once: true, passive: true });
+
+        if (document.readyState === "complete") {
+          globalThis.setTimeout(() => {
+            onFirstInteraction();
+          }, 12000);
+          return;
+        }
+
+        window.addEventListener("load", () => {
+          globalThis.setTimeout(() => {
+            onFirstInteraction();
+          }, 12000);
+        }, { once: true });
+      };
+
+      scheduleGtm();
+
       let widgetLoaded = false;
       let widgetTimerId = 0;
       const WIDGET_DELAY_MS = 60_000;

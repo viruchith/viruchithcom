@@ -115,7 +115,7 @@ This is the simplest and recommended default for inline article images.
 2. Reference it with a site-relative path in markdown.
 
 ```md
-![API rollout phases](/blog/api-rollout-phases.png)
+![API rollout phases](/blog/api-rollout-phases.webp)
 ```
 
 You can also use standard markdown syntax with a title:

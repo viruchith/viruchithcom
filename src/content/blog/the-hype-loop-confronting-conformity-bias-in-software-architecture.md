@@ -48,7 +48,7 @@ When document stores and NoSQL databases surged in popularity, a collective narr
 
 ## The Modern Manifestation: "LLM Everywhere"
 
-![Gartner Hype Cycle](/articles/images/gartner-hype-cycle.png "Gartner Hype Cycle for Emerging Technologies, source: Forbes.com")
+![Gartner Hype Cycle](/articles/images/gartner-hype-cycle.webp "Gartner Hype Cycle for Emerging Technologies, source: Forbes.com")
 
 Technology moves in cycles, and we are currently living through the steepest curve of the technology hype cycle. The current manifestation of conformity bias is unmistakable: **the compulsion to shove Large Language Models (LLMs) into every layer of software architecture.**
 

@@ -152,10 +152,12 @@ pnpm exec wrangler deploy
 
 The current site state includes:
 
-- current release version: v1.4.1
+- current release version: v1.4.2
 - portfolio redesign applied
 - markdown article publishing in place
 - homepage article carousel in place
 - article fuzzy search (Fuse.JS) and pagination in place
 - Astro 7.0 migration complete (Vite 8, Rolldown bundler, Sätteri Rust markdown processor)
 - production build verified
+
+For release notes, see `CHANGELOG.md`.

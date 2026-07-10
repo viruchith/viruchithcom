@@ -21,7 +21,9 @@ const latestPosts = (await getLatestBlogPosts()).map(mapBlogPost);
   <SiteHeader />
   <main id="main" class="mx-auto max-w-screen-2xl pb-24 pt-28 md:pt-32">
     <Hero />
-    <ArticlesCarousel posts={latestPosts} />
+    <div class="deferred-render">
+      <ArticlesCarousel posts={latestPosts} />
+    </div>
     <div class="deferred-render">
       <Expertise />
     </div>
