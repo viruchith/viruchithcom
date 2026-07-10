@@ -152,7 +152,7 @@ pnpm exec wrangler deploy
 
 The current site state includes:
 
-- current release version: v1.4.2
+- current release version: v1.4.3
 - portfolio redesign applied
 - markdown article publishing in place
 - homepage article carousel in place
