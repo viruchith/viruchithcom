@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.4.4] - 2026-07-13
+
+### Changed
+- Enabled Markdown math rendering for blog posts so KaTeX equations compile correctly in Astro.
+- Fixed the Gorilla compression example in the Datadog and Grafana article so the timestamp equation renders as display math.
+
+### Verification
+- `pnpm build`
+
+### Infrastructure
+- Updated project version to `1.4.4`.
+
 ## [1.4.3] - 2026-07-10
 
 ### Security
