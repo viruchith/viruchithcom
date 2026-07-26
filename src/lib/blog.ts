@@ -33,8 +33,6 @@ export function getReadingTime(content: string) {
 }
 
 export function getBlogSlug(post: BlogEntry) {
-  if (post.slug) return post.slug;
-
   return post.id
     .replace(/\.(md|mdx)$/i, '')
     .replace(/\/index$/i, '');
@@ -52,7 +50,7 @@ export function mapBlogPost(post: BlogEntry): BlogPostSummary {
     heroImage: post.data.heroImage,
     heroAlt: post.data.heroAlt,
     featured: post.data.featured,
-    readingTime: getReadingTime(post.body),
+    readingTime: getReadingTime(post.body ?? ''),
   };
 }
 

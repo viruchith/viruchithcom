@@ -54,11 +54,11 @@ export const GET: APIRoute = async () => {
       day: 'numeric',
       year: 'numeric',
     }).format(post.data.publishDate),
-    readingTime: getReadingTime(post.body),
+    readingTime: getReadingTime(post.body ?? ''),
     heroImage: post.data.heroImage.src,
     heroAlt: post.data.heroAlt,
     featured: post.data.featured,
-    body: stripMarkdown(post.body),
+    body: stripMarkdown(post.body ?? ''),
   }));
 
   return new Response(JSON.stringify(data), {
