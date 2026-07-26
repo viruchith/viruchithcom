@@ -155,7 +155,7 @@ const resolvedTitle = isIndex
     <div id="cat-widget-container" aria-hidden="true"></div>
     <slot />
     <script>
-      const browserWindow = window;
+      const browserWindow = window as Record<string, any>;
 
       const loadGtm = () => {
         if (browserWindow["__gtmLoaded"]) {
