@@ -27,18 +27,18 @@ describe("getReadingTime", () => {
 });
 
 describe("getBlogSlug", () => {
-  it("returns slug field if present", () => {
-    const post = { slug: "my-post", id: "2025/my-post.md" } as any;
-    expect(getBlogSlug(post)).toBe("my-post");
+  it("derives slug from id by stripping extension", () => {
+    const post = { id: "2025/my-post.md" } as any;
+    expect(getBlogSlug(post)).toBe("2025/my-post");
   });
 
-  it("derives slug from id when slug is empty", () => {
-    const post = { slug: "", id: "2025/hello-world.md" } as any;
+  it("strips .mdx extension", () => {
+    const post = { id: "2025/hello-world.mdx" } as any;
     expect(getBlogSlug(post)).toBe("2025/hello-world");
   });
 
   it("strips /index suffix", () => {
-    const post = { slug: "", id: "2025/hello-world/index.mdx" } as any;
+    const post = { id: "2025/hello-world/index.mdx" } as any;
     expect(getBlogSlug(post)).toBe("2025/hello-world");
   });
 });

@@ -1,11 +1,13 @@
 import { defineConfig } from "vitest/config";
-import { resolve } from "path";
+import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig({
   resolve: {
     alias: {
-      "@": resolve(__dirname, "src"),
-      "astro:content": resolve(__dirname, "src/__mocks__/astro-content.ts"),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "astro:content": fileURLToPath(
+        new URL("./src/__mocks__/astro-content.ts", import.meta.url),
+      ),
     },
   },
   test: {
