@@ -2,6 +2,26 @@
 
 All notable changes to this project are documented in this file.
 
+Related documentation:
+- [Project Overview & Setup Guide](./README.md)
+- [Blog Authoring & Content Guide](./BLOG_GUIDE.md)
+
+## [1.4.5] - 2026-08-23
+
+### Added
+- Integrated [`astro-mermaid`](https://www.npmjs.com/package/astro-mermaid) and `mermaid` to render Mermaid.js diagrams directly within Markdown (`.md`) and MDX article content.
+- Configured default dark theme and automatic theme switching in `astro.config.mjs`.
+- Added Mermaid syntax documentation and diagram examples to [Blog Authoring Guide](./BLOG_GUIDE.md).
+
+### Changed
+- Optimized `tsconfig.json` with `skipLibCheck` and explicit include paths for faster and memory-efficient type checking (`astro check`).
+
+### Verification
+- `pnpm lint && pnpm typecheck && pnpm test && pnpm build`
+
+### Infrastructure
+- Updated project version to `1.4.5`.
+
 ## [1.4.4] - 2026-07-13
 
 ### Changed

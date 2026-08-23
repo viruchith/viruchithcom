@@ -1,13 +1,17 @@
 # Blog Guide
 
-This site uses Astro content collections for writing, validating, and publishing articles. The goal is to keep authoring simple in markdown while still taking advantage of Astro features for images, SEO, static generation, and component-rich content.
+This site uses Astro content collections for writing, validating, and publishing articles. The goal is to keep authoring simple in markdown while still taking advantage of Astro features for images, SEO, static generation, interactive diagrams, and component-rich content.
+
+Related documentation:
+- [Project Overview & Setup Guide](./README.md)
+- [Changelog & Release Notes](./CHANGELOG.md)
 
 ## Workflow
 
 1. Create a new markdown file under `src/content/blog/`.
-2. Add valid frontmatter that matches the schema in `src/content/config.ts`.
+2. Add valid frontmatter that matches the schema in `src/content.config.ts`.
 3. Reference a local hero asset from `src/assets/blog/`.
-4. Write the article body in markdown with code fences, lists, blockquotes, and internal links.
+4. Write the article body in markdown with code fences, Mermaid diagrams, LaTeX math, lists, blockquotes, and internal links.
 5. Run `pnpm build` to validate the content collection schema and generated routes.
 6. Publish by committing the new content file and any related assets.
 
@@ -48,14 +52,16 @@ draft: false
 
 ## Astro Features Already Wired In
 
-The current implementation already gives you these Astro capabilities without extra work (Astro 7.0, Vite 8, Sätteri Rust markdown processor):
+The current implementation gives you these Astro capabilities without extra work (Astro 7.0, Vite 8, Sätteri Rust markdown processor):
 
-- Content collections: Posts are type-checked through `src/content.config.ts`.
-- Static routes: Each markdown file generates an article page at `/articles/[slug]/`.
-- Asset optimization: Article cards and hero media render through `astro:assets` in the page and card components.
-- SEO metadata: Titles, descriptions, Open Graph tags, Twitter cards, canonical URLs, and structured data are set in `src/layouts/BaseLayout.astro` and `src/pages/articles/[slug].astro`.
-- Sitemap generation: New posts are automatically included through `src/pages/sitemap.xml.ts`.
-- Latest-post carousel: The five newest posts are pulled onto the home page automatically.
+- **Content collections**: Posts are type-checked through `src/content.config.ts`.
+- **Static routes**: Each markdown file generates an article page at `/articles/[slug]/`.
+- **Mermaid diagrams**: Render interactive architecture diagrams, flowcharts, and sequence charts via `astro-mermaid`.
+- **KaTeX math**: Write inline `$f(x)$` and display `$$\sum$$` equations rendered via `remark-math` and `rehype-katex`.
+- **Asset optimization**: Article cards and hero media render through `astro:assets` in the page and card components.
+- **SEO metadata**: Titles, descriptions, Open Graph tags, Twitter cards, canonical URLs, and structured data are set in `src/layouts/BaseLayout.astro` and `src/pages/articles/[slug].astro`.
+- **Sitemap generation**: New posts are automatically included through `src/pages/sitemap.xml.ts`.
+- **Latest-post carousel**: The five newest posts are pulled onto the home page automatically.
 
 ## Recommended Asset Strategy
 
@@ -101,6 +107,57 @@ public ResponseEntity<OrderResponse> createOrder(@RequestBody CreateOrderRequest
     return ResponseEntity.ok(orderService.create(request));
 }
 ```
+```
+
+## Adding Mermaid Diagrams
+
+Mermaid diagrams are supported in all markdown (`.md` and `.mdx`) files via the [`astro-mermaid`](https://www.npmjs.com/package/astro-mermaid) integration. Simply use a code fence with `mermaid` as the language:
+
+### Architecture / Flowchart Example
+
+````md
+```mermaid
+graph TD
+    A[Client Request] --> B[API Gateway]
+    B --> C[Auth Service]
+    B --> D[Order Service]
+    D --> E[(PostgreSQL)]
+```
+````
+
+### Sequence Diagram Example
+
+````md
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant Gateway as API Gateway
+    participant Auth as Auth Service
+    participant Service as Order Service
+
+    User->>Gateway: POST /orders
+    Gateway->>Auth: Validate JWT Token
+    Auth-->>Gateway: 200 OK (Claims)
+    Gateway->>Service: Forward Request
+    Service-->>Gateway: 201 Created
+    Gateway-->>User: 201 Created
+```
+````
+
+Diagrams are automatically rendered client-side into responsive, interactive SVGs with dark theme styling.
+
+## Adding Math and Formulas (KaTeX)
+
+Mathematical equations and formulas are supported via KaTeX (`remark-math` and `rehype-katex`):
+
+- **Inline math**: Wrap LaTeX expressions in single dollar signs `$E = mc^2$`.
+- **Display / block math**: Wrap LaTeX expressions in double dollar signs:
+
+```md
+$$
+D_{KL}(P \parallel Q) = \sum_{x \in \mathcal{X}} P(x) \log\left(\frac{P(x)}{Q(x)}\right)
+$$
 ```
 
 ## Adding Images in Article Body
@@ -235,3 +292,10 @@ Use examples, code, or tradeoff analysis.
 
 Close with what the reader should do or understand next.
 ```
+
+---
+
+## Related Documentation
+
+- 🏠 **[README & Setup Guide](./README.md)**: Repository structure, scripts, dev server, and deployment commands.
+- 📋 **[Changelog](./CHANGELOG.md)**: Full history of releases, new features, and dependency upgrades.

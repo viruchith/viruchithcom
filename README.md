@@ -2,6 +2,11 @@
 
 Dark editorial portfolio and article platform built with Astro and Tailwind CSS. The site combines a personal portfolio with a markdown-authored engineering blog focused on backend systems, architecture, delivery, and platform engineering.
 
+## Documentation
+
+- 📖 **[Blog Authoring Guide](./BLOG_GUIDE.md)**: Content workflow, frontmatter requirements, inline images, KaTeX math, and Mermaid diagram examples.
+- 📋 **[Changelog](./CHANGELOG.md)**: Release history, bug fixes, and feature additions.
+
 ## What is included
 
 - Static Astro site with minimal client-side JavaScript.
@@ -9,6 +14,8 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 - Homepage sections for profile, expertise, experience, projects, education, and latest articles.
 - Articles homepage carousel showing the latest 5 posts.
 - Markdown-powered blog using Astro content collections.
+- Interactive Mermaid.js diagram rendering with automated dark theme support via `astro-mermaid`.
+- KaTeX mathematical expression rendering via `remark-math` and `rehype-katex`.
 - Article listing page with SEO-friendly URL path-based pagination (`/articles/page/2/`, `/articles/page/3/`, etc.) and instant client-side fuzzy search.
 - Article detail pages with optimized images, canonical metadata, Open Graph tags, and structured data.
 - Sitemap generation and `robots.txt` support.
@@ -20,6 +27,8 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 | Framework | [Astro](https://astro.build/) 7.0 |
 | Styling | [Tailwind CSS](https://tailwindcss.com/) 3.x |
 | Content | Astro content collections |
+| Diagrams | [Mermaid.js](https://mermaid.js.org/) via [`astro-mermaid`](https://www.npmjs.com/package/astro-mermaid) |
+| Math | [KaTeX](https://katex.org/) via `remark-math` & `rehype-katex` |
 | Images | `astro:assets` |
 | Icons | [@lucide/astro](https://lucide.dev/) |
 | Fonts | [@fontsource-variable/manrope](https://fontsource.org/), [@fontsource-variable/inter](https://fontsource.org/) |
@@ -82,7 +91,7 @@ draft: false
 
 Hero images should be stored locally in `src/assets/blog/` so Astro can optimize them.
 
-For the full publishing workflow, authoring rules, and recommended patterns, see `BLOG_GUIDE.md`.
+For the full publishing workflow, authoring rules, and recommended patterns, see the [Blog Authoring Guide](./BLOG_GUIDE.md).
 
 ## Key routes
 
@@ -109,8 +118,10 @@ Article pages add article-specific metadata and schema automatically from markdo
 
 ```text
 .
-├── BLOG_GUIDE.md
-├── astro.config.mjs
+├── BLOG_GUIDE.md             # Content authoring guide
+├── CHANGELOG.md              # Version and release log
+├── README.md                 # Project documentation
+├── astro.config.mjs          # Astro & integration configuration
 ├── public/
 │   └── robots.txt
 ├── src/
@@ -118,7 +129,7 @@ Article pages add article-specific metadata and schema automatically from markdo
 │   ├── components/           # Portfolio and article UI
 │   ├── content/
 │   │   ├── blog/             # Markdown articles
-│   └── content.config.ts     # Content collection schema
+│   │   └── config.ts         # Content collection schema
 │   ├── layouts/              # Shared page shell and SEO
 │   ├── lib/                  # Blog helpers
 │   ├── pages/
@@ -152,12 +163,14 @@ pnpm exec wrangler deploy
 
 The current site state includes:
 
-- current release version: v1.4.4
+- current release version: **v1.4.5**
 - portfolio redesign applied
 - markdown article publishing in place
+- Mermaid.js diagrams enabled in Markdown via `astro-mermaid`
+- KaTeX math expression rendering enabled
 - homepage article carousel in place
 - article fuzzy search (Fuse.JS) and pagination in place
-- Astro 7.0 migration complete (Vite 8, Rolldown bundler, Markdown math rendering enabled)
+- Astro 7.0 migration complete (Vite 8, Rolldown bundler)
 - production build verified
 
-For release notes, see `CHANGELOG.md`.
+For detailed release notes, see [CHANGELOG.md](./CHANGELOG.md).
