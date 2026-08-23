@@ -52,9 +52,10 @@ draft: false
 
 ## Astro Features Already Wired In
 
-The current implementation gives you these Astro capabilities without extra work (Astro 7.0, Vite 8, Sätteri Rust markdown processor):
+The current implementation gives you these Astro capabilities without extra work (Astro 7.2, Vite 8, Sätteri Rust markdown processor, incremental static builds):
 
 - **Content collections**: Posts are type-checked through `src/content.config.ts`.
+- **Incremental static builds**: Routes reuse cached HTML via `cacheKey: post.digest` unless content or layouts change.
 - **Static routes**: Each markdown file generates an article page at `/articles/[slug]/`.
 - **Mermaid diagrams**: Render interactive architecture diagrams, flowcharts, and sequence charts via `astro-mermaid`.
 - **KaTeX math**: Write inline `$f(x)$` and display `$$\sum$$` equations rendered via `remark-math` and `rehype-katex`.

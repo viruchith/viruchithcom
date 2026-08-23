@@ -24,7 +24,7 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 
 | Area | Choice |
 |------|--------|
-| Framework | [Astro](https://astro.build/) 7.0 |
+| Framework | [Astro](https://astro.build/) 7.2 (with experimental incremental static builds) |
 | Styling | [Tailwind CSS](https://tailwindcss.com/) 3.x |
 | Content | Astro content collections |
 | Diagrams | [Mermaid.js](https://mermaid.js.org/) via [`astro-mermaid`](https://www.npmjs.com/package/astro-mermaid) |
@@ -163,14 +163,14 @@ pnpm exec wrangler deploy
 
 The current site state includes:
 
-- current release version: **v1.4.5**
+- current release version: **v1.5.0**
 - portfolio redesign applied
 - markdown article publishing in place
 - Mermaid.js diagrams enabled in Markdown via `astro-mermaid`
 - KaTeX math expression rendering enabled
 - homepage article carousel in place
 - article fuzzy search (Fuse.JS) and pagination in place
-- Astro 7.0 migration complete (Vite 8, Rolldown bundler)
+- Astro 7.2 upgrade complete (Vite 8, Rolldown bundler, incremental static builds, session-free SSR/static optimization)
 - production build verified
 
 For detailed release notes, see [CHANGELOG.md](./CHANGELOG.md).

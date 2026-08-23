@@ -6,21 +6,26 @@ Related documentation:
 - [Project Overview & Setup Guide](./README.md)
 - [Blog Authoring & Content Guide](./BLOG_GUIDE.md)
 
-## [1.4.5] - 2026-08-23
+## [1.5.0] - 2026-08-23
 
 ### Added
 - Integrated [`astro-mermaid`](https://www.npmjs.com/package/astro-mermaid) and `mermaid` to render Mermaid.js diagrams directly within Markdown (`.md`) and MDX article content.
 - Configured default dark theme and automatic theme switching in `astro.config.mjs`.
+- Enabled experimental incremental static builds (`experimental.incrementalBuild: true`) with `cacheKey: post.digest` in `src/pages/articles/[slug].astro` for faster page regeneration.
 - Added Mermaid syntax documentation and diagram examples to [Blog Authoring Guide](./BLOG_GUIDE.md).
 
 ### Changed
+- Upgraded **Astro** to `7.2.4` and `@astrojs/markdown-remark` to `7.2.4`.
+- Configured `session: false` in `astro.config.mjs` to strip unused session runtime from production bundles.
+- Migrated schema `z` imports from `astro:content` to `astro/zod` in `src/content.config.ts`.
+- Replaced deprecated Lucide `Code2` icon with `Code` in `src/components/Expertise.astro`.
 - Optimized `tsconfig.json` with `skipLibCheck` and explicit include paths for faster and memory-efficient type checking (`astro check`).
 
 ### Verification
 - `pnpm lint && pnpm typecheck && pnpm test && pnpm build`
 
 ### Infrastructure
-- Updated project version to `1.4.5`.
+- Updated project version to `1.5.0`.
 
 ## [1.4.4] - 2026-07-13
 
