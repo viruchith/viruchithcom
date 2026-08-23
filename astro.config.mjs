@@ -3,10 +3,21 @@ import legacy from '@vitejs/plugin-legacy';
 import { unified } from '@astrojs/markdown-remark';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
+import mermaid from 'astro-mermaid';
 
 export default defineConfig({
   site: 'https://viruchith.com',
   compressHTML: true,
+  session: false,
+  experimental: {
+    incrementalBuild: true,
+  },
+  integrations: [
+    mermaid({
+      theme: 'dark',
+      autoTheme: true,
+    }),
+  ],
   markdown: {
     processor: unified({
       remarkPlugins: [remarkMath],

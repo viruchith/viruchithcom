@@ -1,4 +1,4 @@
-export type CollectionEntry<T extends string> = {
+export type CollectionEntry<_T extends string = string> = {
   id: string;
   slug: string;
   body: string;
