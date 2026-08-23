@@ -21,6 +21,16 @@ Related documentation:
 - Replaced deprecated Lucide `Code2` icon with `Code` in `src/components/Expertise.astro`.
 - Optimized `tsconfig.json` with `skipLibCheck` and explicit include paths for faster and memory-efficient type checking (`astro check`).
 
+### Security
+- Resolved 14 Dependabot alerts across production and tooling dependencies:
+  - **`sharp`**: Upgraded to `0.35.3` (fixes libvips CVE-2026-33327, CVE-2026-33328, CVE-2026-35590, CVE-2026-35591).
+  - **`postcss`**: Upgraded to `8.5.26` (fixes path traversal in source map loading CVE-2026-69153, GHSA-fxqj-rqcc-2cmp).
+  - **`nanoid`**: Overridden to `3.3.18` (fixes infinite loops in custom/non-secure generators CVE-2026-67213, CVE-2026-67214).
+  - **`js-yaml`**: Overridden to `4.3.1` (fixes quadratic CPU consumption DoS in `!!omap` resolution GHSA-5p4m-2wfm-xmqj).
+  - **`fast-uri`**: Overridden to `3.1.5` (fixes host confusion via backslash authority introducer CVE-2026-18446).
+  - **`undici`**: Overridden to `7.29.0` (fixes CRLF injection and cache disclosure vulnerabilities CVE-2026-15157).
+  - **`svgo`**: Overridden to `4.0.2` (fixes script removal bypass).
+
 ### Verification
 - `pnpm lint && pnpm typecheck && pnpm test && pnpm build`
 
