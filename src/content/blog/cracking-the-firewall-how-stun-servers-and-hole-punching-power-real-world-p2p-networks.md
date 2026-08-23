@@ -93,23 +93,20 @@ Let’s walk through a concrete example:
   - STUN server: `stun.l.google.com:19302`
 
 **Request Flow:**
-```
-Peer A (192.168.1.5:5000)
-    ↓ [STUN Binding Request]
-NAT Router
-    ↓ [Masks private IP → public IP]
-STUN Server (203.0.113.15:19302)
-    ↓ [Sends Binding Response]
-NAT Router
-    ↓ [Delivers back to Peer A]
-Peer A learns: "My public identity is 203.0.113.10:49200"
-```
 
-The STUN server’s response might look like this (simplified):
+```mermaid
+sequenceDiagram
+    autonumber
+    actor PeerA as Peer A<br/>(192.168.1.5:5000)
+    participant NAT as NAT Router<br/>(203.0.113.10)
+    participant STUN as STUN Server<br/>(203.0.113.15:19302)
 
-```
-STUN Response:
-  XOR-MAPPED-ADDRESS: 203.0.113.10:49200
+    PeerA->>NAT: STUN Binding Request (src: 192.168.1.5:5000)
+    NAT->>STUN: Forwarded Request (mapped src: 203.0.113.10:49200)
+    Note over STUN: Inspects incoming UDP packet<br/>to extract public IP & mapped port
+    STUN-->>NAT: STUN Binding Response<br/>(XOR-MAPPED-ADDRESS: 203.0.113.10:49200)
+    NAT-->>PeerA: Forwarded Response (dst: 192.168.1.5:5000)
+    Note over PeerA: Learns public identity:<br/>203.0.113.10:49200
 ```
 
 Now Peer A knows exactly where the internet sees it.
