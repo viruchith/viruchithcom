@@ -47,8 +47,9 @@ export const siteConfig: SiteConfig = {
   ogImage: '/og-default.png',
   ogImageAlt:
     'Viruchith Ganesan — Backend Engineer specializing in Java, Spring Boot, and Cloud-Native Systems',
-  resumeUrl: '/resume.pdf',
-  hasResume: false,
+  resumeUrl:
+    'https://drive.google.com/file/d/1eff3_O4tFQ69MNB9Y_gj-QQZtvYsKNxv/view?usp=sharing',
+  hasResume: true,
   socials: {
     github: 'https://github.com/viruchith',
     linkedin: 'https://www.linkedin.com/in/viruchith/',

@@ -1,5 +1,5 @@
 ---
-import { Mail, Calendar, MapPin, ArrowRight } from '@lucide/astro';
+import { Mail, Calendar, MapPin, ArrowRight, FileText } from '@lucide/astro';
 import BrandGithub from './icons/BrandGithub.astro';
 import BrandLinkedin from './icons/BrandLinkedin.astro';
 import BrandX from './icons/BrandX.astro';
@@ -54,6 +54,18 @@ import { siteConfig } from '../config/site';
           <span>Email {siteConfig.email}</span>
           <ArrowRight class="h-4 w-4 transition-transform group-hover:translate-x-1" stroke-width={1.8} aria-hidden="true" />
         </a>
+
+        {siteConfig.hasResume && siteConfig.resumeUrl && (
+          <a
+            class="inline-flex items-center gap-2.5 rounded-full border border-outline-variant/25 bg-surface-variant/30 px-6 py-4 text-sm font-semibold uppercase tracking-[0.16em] text-on-surface transition hover:border-primary-container/40 hover:text-primary-container"
+            href={siteConfig.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FileText class="h-4 w-4 text-primary" stroke-width={1.8} aria-hidden="true" />
+            <span>Resume (PDF)</span>
+          </a>
+        )}
 
         {siteConfig.bookingUrl && (
           <a
