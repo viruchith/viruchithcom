@@ -52,7 +52,7 @@ const { post, priority = false } = Astro.props;
       <div class="flex flex-wrap items-center gap-3 text-[0.72rem] uppercase tracking-[0.18em] text-on-surface-variant/75">
         <span class="inline-flex items-center gap-2">
           <CalendarDays class="h-3.5 w-3.5" stroke-width={1.6} aria-hidden="true" />
-          <span data-card-date>{formatArticleDate(post.publishDate)}</span>
+          <time datetime={post.publishDate.toISOString()} data-card-date>{formatArticleDate(post.publishDate)}</time>
         </span>
         <span class="h-1 w-1 rounded-full bg-outline-variant/80"></span>
         <span data-card-reading-time>{post.readingTime}</span>
@@ -60,7 +60,8 @@ const { post, priority = false } = Astro.props;
 
       <div class="space-y-3">
         <h3 
-          class="font-headline text-2xl font-extrabold tracking-[-0.03em] text-on-background transition-colors group-hover:text-primary-container"
+          class="font-headline text-2xl font-extrabold tracking-[-0.03em] text-on-background transition-colors group-hover:text-primary-container [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden"
+          title={post.title}
           data-card-title
         >
           {post.title}

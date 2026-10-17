@@ -3,6 +3,7 @@ import { Mail } from '@lucide/astro';
 import BrandGithub from './icons/BrandGithub.astro';
 import BrandLinkedin from './icons/BrandLinkedin.astro';
 import BrandX from './icons/BrandX.astro';
+import { siteConfig } from '../config/site';
 import { version } from '../../package.json';
 
 const year = new Date().getFullYear();
@@ -15,7 +16,6 @@ const emailClass =
 ---
 
 <footer
-  id="contact"
   class="w-full border-t border-outline-variant/10 bg-background px-8 py-12 transition-[background-color,border-color] duration-500 ease-out"
 >
   <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 md:flex-row md:gap-6">
@@ -23,23 +23,32 @@ const emailClass =
       VIRUCHITH.COM
     </div>
 
-    <nav class="flex flex-wrap items-center justify-center gap-2 md:gap-1" aria-label="Contact and social">
+    <nav class="flex flex-wrap items-center justify-center gap-2 md:gap-1" aria-label="Footer navigation and social">
+      <a class={linkClass} href="/#experience">
+        <span>Experience</span>
+      </a>
+      <a class={linkClass} href="/#projects">
+        <span>Projects</span>
+      </a>
+      <a class={linkClass} href="/#skills">
+        <span>Skills</span>
+      </a>
       <a class={linkClass} href="/articles/">
         <span>Articles</span>
       </a>
-      <a class={linkClass} href="https://github.com/viruchith" rel="noopener noreferrer" target="_blank">
+      <a class={linkClass} href={siteConfig.socials.github} rel="noopener noreferrer" target="_blank">
         <BrandGithub class="h-5 w-5 shrink-0 opacity-90 transition-colors duration-500 group-hover:opacity-100" />
         <span>GitHub</span>
       </a>
-      <a class={linkClass} href="https://www.linkedin.com/in/viruchith/" rel="noopener noreferrer" target="_blank">
+      <a class={linkClass} href={siteConfig.socials.linkedin} rel="noopener noreferrer" target="_blank">
         <BrandLinkedin class="h-5 w-5 shrink-0 opacity-90 transition-colors duration-500 group-hover:opacity-100" />
         <span>LinkedIn</span>
       </a>
-      <a class={linkClass} href="https://x.com/viruchith" rel="noopener noreferrer" target="_blank">
+      <a class={linkClass} href={siteConfig.socials.x} rel="noopener noreferrer" target="_blank">
         <BrandX class="h-5 w-5 shrink-0 opacity-90 transition-colors duration-500 group-hover:opacity-100" />
         <span>X</span>
       </a>
-      <a class={emailClass} href="mailto:contact@viruchith.com">
+      <a class={emailClass} href={`mailto:${siteConfig.email}`}>
         <Mail class="h-5 w-5 shrink-0 opacity-90 transition-colors duration-500 group-hover:opacity-100" stroke-width={1.75} aria-hidden="true" />
         <span>Email</span>
       </a>
@@ -48,7 +57,7 @@ const emailClass =
     <p
       class="font-body text-center text-sm tracking-wide text-on-surface-variant transition-colors duration-500 ease-out"
     >
-      © {year} Viruchith Ganesan. Built with precision. <span class="opacity-60 text-xs font-mono">v{version}</span>
+      © {year} {siteConfig.name}. Built with precision. <span class="opacity-60 text-xs font-mono">v{version}</span>
     </p>
   </div>
 </footer>

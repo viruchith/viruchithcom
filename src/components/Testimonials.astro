@@ -1,0 +1,39 @@
+---
+import { MessageSquareQuote } from '@lucide/astro';
+import { testimonials } from '../data/testimonials';
+---
+
+{
+  testimonials.length > 0 && (
+    <section id="recommendations" class="mb-40 px-6 md:px-12 lg:px-24" aria-labelledby="recommendations-heading">
+      <div class="mb-16 flex items-end justify-between border-b border-surface-container-low pb-8 transition-colors">
+        <div>
+          <h2 id="recommendations-heading" class="font-headline mb-2 text-3xl font-bold text-on-background md:text-4xl">
+            Recommendations
+          </h2>
+          <p class="font-body text-on-surface-variant">What colleagues and engineering leaders say.</p>
+        </div>
+        <MessageSquareQuote class="h-10 w-10 shrink-0 text-primary opacity-50 md:h-11 md:w-11" stroke-width={1.25} aria-hidden="true" />
+      </div>
+
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {testimonials.map((t) => (
+          <article class="flex flex-col justify-between rounded-2xl border border-outline-variant/15 bg-surface-container-low p-8 transition-colors">
+            <blockquote class="font-body text-base leading-relaxed text-on-surface">
+              "{t.quote}"
+            </blockquote>
+            <div class="mt-6 flex items-center gap-4 pt-4 border-t border-outline-variant/10">
+              {t.avatarUrl && (
+                <img src={t.avatarUrl} alt={t.author} class="h-10 w-10 rounded-full object-cover" width="40" height="40" loading="lazy" />
+              )}
+              <div>
+                <p class="font-headline font-bold text-on-background text-sm">{t.author}</p>
+                <p class="text-xs text-on-surface-variant">{t.role} · {t.company}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
