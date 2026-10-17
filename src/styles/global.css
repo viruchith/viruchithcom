@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Manrope';
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
   font-weight: 200 800;
   src: url('@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2')
     format('woff2-variations');
@@ -30,7 +30,7 @@
 @font-face {
   font-family: 'Inter';
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
   font-weight: 100 900;
   src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2')
     format('woff2-variations');
@@ -67,6 +67,12 @@
     transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* Prevent sticky header from covering anchor jump targets */
+  section[id],
+  [id] {
+    scroll-margin-top: 6.5rem;
+  }
+
   body {
     @apply bg-background font-body text-on-surface;
     transition:
@@ -90,11 +96,26 @@
     @apply bg-primary-container/30 text-on-primary;
   }
 
-  /* Optional: soften route transitions in Chromium. */
+  /* Soften route transitions in Chromium. */
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation-duration: 0.45s;
     animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
 
