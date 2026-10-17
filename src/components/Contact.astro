@@ -19,7 +19,7 @@ import { siteConfig } from '../config/site';
     <Mail class="h-10 w-10 shrink-0 text-primary opacity-50 md:h-11 md:w-11" stroke-width={1.25} aria-hidden="true" />
   </div>
 
-  <div class="relative overflow-hidden rounded-[2rem] border border-outline-variant/15 bg-surface-container-low p-8 md:p-14">
+  <div class="relative overflow-hidden rounded-[2rem] border border-outline-variant/15 bg-surface-container-low p-6 sm:p-8 md:p-14">
     <div
       class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(0,240,255,0.12),transparent_70%)] blur-2xl"
       aria-hidden="true"
@@ -45,40 +45,45 @@ import { siteConfig } from '../config/site';
       </div>
 
       <!-- Action buttons -->
-      <div class="mt-10 flex flex-wrap items-center gap-4">
+      <div class="mt-10 flex flex-wrap items-center gap-3.5 sm:gap-4">
         <a
-          class="stitch-gradient-hero group inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-semibold uppercase tracking-[0.16em] transition hover:shadow-[0_0_24px_rgba(0,240,255,0.28)]"
+          class="stitch-gradient-hero group inline-flex max-w-full items-center justify-center gap-2.5 rounded-full px-5 py-3.5 sm:px-8 sm:py-4 text-xs sm:text-sm font-semibold uppercase tracking-wider transition hover:shadow-[0_0_24px_rgba(0,240,255,0.28)]"
           href={`mailto:${siteConfig.email}`}
         >
-          <Mail class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
-          <span>Email {siteConfig.email}</span>
-          <ArrowRight class="h-4 w-4 transition-transform group-hover:translate-x-1" stroke-width={1.8} aria-hidden="true" />
+          <Mail class="h-4 w-4 shrink-0" stroke-width={1.8} aria-hidden="true" />
+          <span class="hidden sm:inline">Email {siteConfig.email}</span>
+          <span class="sm:hidden">Email Viruchith</span>
+          <ArrowRight class="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" stroke-width={1.8} aria-hidden="true" />
         </a>
 
         {siteConfig.hasResume && siteConfig.resumeUrl && (
           <a
-            class="inline-flex items-center gap-2.5 rounded-full border border-outline-variant/25 bg-surface-variant/30 px-6 py-4 text-sm font-semibold uppercase tracking-[0.16em] text-on-surface transition hover:border-primary-container/40 hover:text-primary-container"
+            class="inline-flex max-w-full items-center justify-center gap-2 rounded-full border border-outline-variant/25 bg-surface-variant/30 px-5 py-3.5 sm:px-6 sm:py-4 text-xs sm:text-sm font-semibold uppercase tracking-wider text-on-surface transition hover:border-primary-container/40 hover:text-primary-container"
             href={siteConfig.resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FileText class="h-4 w-4 text-primary" stroke-width={1.8} aria-hidden="true" />
+            <FileText class="h-4 w-4 text-primary shrink-0" stroke-width={1.8} aria-hidden="true" />
             <span>Resume (PDF)</span>
           </a>
         )}
 
         {siteConfig.bookingUrl && (
           <a
-            class="inline-flex items-center gap-2.5 rounded-full border border-outline-variant/25 bg-surface-variant/30 px-6 py-4 text-sm font-semibold uppercase tracking-[0.16em] text-on-surface transition hover:border-primary-container/40 hover:text-primary-container"
+            class="inline-flex max-w-full items-center justify-center gap-2 rounded-full border border-outline-variant/25 bg-surface-variant/30 px-5 py-3.5 sm:px-6 sm:py-4 text-xs sm:text-sm font-semibold uppercase tracking-wider text-on-surface transition hover:border-primary-container/40 hover:text-primary-container"
             href={siteConfig.bookingUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Calendar class="h-4 w-4 text-primary" stroke-width={1.8} aria-hidden="true" />
+            <Calendar class="h-4 w-4 text-primary shrink-0" stroke-width={1.8} aria-hidden="true" />
             <span>Book a call</span>
           </a>
         )}
       </div>
+
+      <p class="mt-4 text-xs text-on-surface-variant/75 font-mono">
+        Direct inbox: <a href={`mailto:${siteConfig.email}`} class="text-primary hover:underline">{siteConfig.email}</a>
+      </p>
 
       <!-- Social and alternate channels -->
       <div class="mt-12 pt-8 border-t border-outline-variant/15 flex flex-wrap items-center gap-6 text-sm">
