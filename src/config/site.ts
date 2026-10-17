@@ -63,6 +63,7 @@ export const siteConfig: SiteConfig = {
     'legacy Java modernization',
     'Restlet to Spring Boot migration',
     'GCP Associate Cloud Engineer',
+    'Google Cloud Generative AI Leader',
     'Kubernetes',
     'RabbitMQ',
     'PostgreSQL',

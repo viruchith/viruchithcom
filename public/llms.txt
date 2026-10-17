@@ -8,7 +8,9 @@ Viruchith Ganesan is a backend engineer based in Bengaluru, India with 3+ years 
 - **Current Role**: Software Development Consultant I at Lumen Technologies (Oct 2025 – Present)
 - **Previous Role**: Software Development Engineer at Lumen Technologies (Jul 2023 – Oct 2025)
 - **Education**: B.E. Computer Science and Engineering, Sona College of Technology (2019–2023, GPA 8.85/10)
-- **Key Certification**: Google Cloud Certified Associate Cloud Engineer (GCP ACE, Feb 2024)
+- **Key Certifications**:
+  - Google Cloud Certified Associate Cloud Engineer (GCP ACE, Feb 2024)
+  - Google Cloud Certified Generative AI Leader (Oct 2026)
 
 ## Core Technical Skills
 - **Languages**: Java (Core, Concurrency, Multithreading, OOP, DSA), Python, TypeScript, SQL

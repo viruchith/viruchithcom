@@ -38,54 +38,78 @@ import { GraduationCap, Award, Cloud, ShieldCheck } from '@lucide/astro';
       </div>
     </div>
 
-    <!-- Certifications Grid with GCP ACE prominent -->
+    <!-- Certifications Grid with GCP ACE and Gen AI Leader prominent -->
     <div>
       <div class="mb-6 flex items-center gap-3">
         <Award class="h-5 w-5 text-primary" stroke-width={1.6} aria-hidden="true" />
         <h3 class="font-headline text-lg font-bold text-on-background">Verified Certifications</h3>
       </div>
 
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         <!-- Prominent GCP ACE Card -->
-        <div class="relative overflow-hidden rounded-2xl border border-primary-container/30 bg-primary-container/10 p-6 shadow-[0_0_20px_rgba(0,240,255,0.08)]">
-          <div class="mb-4 flex items-center justify-between">
-            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container-lowest text-primary">
-              <Cloud class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+        <div class="relative overflow-hidden rounded-2xl border border-primary-container/30 bg-primary-container/10 p-6 shadow-[0_0_20px_rgba(0,240,255,0.08)] flex flex-col justify-between">
+          <div>
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container-lowest text-primary">
+                <Cloud class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+              </div>
+              <span class="rounded-full bg-primary/20 px-2.5 py-0.5 font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-primary">
+                Primary Cloud
+              </span>
             </div>
-            <span class="rounded-full bg-primary/20 px-2.5 py-0.5 font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-primary">
-              Primary Cloud
-            </span>
+            <h4 class="font-headline text-base font-bold text-on-background">
+              Google Cloud Certified – Associate Cloud Engineer (GCP ACE)
+            </h4>
           </div>
-          <h4 class="font-headline text-base font-bold text-on-background">
-            Google Cloud Certified – Associate Cloud Engineer (GCP ACE)
-          </h4>
-          <p class="mt-2 text-xs font-mono text-on-surface-variant">Earned February 2024</p>
+          <p class="mt-4 text-xs font-mono text-on-surface-variant">Earned February 2024</p>
+        </div>
+
+        <!-- Google Cloud Gen AI Leader Card -->
+        <div class="relative overflow-hidden rounded-2xl border border-primary-container/20 bg-surface-container-low p-6 transition-all hover:bg-surface-container/90 flex flex-col justify-between">
+          <div>
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container-lowest text-primary">
+                <Cloud class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+              </div>
+              <span class="rounded-full bg-secondary/15 px-2.5 py-0.5 font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-secondary">
+                AI Leadership
+              </span>
+            </div>
+            <h4 class="font-headline text-base font-bold text-on-background">
+              Google Cloud Certified – Generative AI Leader
+            </h4>
+          </div>
+          <p class="mt-4 text-xs font-mono text-on-surface-variant">Earned October 2026</p>
         </div>
 
         <!-- Microsoft Azure Card -->
-        <div class="rounded-2xl border border-outline-variant/15 bg-surface-container-low p-6 transition-all hover:bg-surface-container/90">
-          <div class="mb-4 flex items-center justify-between">
-            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container-lowest text-primary">
-              <Cloud class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+        <div class="rounded-2xl border border-outline-variant/15 bg-surface-container-low p-6 transition-all hover:bg-surface-container/90 flex flex-col justify-between">
+          <div>
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container-lowest text-primary">
+                <Cloud class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+              </div>
             </div>
+            <h4 class="font-headline text-base font-bold text-on-background">
+              Microsoft Azure Fundamentals (AZ-900)
+            </h4>
           </div>
-          <h4 class="font-headline text-base font-bold text-on-background">
-            Microsoft Azure Fundamentals (AZ-900)
-          </h4>
-          <p class="mt-2 text-xs font-mono text-on-surface-variant">Earned February 2021</p>
+          <p class="mt-4 text-xs font-mono text-on-surface-variant">Earned February 2021</p>
         </div>
 
         <!-- Cisco Networking Card -->
-        <div class="rounded-2xl border border-outline-variant/15 bg-surface-container-low p-6 transition-all hover:bg-surface-container/90">
-          <div class="mb-4 flex items-center justify-between">
-            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container-lowest text-primary">
-              <ShieldCheck class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+        <div class="rounded-2xl border border-outline-variant/15 bg-surface-container-low p-6 transition-all hover:bg-surface-container/90 flex flex-col justify-between">
+          <div>
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-container-lowest text-primary">
+                <ShieldCheck class="h-5 w-5" stroke-width={1.75} aria-hidden="true" />
+              </div>
             </div>
+            <h4 class="font-headline text-base font-bold text-on-background">
+              Cisco Enterprise Networking, Security &amp; Automation
+            </h4>
           </div>
-          <h4 class="font-headline text-base font-bold text-on-background">
-            Cisco Enterprise Networking, Security &amp; Automation
-          </h4>
-          <p class="mt-2 text-xs font-mono text-on-surface-variant">Earned March 2021</p>
+          <p class="mt-4 text-xs font-mono text-on-surface-variant">Earned March 2021</p>
         </div>
       </div>
     </div>
