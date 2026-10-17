@@ -116,7 +116,7 @@ const { url, title, description } = Astro.props;
 </div>
 
 <script is:inline src="/sharer.min.js"></script>
-<script is:inline define:vars={{ url }}>
+<script is:inline>
   function initShareButtons() {
     // Handle copy link functionality
     document.querySelectorAll('[data-copy-link]').forEach(function (button) {

@@ -18,6 +18,8 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 - KaTeX mathematical expression rendering via `remark-math` and `rehype-katex`.
 - Article listing page with SEO-friendly URL path-based pagination (`/articles/page/2/`, `/articles/page/3/`, etc.) and instant client-side fuzzy search.
 - Article detail pages with optimized images, canonical metadata, Open Graph tags, and structured data.
+- Structured JSON-LD schemas (`Person`, `WebSite`, `ProfilePage`, `BlogPosting`) with cross-linking between articles and the portfolio author.
+- Full-text RSS feed (`/rss.xml`) and agentic LLM crawler discovery file (`/llms.txt`).
 - Sitemap generation and `robots.txt` support.
 
 ## Tech stack
@@ -163,8 +165,9 @@ pnpm exec wrangler deploy
 
 The current site state includes:
 
-- current release version: **v1.5.1**
-- portfolio redesign applied
+- current release version: **v1.6.0**
+- SEO & technical authority optimization in place (JSON-LD schemas, OG cards, RSS feed, llms.txt)
+- portfolio redesign and role clarity rewrite applied
 - markdown article publishing in place
 - Mermaid.js diagrams enabled in Markdown via `astro-mermaid`
 - KaTeX math expression rendering enabled

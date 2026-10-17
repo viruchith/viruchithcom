@@ -1,0 +1,40 @@
+# Viruchith Ganesan
+
+> Backend Engineer specializing in Java, Spring Boot, Microservices, and Cloud-Native Systems on Kubernetes and GCP based in Bengaluru, India.
+
+Viruchith Ganesan is a backend engineer with 3+ years of experience engineering high-throughput microservices and modernizing legacy enterprise systems at Lumen Technologies. Experienced in full lifecycle migrations (Restlet/WildFly/JBoss to Spring Boot microservices on Kubernetes and GCP), event-driven architectures with RabbitMQ, relational database performance tuning (PostgreSQL, Oracle), and production observability (Splunk, AppDynamics, Datadog). Certified Google Cloud Associate Cloud Engineer and Google Cloud Generative AI Leader. Available for full-time backend engineering roles and consulting in Bengaluru and remote arrangements.
+
+## Core Pages & Documents
+
+- [Home & Portfolio](https://viruchith.com/): Primary portfolio, experience, architectural case studies, and engineering background.
+- [Resume (PDF)](https://drive.google.com/file/d/1eff3_O4tFQ69MNB9Y_gj-QQZtvYsKNxv/view?usp=sharing): Current resume detailing enterprise backend experience, certifications, and technical stack.
+- [Technical Articles](https://viruchith.com/articles/): Comprehensive index of 30+ deep-dive engineering articles on Java, Spring Boot, distributed systems, and AI architecture.
+- [RSS Feed](https://viruchith.com/rss.xml): Full-text RSS feed for technical publications and engineering case studies.
+- [Sitemap](https://viruchith.com/sitemap.xml): XML sitemap indexing all published articles and pages.
+
+## Key Projects
+
+- [Project VEGA](https://github.com/viruchith/VEGA): Open-source GraphRAG architecture discovery engine indexing microservices and distributed dependencies using local LLMs.
+- [Ticketris](https://github.com/viruchith/Ticketris): Zero-training agentic ticket triage and routing framework built with Model Context Protocol (MCP).
+- [CloudLab Orchestrator](https://github.com/viruchith/CloudLabOrchestrator): Spring Boot on Kubernetes (K3s) platform for provisioning YAML-defined on-demand lab environments.
+- [SentinelExtension](https://github.com/viruchith/SentinelExtension): Enterprise browser security extension isolating sensitive DOM inputs using Shadow DOM boundaries.
+
+## Featured Technical Articles
+
+- [Building Compliance-Grade Secure Audit Trails in Modern Spring Applications](https://viruchith.com/articles/building-compliance-grade-secure-audit-trails-in-modern-spring-applications/): In-depth guide to tamper-evident audit logging, Hibernate interceptors, and cryptographic chaining in Spring Boot.
+- [Mastering Concurrency in Java: From an Air Fryer to a Scalable Multi-Elevator System](https://viruchith.com/articles/mastering-concurrency-in-java-from-a-simple-air-fryer-to-a-scalable-multi-elevator-system/): Thread pools, executors, locks, and synchronization patterns in core Java.
+- [Eliminating Microservice Blind Spots: Introducing Project VEGA](https://viruchith.com/articles/eliminating-microservice-blind-spots-introducing-project-vega-an-open-source-graphrag-architecture-engine/): GraphRAG architecture engine for mapping microservice dependencies and distributed call graphs.
+- [Under the Hood of Datadog and Grafana: Ingesting Millions of Metrics Without Crashing](https://viruchith.com/articles/under-the-hood-of-datadog-and-grafana-how-to-ingest-millions-of-metrics-without-crashing/): High-throughput time-series ingestion, compaction, and streaming telemetry pipelines.
+- [Protecting Your API: A Practical Guide to Rate Limiting in Spring Boot](https://viruchith.com/articles/protecting-your-api-a-simple-guide-to-rate-limiting-in-spring-boot/): Bucket4j, Redis-backed token bucket, and resilient API traffic shaping.
+- [Zero-Trust LLM Architecture: Defending Conversational Agents](https://viruchith.com/articles/zero-trust-llm-architecture-defending-conversational-agents-from-injection-confused-deputies-and-context-degradation/): Mitigating prompt injection, confused deputy attacks, and context degradation.
+- [Parallel AI Coding Agents: Running an Army of LLMs Without Git Chaos](https://viruchith.com/articles/parallel-ai-coding-agents-how-to-run-an-army-of-llms-without-git-chaos/): Multi-agent orchestration, worktree isolation, and conflict resolution workflows.
+
+## Profiles & Contact
+
+- [LinkedIn](https://www.linkedin.com/in/viruchith/): Professional profile, endorsements, and verified employment history.
+- [GitHub](https://github.com/viruchith): Open-source repositories, architectural prototypes, and code contributions.
+- [Email](mailto:contact@viruchith.com): Direct contact for engineering roles and consulting inquiries.
+
+## Optional
+
+- [X / Twitter](https://x.com/viruchith): Occasional engineering notes, software architecture insights, and system design discussions.

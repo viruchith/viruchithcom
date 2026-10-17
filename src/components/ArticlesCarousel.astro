@@ -22,22 +22,19 @@ const itemListSchema = {
 };
 ---
 
-<script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(itemListSchema)} />
 
-<section id="articles" class="relative px-6 py-24 md:px-12 lg:px-24">
+<section id="articles" class="relative px-6 py-24 md:px-12 lg:px-24" aria-labelledby="articles-heading">
   <div class="absolute inset-x-0 top-12 -z-10 h-72 bg-[radial-gradient(circle_at_15%_10%,rgba(0,240,255,0.14),transparent_35%),radial-gradient(circle_at_85%_20%,rgba(49,49,192,0.18),transparent_32%),radial-gradient(circle_at_50%_100%,rgba(105,0,179,0.14),transparent_35%)] blur-3xl"></div>
 
   <div class="mx-auto max-w-screen-2xl">
-    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between border-b border-surface-container-low pb-8">
       <div class="max-w-3xl">
-        <p class="mb-4 font-mono text-[0.72rem] uppercase tracking-[0.28em] text-primary-container">
-          The Repository
-        </p>
-        <h2 class="font-headline text-4xl font-extrabold tracking-[-0.04em] text-on-background sm:text-5xl md:text-6xl">
-          Latest articles on architecture, systems, and cloud-native delivery.
+        <h2 id="articles-heading" class="font-headline mb-2 text-3xl font-bold text-on-background md:text-4xl">
+          Articles
         </h2>
-        <p class="mt-5 max-w-2xl text-base leading-8 text-on-surface-variant md:text-lg">
-            Explore in-depth articles on modern architecture patterns, distributed systems, and cloud-native technologies. Each piece is crafted to help you build scalable, resilient solutions.
+        <p class="font-body text-on-surface-variant">
+          Engineering deep dives on systems architecture, concurrency, and cloud-native delivery.
         </p>
       </div>
 
@@ -46,7 +43,7 @@ const itemListSchema = {
           href="/articles/"
           class="inline-flex items-center rounded-full border border-outline-variant/20 px-5 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-on-surface transition hover:border-primary-container/35 hover:text-primary-container"
         >
-          All articles
+          View all articles
         </a>
         <div class="hidden items-center gap-2 md:flex">
           <button

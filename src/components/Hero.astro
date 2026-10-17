@@ -1,66 +1,137 @@
 ---
-import { Terminal, ArrowRight, Orbit, Blocks } from '@lucide/astro';
+import { Terminal, ArrowRight, Award, FileText, CircleCheck, Mail, MapPin } from '@lucide/astro';
+import { siteConfig } from '../config/site';
+
+const hasResume = siteConfig.hasResume;
 ---
 
-<section class="relative mb-20 px-6 pt-16 md:px-12 lg:px-24 lg:pt-24">
-  <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[26rem] bg-[radial-gradient(circle_at_12%_12%,rgba(0,240,255,0.12),transparent_26%),radial-gradient(circle_at_86%_16%,rgba(49,49,192,0.12),transparent_22%)] blur-xl md:h-[38rem] md:bg-[radial-gradient(circle_at_10%_10%,rgba(0,240,255,0.18),transparent_28%),radial-gradient(circle_at_88%_16%,rgba(49,49,192,0.18),transparent_24%),radial-gradient(circle_at_54%_90%,rgba(105,0,179,0.16),transparent_34%)] md:blur-3xl" aria-hidden="true"></div>
+<section class="relative mb-20 px-6 pt-12 md:px-12 lg:px-24 lg:pt-16" aria-labelledby="hero-heading">
+  <div
+    class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[28rem] bg-[radial-gradient(circle_at_12%_12%,rgba(0,240,255,0.14),transparent_26%),radial-gradient(circle_at_86%_16%,rgba(49,49,192,0.15),transparent_24%)] blur-xl md:h-[40rem] md:bg-[radial-gradient(circle_at_10%_10%,rgba(0,240,255,0.18),transparent_28%),radial-gradient(circle_at_88%_16%,rgba(49,49,192,0.18),transparent_24%),radial-gradient(circle_at_54%_90%,rgba(105,0,179,0.16),transparent_34%)] md:blur-3xl"
+    aria-hidden="true"
+  ></div>
 
-  <div class="grid gap-12 border-b border-outline-variant/15 pb-16 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-end">
+  <div class="grid gap-12 border-b border-outline-variant/15 pb-16 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
     <div>
-      <p class="font-label text-label-md mb-6 flex items-center gap-2 uppercase tracking-[0.18em] text-primary-container">
-        <Terminal class="h-4 w-4 shrink-0" stroke-width={1.5} aria-hidden="true" />
-        Systems Architecture
-      </p>
+      <!-- Name, Identity & Location Signals -->
+      <div class="mb-6 flex flex-wrap items-center gap-3">
+        <p class="font-label text-label-md flex items-center gap-2 uppercase tracking-[0.18em] text-primary-container">
+          <Terminal class="h-4 w-4 shrink-0" stroke-width={1.6} aria-hidden="true" />
+          {siteConfig.name}
+        </p>
+        <span class="h-1 w-1 rounded-full bg-outline-variant/60" aria-hidden="true"></span>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-primary-container/25 bg-primary-container/10 px-3 py-1 font-mono text-[0.72rem] font-medium tracking-wide text-primary">
+          <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          {siteConfig.availability}
+        </span>
+      </div>
 
-      <h1 class="font-headline max-w-5xl text-5xl font-extrabold leading-[0.96] tracking-[-0.05em] text-on-background md:text-7xl lg:text-[5.5rem]">
-        Designing resilient backend systems for modern traffic, cloud scale, and long-lived APIs.
+      <!-- Single H1 per page: Headline option 1 -->
+      <h1
+        id="hero-heading"
+        class="font-headline max-w-5xl text-4xl font-extrabold leading-[1.02] tracking-[-0.04em] text-on-background sm:text-5xl md:text-6xl lg:text-[4.75rem]"
+      >
+        Architecting resilient Java &amp; Spring Boot microservices for high-throughput enterprise systems.
       </h1>
 
+      <!-- One concrete proof point + specialization -->
       <p class="mt-8 max-w-3xl text-lg leading-8 text-on-surface-variant md:text-xl md:leading-9">
-        I build Java and Spring Boot platforms with measurable reliability. The focus is not just shipping services, but shaping migration paths, observability, and message-driven systems that hold up in production.
+        Backend engineer with 3+ years of experience engineering high-concurrency systems. Led production migrations from legacy Restlet and WildFly to <strong class="font-medium text-on-surface">Spring Boot microservices on Kubernetes/GCP</strong>, and designed telecom qualification platforms processing <strong class="font-medium text-on-surface">100,000+ requests/day</strong> with low-latency in-memory caching and message-driven reliability.
       </p>
 
-      <div class="mt-10 flex flex-wrap gap-4">
+      <!-- Location line -->
+      <p class="mt-4 flex items-center gap-2 text-sm text-on-surface-variant/80 font-body">
+        <MapPin class="h-4 w-4 text-primary shrink-0" stroke-width={1.75} aria-hidden="true" />
+        <span>Based in <strong>{siteConfig.location}</strong> · Available for full-time backend roles &amp; Spring Boot consulting</span>
+      </p>
+
+      <!-- Call to actions -->
+      <div class="mt-10 flex flex-wrap items-center gap-4">
         <a
-          class="stitch-gradient-hero group inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.16em] transition hover:shadow-[0_0_24px_rgba(0,240,255,0.28)]"
+          class="stitch-gradient-hero group inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.16em] transition hover:shadow-[0_0_24px_rgba(0,240,255,0.28)]"
+          href="/#contact"
+        >
+          <Mail class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
+          Get in touch
+        </a>
+
+        <a
+          class="inline-flex items-center gap-2.5 rounded-full border border-outline-variant/25 bg-surface-variant/30 px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.16em] text-on-surface transition hover:border-primary-container/40 hover:text-primary-container"
           href="/#projects"
         >
-          View selected work
-          <ArrowRight class="h-5 w-5 transition-transform group-hover:translate-x-1" stroke-width={1.6} aria-hidden="true" />
+          View projects
+          <ArrowRight class="h-4 w-4 transition-transform group-hover:translate-x-1" stroke-width={1.6} aria-hidden="true" />
         </a>
-        <a
-          class="inline-flex items-center gap-3 rounded-full border border-outline-variant/20 bg-surface-variant/30 px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.16em] text-on-surface transition hover:border-primary-container/35 hover:text-primary-container"
-          href="/articles/"
-        >
-          Read articles
-        </a>
+
+        {hasResume ? (
+          <a
+            class="inline-flex items-center gap-2 rounded-full border border-outline-variant/20 bg-surface-container-high/60 px-5 py-3.5 text-sm font-medium tracking-wide text-on-surface transition hover:border-primary/40 hover:text-primary"
+            href={siteConfig.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FileText class="h-4 w-4 text-primary" stroke-width={1.7} aria-hidden="true" />
+            View resume (PDF)
+          </a>
+        ) : (
+          <a
+            class="inline-flex items-center gap-2 rounded-full border border-outline-variant/20 bg-surface-container-high/60 px-5 py-3.5 text-sm font-medium tracking-wide text-on-surface-variant transition hover:border-primary/40 hover:text-primary"
+            href="/#contact"
+          >
+            <FileText class="h-4 w-4 text-primary" stroke-width={1.7} aria-hidden="true" />
+            Request resume (PDF)
+          </a>
+        )}
       </div>
     </div>
 
-    <aside class="glass-panel rounded-[1.5rem] border border-outline-variant/15 bg-surface-container-low/70 p-6">
+    <!-- Right aside: Identity summary, credentials, proof points -->
+    <aside class="glass-panel rounded-[1.5rem] border border-outline-variant/15 bg-surface-container-low/70 p-6 shadow-card" aria-label="Quick profile summary">
       <div class="space-y-6">
         <div>
-          <p class="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-on-surface-variant/70">Role</p>
-          <p class="mt-2 font-headline text-2xl font-extrabold tracking-[-0.03em] text-on-background">Software Engineer</p>
+          <p class="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-on-surface-variant/70">Target Role</p>
+          <p class="mt-1 font-headline text-2xl font-extrabold tracking-[-0.03em] text-on-background">{siteConfig.headlineRole}</p>
+          <p class="text-xs font-medium text-primary mt-0.5">{siteConfig.secondaryRole}</p>
         </div>
-        <div class="grid gap-4">
-          <div class="rounded-2xl bg-surface-container-high/80 p-4">
-            <p class="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-primary-container">
-              <Orbit class="h-3.5 w-3.5" stroke-width={1.8} aria-hidden="true" />
-              Platform focus
-            </p>
-            <p class="mt-2 text-sm leading-7 text-on-surface">Spring Boot, GCP, Kubernetes, RabbitMQ, observability.</p>
+
+        <!-- GCP ACE Certification highlighted -->
+        <div class="rounded-2xl border border-primary-container/20 bg-primary-container/10 p-4">
+          <div class="flex items-start gap-3">
+            <Award class="h-5 w-5 text-primary shrink-0 mt-0.5" stroke-width={1.8} aria-hidden="true" />
+            <div>
+              <p class="font-mono text-[0.68rem] uppercase tracking-[0.2em] text-primary">Certified Credential</p>
+              <p class="mt-1 text-sm font-bold text-on-background">Google Cloud Certified</p>
+              <p class="text-xs text-on-surface-variant">Associate Cloud Engineer (GCP ACE)</p>
+            </div>
           </div>
-          <div class="rounded-2xl bg-surface-container-high/80 p-4">
-            <p class="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.22em] text-primary-container">
-              <Blocks class="h-3.5 w-3.5" stroke-width={1.8} aria-hidden="true" />
-              Current work
-            </p>
-            <p class="mt-2 text-sm leading-7 text-on-surface">Modernization, API ownership, production reliability, and internal platform tooling.</p>
+        </div>
+
+        <div class="grid gap-3">
+          <div class="rounded-xl bg-surface-container-high/80 p-3.5 flex items-start gap-3">
+            <CircleCheck class="h-4 w-4 text-primary shrink-0 mt-0.5" stroke-width={1.8} aria-hidden="true" />
+            <div>
+              <p class="text-xs font-bold text-on-background">100,000+ requests/day</p>
+              <p class="text-xs text-on-surface-variant mt-0.5">High-concurrency telecom availability API</p>
+            </div>
+          </div>
+
+          <div class="rounded-xl bg-surface-container-high/80 p-3.5 flex items-start gap-3">
+            <CircleCheck class="h-4 w-4 text-primary shrink-0 mt-0.5" stroke-width={1.8} aria-hidden="true" />
+            <div>
+              <p class="text-xs font-bold text-on-background">Legacy Modernization</p>
+              <p class="text-xs text-on-surface-variant mt-0.5">Restlet &amp; WildFly to Spring Boot on K8s</p>
+            </div>
+          </div>
+
+          <div class="rounded-xl bg-surface-container-high/80 p-3.5 flex items-start gap-3">
+            <CircleCheck class="h-4 w-4 text-primary shrink-0 mt-0.5" stroke-width={1.8} aria-hidden="true" />
+            <div>
+              <p class="text-xs font-bold text-on-background">Observability &amp; Reliability</p>
+              <p class="text-xs text-on-surface-variant mt-0.5">Splunk, Datadog, AppDynamics, JVM profiling</p>
+            </div>
           </div>
         </div>
       </div>
     </aside>
   </div>
 </section>
-
