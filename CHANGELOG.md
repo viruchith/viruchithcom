@@ -5,6 +5,33 @@ All notable changes to this project are documented in this file.
 Related documentation:
 - [Project Overview & Setup Guide](./README.md)
 - [Blog Authoring & Content Guide](./BLOG_GUIDE.md)
+ 
+## [1.6.0] - 2026-10-17
+
+### Added
+- **Single Source of Truth Configuration**: Introduced `src/config/site.ts` to centralize professional title, contact information, navigation links, and SEO metadata.
+- **Structured JSON-LD Schemas**: Added Google-compliant `Person`, `WebSite`, `ProfilePage`, and `BlogPosting` schemas with bidirectional cross-linking between articles and the portfolio author.
+- **Full-Text RSS Feed**: Added `/rss.xml` generated via `@astrojs/rss` with HTML entity escaping and full post content for syndicated distribution.
+- **Branded OpenGraph Preview Image**: Automated 1200x630 `public/og-default.png` image generation using Sharp for social sharing previews.
+- **Agentic Search & Crawl Standard (`/llms.txt`)**: Published `/llms.txt` adhering to `llmstxt.org` specifications and Chrome Lighthouse agentic browsing audit guidelines.
+- **Direct Resume PDF Link**: Added Google Drive-hosted resume access across Hero, Contact, and `llms.txt`.
+- **Google Cloud Certification**: Added Google Cloud Certified Generative AI Leader certification credential (obtained Oct 2026).
+
+### Changed
+- **Landing Page Content & SEO Rewrite**:
+  - Rewrote Hero, About, Experience, Projects, Skills, Education, and Contact sections for immediate recruiter clarity and role rankings ("Java backend engineer Bengaluru", "Spring Boot developer", "microservices consultant", "legacy Java modernization").
+  - Structured engineering accomplishments with factual metrics, architectural focus, and clear business outcomes.
+  - Aligned Skills taxonomy with backend enterprise engineering (purged third-party data platforms not directly practiced).
+- **Styling & Web Performance**:
+  - Configured `font-display: swap` for `@fontsource-variable/manrope` and `@fontsource-variable/inter`.
+  - Added smooth anchor scrolling with `scroll-margin-top: 5rem` to avoid header overlap on internal section navigation.
+  - Added `@media (prefers-reduced-motion: reduce)` accessibility rules for animations.
+
+### Fixed
+- **Mobile Responsive Layout**: Resolved email button horizontal overflow in `#contact` section on narrow viewports (320px–375px) via responsive padding, adaptive button text, and icon shrink protection.
+
+### Infrastructure
+- Bumped version to `1.6.0`.
 
 ## [1.5.1] - 2026-09-12
 
