@@ -51,7 +51,6 @@ export const skillCategories: SkillCategory[] = [
       { name: 'Redis (Caching & Queues)' },
       { name: 'Apache Solr' },
       { name: 'Palantir Data Hub' },
-      { name: 'Databricks' },
       { name: 'Distributed Caching (Cache2k)' },
     ],
   },

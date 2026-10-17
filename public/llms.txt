@@ -14,7 +14,7 @@ Viruchith Ganesan is a backend engineer based in Bengaluru, India with 3+ years 
 - **Languages**: Java (Core, Concurrency, Multithreading, OOP, DSA), Python, TypeScript, SQL
 - **Frameworks**: Spring Boot, Spring MVC, Spring Data, Hibernate, JPA, JUnit, Mockito
 - **Cloud & Orchestration**: Google Cloud Platform (GCP), Kubernetes, Rancher, Docker, Linux Administration
-- **Messaging & Data**: RabbitMQ, PostgreSQL, Oracle, MySQL, MongoDB, Redis, Apache Solr, Databricks / Palantir Data Hub
+- **Messaging & Data**: RabbitMQ, PostgreSQL, Oracle, MySQL, MongoDB, Redis, Apache Solr, Palantir Data Hub
 - **Observability**: Splunk, AppDynamics, Datadog, JVM Heap/Thread Dump Analysis
 - **Legacy Modernization**: Restlet to Spring Boot migration, Tomcat, WildFly, JBoss, JEE, JSF, Mainframe decommissioning
 
