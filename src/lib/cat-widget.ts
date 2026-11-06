@@ -74,6 +74,8 @@ class CatWidget {
 
   private disposed = false;
 
+  private reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   constructor(containerId: string, private modelUrl: string, meowUrl: string) {
     this.container = document.getElementById(containerId);
 
@@ -257,7 +259,9 @@ diffuseColor.rgb = spatialColor;`,
 
         globalThis.addEventListener("resize", this.onWindowResize);
         globalThis.addEventListener("click", this.onClick);
-        this.scheduleNextMove();
+        if (!this.reducedMotion) {
+          this.scheduleNextMove();
+        }
         this.animate();
       },
       undefined,
@@ -358,6 +362,11 @@ diffuseColor.rgb = spatialColor;`,
       return;
     }
 
+    if (this.reducedMotion) {
+      this.playMeow();
+      return;
+    }
+
     if (this.isStaring) {
       this.isStaring = false;
     }
@@ -412,6 +421,11 @@ diffuseColor.rgb = spatialColor;`,
 
   private animate(timestamp?: number) {
     if (this.disposed) {
+      return;
+    }
+
+    if (this.reducedMotion) {
+      this.renderer?.render(this.scene, this.camera);
       return;
     }
 

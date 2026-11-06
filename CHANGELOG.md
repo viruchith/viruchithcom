@@ -14,6 +14,18 @@ Related documentation:
 - Upgraded **KaTeX** to `0.19.1` (direct range `^0.19.0`, from `^0.17.0`).
 - Upgraded **Vitest** to `4.1.12`.
 - Typed the class lookups in `src/components/ui/Grid.astro`, `Stack.astro`, and `Text.astro` so `pnpm typecheck` passes under Astro 7.4's stricter checks. Rendered markup is unchanged.
+- Narrowed the reading measure from `68ch` to `56ch`. `ch` is the width of the "0" glyph, so `68ch` rendered about 90 characters per line in the body font. `DESIGN.md` and `.impeccable/design.json` were updated to match.
+- Moved the 18 article images referenced by blog posts from `public/articles/images/` to `src/assets/articles/`, so Astro optimizes them with intrinsic dimensions, lazy loading, and a responsive `srcset`. The unused `prompt-butler-sc-3.webp` was removed.
+- Enabled Astro's constrained image layout with responsive styles (`image.layout: 'constrained'`) in `astro.config.mjs`.
+
+### Fixed
+- **Mobile layout shift on the homepage** (Lighthouse CLS 0.248): when Schibsted Grotesk and JetBrains Mono replaced the system fallback fonts, the hero description block moved by about 35px at 412px wide. Added width-matched fallback faces (`Schibsted Grotesk Fallback` and `JetBrains Mono Fallback`), built with `local()` and `size-adjust` against Segoe UI, Segoe UI Semibold, and Consolas, and placed them in the font stacks in `tailwind.config.mjs` ahead of the generic families. Measured layout shift for the swap dropped from 0.2479 to 0.0002 at 412px, and to 0.0011 at desktop width. Platforms without these local fonts use their usual fallback, so the swap there is unchanged.
+- **Short phone screens**: below 40rem of viewport height, the header no longer stays sticky as a full block. Only the top bar stays pinned. At 200% text size, a script also pins only the bar when the full header would take more than 22% of the viewport. The `--header-h` offset is adjusted to match.
+- **Articles index at 200% text size**: the search field and article column no longer overflow horizontally (`min-w-0` on the grid column and search field).
+- **Mermaid diagram labels in dark mode**: edge labels and node labels use the raised surface and ink color, lifting contrast from 4.4:1 to about 16:1.
+- **Without JavaScript**: the menu button is hidden, and a Resume link appears in the header bar instead, so the Resume document stays reachable.
+- **Browser chrome color**: the `theme-color` meta follows an explicit Light or Dark choice, not only the operating system setting.
+- **Reduced motion**: the cat widget no longer runs its ambient walk or jump animation when `prefers-reduced-motion: reduce` is set. A click still plays the meow.
 
 ### Security
 - Remediated all 58 `pnpm audit` findings (1 critical, 19 high, 25 moderate, 13 low), bringing `pnpm audit` to 0 vulnerabilities:

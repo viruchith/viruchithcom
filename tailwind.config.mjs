@@ -4,8 +4,21 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Schibsted Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        sans: [
+          '"Schibsted Grotesk"',
+          '"Schibsted Grotesk Fallback"',
+          'ui-sans-serif',
+          'system-ui',
+          'sans-serif',
+        ],
+        mono: [
+          '"JetBrains Mono"',
+          '"JetBrains Mono Fallback"',
+          'ui-monospace',
+          'SFMono-Regular',
+          'Menlo',
+          'monospace',
+        ],
       },
       fontSize: {
         meta: ['0.8125rem', { lineHeight: '1.25rem' }],
@@ -35,7 +48,7 @@ export default {
       },
       maxWidth: {
         page: '75rem',
-        measure: '68ch',
+        measure: '56ch',
       },
       transitionTimingFunction: {
         out: 'cubic-bezier(0.16, 1, 0.3, 1)',

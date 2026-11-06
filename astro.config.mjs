@@ -33,6 +33,10 @@ export default defineConfig({
       rehypePlugins: [rehypeKatex],
     }),
   },
+  image: {
+    layout: 'constrained',
+    responsiveStyles: true,
+  },
   build: {
     inlineStylesheets: 'always',
   },

@@ -34,6 +34,49 @@
     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Width-matched local faces. While the web fonts load, the browser paints these
+   instead of the generic families, so the swap does not change line breaks.
+   The percentages are advance-width ratios against Segoe UI and Consolas. */
+@font-face {
+  font-family: 'Schibsted Grotesk Fallback';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Segoe UI');
+  size-adjust: 105.15%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Schibsted Grotesk Fallback';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Segoe UI');
+  size-adjust: 105.15%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Schibsted Grotesk Fallback';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Segoe UI Semibold');
+  size-adjust: 104.67%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Fallback';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: local('Consolas');
+  size-adjust: 109.13%;
+  line-gap-override: 0%;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -196,7 +239,8 @@
     @apply not-sr-only fixed left-4 top-3 z-[100] bg-ink px-4 py-2 text-small font-medium text-paper;
   }
 
-  .no-js .js-only {
+  .no-js .js-only,
+  .js .no-js-only {
     display: none !important;
   }
 
@@ -346,4 +390,38 @@
     content: '';
     @apply absolute left-0 top-[0.8em] h-px w-2.5 bg-faint;
   }
+}
+
+/* Unlayered so these beat the sticky utility. A short window keeps only the bar stuck. */
+@media (max-height: 40rem) {
+  :root {
+    --header-h: calc(var(--bar-h) + 1px);
+  }
+
+  [data-site-header] {
+    position: static;
+    border-bottom: 0;
+  }
+
+  [data-header-bar] {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background-color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+}
+
+/* Text scaling enlarges the header without changing this media query. The header script sets the attribute. */
+[data-site-header][data-header-fit='bar'] {
+  position: static;
+  border-bottom: 0;
+}
+
+[data-site-header][data-header-fit='bar'] [data-header-bar] {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: var(--paper);
+  border-bottom: 1px solid var(--rule);
 }

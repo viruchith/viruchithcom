@@ -125,6 +125,11 @@ const baseWebSiteSchema = {
           (preference === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
         root.dataset.theme = isDark ? "dark" : "light";
         root.dataset.themePreference = preference;
+        var color = document.createElement("meta");
+        color.name = "theme-color";
+        color.setAttribute("data-theme-color", "");
+        color.content = isDark ? "#0a0a0b" : "#fafaf8";
+        document.head.appendChild(color);
       })();
     </script>
     <meta name="generator" content={Astro.generator} />

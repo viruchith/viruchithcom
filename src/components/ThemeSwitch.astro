@@ -83,6 +83,8 @@ const options = [
     const isDark = preference === 'dark' || (preference === 'system' && media.matches);
     root.dataset.theme = isDark ? 'dark' : 'light';
     root.dataset.themePreference = preference;
+    const color = document.querySelector<HTMLMetaElement>('meta[data-theme-color]');
+    if (color) color.content = isDark ? '#0a0a0b' : '#fafaf8';
   }
 
   function syncRadios(preference: string) {

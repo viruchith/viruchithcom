@@ -67,7 +67,7 @@ spacing:
   header-bar: "3.5rem"
   header-subnav: "2.5rem"
   page-max: "75rem"
-  measure: "68ch"
+  measure: "56ch"
 components:
   button-primary:
     backgroundColor: "{colors.ink}"
@@ -181,7 +181,7 @@ A restrained paper–ink palette with one blue accent. Light defaults are cool o
 - **Headline / Section** (600, 1.5rem / 1.875rem, −0.02em): Section titles in the hanging left column and contact lead lines.
 - **Title** (600, 1.0625rem / 1.5rem, −0.005em): Role, project, and article titles; article prose base size also uses this step at 1.75 line-height.
 - **Lead** (400, 1.125rem / 1.75rem): Synopsis and short offers.
-- **Body** (400, 1rem / 1.625rem): Running prose; keep measure near 62–68ch.
+- **Body** (400, 1rem / 1.625rem): Running prose. Article lines are capped at 56ch, about 70 characters in this face, because `ch` is the width of “0”.
 - **Small** (400, 0.875rem / 1.375rem): Supporting meta and button labels.
 - **Label Mono** (400, 0.8125rem / 1.25rem): Row labels, ISO dates, `#anchor` ids, footer chrome, inline email mono.
 
@@ -192,7 +192,7 @@ A restrained paper–ink palette with one blue accent. Light defaults are cool o
 
 ## Layout
 
-A single centred column (`max-w-page` 75rem) with stepped horizontal gutters: 1.25rem → 1.5rem (sm) → 2rem (md) → 2.5rem (lg). Sections use `py-12 md:py-16` and a top hairline. From `md` up, content sits in a 12-column hanging-indent grid: labels/titles in 3 columns, body in 9, with `gap-x-8`. Experience and education dates occupy a 2/7 mono column at `lg`. Article measure is capped at 68ch. Sticky header height is 3.5rem on desktop; below `lg` a 2.5rem subnav row stacks beneath (total `--header-h` includes both plus rules). Scroll padding clears the header plus 1rem.
+A single centred column (`max-w-page` 75rem) with stepped horizontal gutters: 1.25rem → 1.5rem (sm) → 2rem (md) → 2.5rem (lg). Sections use `py-12 md:py-16` and a top hairline. From `md` up, content sits in a 12-column hanging-indent grid: labels/titles in 3 columns, body in 9, with `gap-x-8`. Experience and education dates occupy a 2/7 mono column at `lg`. Article measure is capped at 56ch (about 70 characters). Sticky header height is 3.5rem on desktop; below `lg` a 2.5rem subnav row stacks beneath (total `--header-h` includes both plus rules). Scroll padding clears the header plus 1rem.
 
 ## Elevation & Depth
 
@@ -253,7 +253,7 @@ Segmented radio control with rule border and 2px radius. Checked option inverts 
 - **Do** structure pages with hanging-indent grids and hairline rules, not cards.
 - **Do** invert ink/paper for hover, selected, pressed, and current states.
 - **Do** reserve accent for underlines, focus rings, carets, and washes.
-- **Do** keep corners at 2px and reading measure near 62–68ch.
+- **Do** keep corners at 2px and the article measure at 56ch (about 70 characters).
 
 ### Don't:
 - **Don't** revive Lit Control Room tokens (cyan glow, indigo panels, Inter/Manrope, pill CTAs, glass cards).

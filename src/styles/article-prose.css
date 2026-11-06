@@ -158,6 +158,23 @@
   background-color: var(--raised) !important;
 }
 
+/* Mermaid bakes its own label colours. Restate them in the page tokens so dark-mode edge labels clear 4.5:1, and give the label its own inset. */
+.article-prose .mermaid .labelBkg,
+.article-prose .mermaid .edgeLabel,
+.article-prose .mermaid .edgeLabel p,
+.article-prose .mermaid .edgeLabel span {
+  background-color: var(--raised) !important;
+  color: var(--ink) !important;
+}
+
+.article-prose .mermaid .labelBkg {
+  padding: 0.15rem 0.4rem !important;
+}
+
+.article-prose .mermaid .edgeLabel rect {
+  fill: var(--raised) !important;
+}
+
 .article-prose .katex-display {
   @apply overflow-x-auto overflow-y-hidden py-1;
 }

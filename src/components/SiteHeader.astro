@@ -23,6 +23,7 @@ const links = [
 ---
 
 <header class="sticky top-0 z-40 border-b border-rule bg-paper" data-site-header data-track-sections={current === 'home' ? '' : undefined}>
+  <div data-header-bar>
   <Container class="flex h-[var(--bar-h)] items-center gap-3 md:gap-4">
     <a
       href="/"
@@ -60,9 +61,15 @@ const links = [
 
     <a href={`mailto:${siteConfig.email}`} class="btn btn-primary btn-sm ml-auto md:ml-0">Email</a>
 
+    {siteConfig.resumeUrl && (
+      <a href={siteConfig.resumeUrl} class="btn btn-secondary btn-sm no-js-only md:hidden" target="_blank" rel="noopener noreferrer">
+        Resume<span class="sr-only"> (opens in a new tab)</span>
+      </a>
+    )}
+
     <button
       type="button"
-      class="btn btn-ghost btn-sm -mr-2 md:hidden"
+      class="btn btn-ghost btn-sm -mr-2 js-only md:hidden"
       aria-expanded="false"
       aria-controls="mobile-nav"
       data-menu-button
@@ -72,6 +79,7 @@ const links = [
       <span class="sr-only" data-menu-label>Open menu</span>
     </button>
   </Container>
+  </div>
 
   <nav aria-label="Sections" class="border-t border-rule lg:hidden">
     <Container class="flex h-[var(--subnav-h)] items-center">
@@ -206,6 +214,31 @@ const links = [
     document.addEventListener('focusout', hideTrail);
   }
 
+  function fitHeader() {
+    const header = document.querySelector<HTMLElement>('[data-site-header]');
+    const bar = header?.querySelector<HTMLElement>('[data-header-bar]');
+    if (!header || !bar) return;
+    const tooTall = header.offsetHeight > window.innerHeight * 0.22;
+    header.dataset.headerFit = tooTall ? 'bar' : 'all';
+    if (tooTall) {
+      document.documentElement.style.setProperty('--header-h', `${bar.offsetHeight + 1}px`);
+    } else {
+      document.documentElement.style.removeProperty('--header-h');
+    }
+  }
+
+  let fitQueued = false;
+  function queueFitHeader() {
+    if (fitQueued) return;
+    fitQueued = true;
+    requestAnimationFrame(() => {
+      fitQueued = false;
+      fitHeader();
+    });
+  }
+
   initMenu();
   initRunningHeader();
+  queueFitHeader();
+  window.addEventListener('resize', queueFitHeader);
 </script>

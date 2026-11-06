@@ -29,7 +29,7 @@
       "display": { "displayName": "Display", "purpose": "Home name line only; muted role clause continues at the same size." },
       "headline": { "displayName": "Section", "purpose": "Hanging-column section titles and contact lead lines (text-section)." },
       "title": { "displayName": "Title", "purpose": "Role, project, and article titles; also article prose base size." },
-      "body": { "displayName": "Body", "purpose": "Running prose, lists, and descriptions at ~62–68ch." },
+      "body": { "displayName": "Body", "purpose": "Running prose, lists, and descriptions. Article lines cap at 56ch, about 70 characters." },
       "label": { "displayName": "Label Mono", "purpose": "Row labels, ISO dates, anchors, wordmark, footer chrome, code meta." }
     },
     "shadows": [],
@@ -126,7 +126,7 @@
       "refersTo": "badge",
       "description": "Hanging-indent man-page section: left title and mono #id, right content, top hairline.",
       "html": "<section class=\"ds-section\" aria-labelledby=\"ds-exp-h\"><div class=\"ds-section__label\"><h2 id=\"ds-exp-h\">Experience</h2><a class=\"ds-anchor\" href=\"#experience\">#experience</a></div><div class=\"ds-section__body\"><p>Roles at Lumen Technologies with production scale and modernization work.</p></div></section>",
-      "css": ".ds-section{display:grid;gap:1.5rem;padding:3rem 0;border-top:1px solid var(--rule,#e5e5e1);color:var(--ink-body,#262626);font:400 1rem/1.625rem \"Schibsted Grotesk\",ui-sans-serif,system-ui,sans-serif}@media(min-width:768px){.ds-section{grid-template-columns:minmax(0,3fr) minmax(0,9fr);column-gap:2rem}}.ds-section__label h2{margin:0;color:var(--ink,#111111);font:600 1.5rem/1.875rem \"Schibsted Grotesk\",ui-sans-serif,system-ui,sans-serif;letter-spacing:-.02em}.ds-anchor{display:inline-block;margin-top:.375rem;color:var(--faint,#6f6f6f);font:400 .8125rem/1.25rem \"JetBrains Mono\",ui-monospace,Menlo,monospace;text-decoration:none;transition:color 120ms ease-out,background-color 120ms ease-out}.ds-anchor:hover,.ds-anchor:focus-visible{background:var(--ink,#111111);color:var(--paper,#fafaf8)}.ds-section__body{min-width:0}.ds-section__body p{margin:0;max-width:68ch}"
+      "css": ".ds-section{display:grid;gap:1.5rem;padding:3rem 0;border-top:1px solid var(--rule,#e5e5e1);color:var(--ink-body,#262626);font:400 1rem/1.625rem \"Schibsted Grotesk\",ui-sans-serif,system-ui,sans-serif}@media(min-width:768px){.ds-section{grid-template-columns:minmax(0,3fr) minmax(0,9fr);column-gap:2rem}}.ds-section__label h2{margin:0;color:var(--ink,#111111);font:600 1.5rem/1.875rem \"Schibsted Grotesk\",ui-sans-serif,system-ui,sans-serif;letter-spacing:-.02em}.ds-anchor{display:inline-block;margin-top:.375rem;color:var(--faint,#6f6f6f);font:400 .8125rem/1.25rem \"JetBrains Mono\",ui-monospace,Menlo,monospace;text-decoration:none;transition:color 120ms ease-out,background-color 120ms ease-out}.ds-anchor:hover,.ds-anchor:focus-visible{background:var(--ink,#111111);color:var(--paper,#fafaf8)}.ds-section__body{min-width:0}.ds-section__body p{margin:0;max-width:56ch}"
     }
   ],
   "narrative": {
@@ -153,7 +153,7 @@
       "Do structure pages with hanging-indent grids and hairline rules, not cards.",
       "Do invert ink/paper for hover, selected, pressed, and current states.",
       "Do reserve accent for underlines, focus rings, carets, and washes.",
-      "Do keep corners at 2px and reading measure near 62–68ch."
+      "Do keep corners at 2px and the article measure at 56ch (about 70 characters)."
     ],
     "donts": [
       "Don't revive Lit Control Room tokens (cyan glow, indigo panels, Inter/Manrope, pill CTAs, glass cards).",
