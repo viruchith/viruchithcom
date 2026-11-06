@@ -1,150 +1,19 @@
 ---
-import { Rocket, ExternalLink, BookOpen, ChevronRight } from '@lucide/astro';
-import BrandGithub from './icons/BrandGithub.astro';
+import Section from './ui/Section.astro';
+import Grid from './ui/Grid.astro';
+import Link from './ui/Link.astro';
+import ProjectItem from './ui/ProjectItem.astro';
 import { featuredProjects, moreProjects } from '../data/projects';
 ---
 
-<section id="projects" class="mb-40 px-6 md:px-12 lg:px-24" aria-labelledby="projects-heading">
-  <div class="mb-16 flex items-end justify-between border-b border-surface-container-low pb-8 transition-colors">
-    <div>
-      <h2 id="projects-heading" class="font-headline mb-2 text-3xl font-bold text-on-background md:text-4xl">
-        Projects
-      </h2>
-      <p class="font-body text-on-surface-variant">
-        Featured platforms, architectural engines, and security utilities.
-      </p>
-    </div>
-    <Rocket class="h-10 w-10 shrink-0 text-primary opacity-50 md:h-11 md:w-11" stroke-width={1.25} aria-hidden="true" />
-  </div>
-
-  <!-- Featured Projects (4 Core) -->
-  <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
-    {
-      featuredProjects.map((p) => (
-        <article class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-outline-variant/15 bg-surface-container-low p-8 transition-all hover:bg-surface-container/90">
-          <div
-            class="pointer-events-none absolute inset-0 opacity-40 mix-blend-luminosity transition-opacity duration-700 group-hover:opacity-60"
-            aria-hidden="true"
-          />
-
-          <div class="relative z-10 flex flex-col flex-1">
-            <header class="mb-4">
-              <span class="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-primary">Featured System</span>
-              <h3 class="font-headline mt-1 text-2xl font-bold text-on-background transition-colors group-hover:text-primary">
-                {p.title}
-              </h3>
-            </header>
-
-            <div class="space-y-3 font-body text-sm leading-relaxed text-on-surface-variant flex-1">
-              <p>
-                <strong class="font-semibold text-on-surface">Problem:</strong> {p.problem}
-              </p>
-              <p>
-                <strong class="font-semibold text-on-surface">Approach:</strong> {p.approach}
-              </p>
-            </div>
-
-            <div class="mt-6 mb-6 flex flex-wrap gap-2">
-              {p.tags.map((t) => (
-                <span class="font-label rounded border border-outline-variant/20 bg-surface-container-lowest px-2.5 py-1 text-xs text-on-surface-variant transition-colors">
-                  {t}
-                </span>
-              ))}
-            </div>
-
-            <!-- Internal related article link -->
-            {p.relatedArticle && (
-              <div class="mb-6 rounded-lg border border-outline-variant/15 bg-surface-container-lowest/60 p-3 text-xs">
-                <a
-                  href={`/articles/${p.relatedArticle.slug}/`}
-                  class="inline-flex items-center gap-2 text-primary hover:underline font-medium"
-                >
-                  <BookOpen class="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                  <span>Read case study: {p.relatedArticle.title}</span>
-                  <ChevronRight class="h-3 w-3 shrink-0" aria-hidden="true" />
-                </a>
-              </div>
-            )}
-
-            <!-- CTA link -->
-            <div class="mt-auto pt-2 border-t border-outline-variant/10">
-              {p.link && (
-                <a
-                  class="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary-container"
-                  href={p.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View source code for ${p.title} on GitHub`}
-                >
-                  <BrandGithub class="h-4 w-4" />
-                  <span>View on GitHub</span>
-                  <ExternalLink class="h-3.5 w-3.5 opacity-70" stroke-width={1.75} aria-hidden="true" />
-                </a>
-              )}
-            </div>
-          </div>
-        </article>
-      ))
-    }
-  </div>
-
-  <!-- Compact "More Projects" list -->
-  <div class="mt-16">
-    <div class="mb-8 border-b border-outline-variant/15 pb-4">
-      <h3 class="font-headline text-xl font-bold text-on-background">More Engineering Projects</h3>
-      <p class="font-body text-sm text-on-surface-variant">
-        Additional open-source tools, mobile applications, and web platforms.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {
-        moreProjects.map((p) => (
-          <article class="flex flex-col justify-between rounded-xl border border-outline-variant/15 bg-surface-container-low/70 p-6 transition-all hover:bg-surface-container">
-            <div>
-              <h4 class="font-headline text-lg font-bold text-on-background">{p.title}</h4>
-              <p class="mt-2 text-xs leading-relaxed text-on-surface-variant font-body">
-                {p.approach}
-              </p>
-              <div class="mt-4 flex flex-wrap gap-1.5">
-                {p.tags.slice(0, 3).map((t) => (
-                  <span class="rounded bg-surface-container-lowest px-2 py-0.5 text-[0.68rem] text-on-surface-variant/80">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div class="mt-6 flex items-center justify-between pt-4 border-t border-outline-variant/10 text-xs">
-              {p.link ? (
-                <a
-                  href={p.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 font-medium text-primary hover:underline"
-                  aria-label={`View source code for ${p.title} on GitHub`}
-                >
-                  <span>View on GitHub</span>
-                  <ExternalLink class="h-3 w-3" aria-hidden="true" />
-                </a>
-              ) : (
-                <span class="text-on-surface-variant/60">Internal Platform</span>
-              )}
-
-              {p.relatedArticle && (
-                <a
-                  href={`/articles/${p.relatedArticle.slug}/`}
-                  class="inline-flex items-center gap-1 text-primary hover:underline"
-                  title={p.relatedArticle.title}
-                >
-                  <BookOpen class="h-3 w-3" aria-hidden="true" />
-                  <span>Article</span>
-                </a>
-              )}
-            </div>
-          </article>
-        ))
-      }
-    </div>
-  </div>
-</section>
+<Section id="projects" title="Projects">
+  <p class="max-w-[62ch] text-body text-muted">
+    Phish Slayer, Android Shredder, and Prompt Butler lead, followed by backend and platform work. Each links to its source.
+  </p>
+  <Grid cols={2} ruled class="mt-6">
+    {featuredProjects.map((project) => <ProjectItem project={project} />)}
+  </Grid>
+  <p class="mt-6 text-small">
+    <Link href="/projects/" variant="xref" trail="Projects: the full archive">All {featuredProjects.length + moreProjects.length} projects, including web, desktop, and mobile work</Link>
+  </p>
+</Section>

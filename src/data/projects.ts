@@ -15,6 +15,41 @@ export interface Project {
 
 export const featuredProjects: Project[] = [
   {
+    title: 'Phish Slayer',
+    repoName: 'PhishSlayer',
+    problem: 'Generic security awareness templates fail to prepare employees for modern personalized attacks.',
+    approach:
+      'Context-aware phishing simulation framework generating tailored, LLM-driven scenarios to measure and improve organizational social engineering resilience.',
+    tags: ['LLMs', 'Phishing Simulation', 'Security Awareness', 'Python'],
+    link: 'https://github.com/viruchith/PhishSlayer',
+    relatedArticle: {
+      title: 'Phish Slayer: Framework for Social Engineering Resilience',
+      slug: 'phish-slayer-an-open-source-framework-for-context-aware-social-engineering-resilience',
+    },
+  },
+  {
+    title: 'Android Shredder',
+    repoName: 'AndroidShredder',
+    problem: 'Standard file deletion on Android storage leaves sensitive remnants recoverable by forensic inspection.',
+    approach:
+      'High-security mobile utility implementing cryptographic multi-pass shredding algorithms to permanently destroy files and directories.',
+    tags: ['Android', 'Kotlin', 'Cryptographic Security', 'File I/O'],
+    link: 'https://github.com/viruchith/AndroidShredder',
+  },
+  {
+    title: 'Prompt Butler',
+    repoName: 'PromptButler',
+    problem: 'Context switching between development environments and prompt scratchpads disrupts AI-assisted workflows.',
+    approach:
+      'Always-on-top JavaFX desktop overlay for instant fuzzy-searching, templating, and clipboard injection of reusable engineering prompts.',
+    tags: ['Java', 'JavaFX', 'Desktop UI', 'Prompt Engineering', 'Productivity'],
+    link: 'https://github.com/viruchith/PromptButler',
+    relatedArticle: {
+      title: 'Supercharge Your AI Workflow: Introducing Prompt Butler',
+      slug: 'supercharge-your-ai-workflow-introducing-prompt-butler',
+    },
+  },
+  {
     title: 'Project VEGA',
     repoName: 'VEGA',
     problem:
@@ -74,32 +109,6 @@ export const featuredProjects: Project[] = [
 
 export const moreProjects: Project[] = [
   {
-    title: 'Phish Slayer',
-    repoName: 'PhishSlayer',
-    problem: 'Generic security awareness templates fail to prepare employees for modern personalized attacks.',
-    approach:
-      'Context-aware phishing simulation framework generating tailored, LLM-driven scenarios to measure and improve organizational social engineering resilience.',
-    tags: ['LLMs', 'Phishing Simulation', 'Security Awareness', 'Python'],
-    link: 'https://github.com/viruchith/PhishSlayer',
-    relatedArticle: {
-      title: 'Phish Slayer: Framework for Social Engineering Resilience',
-      slug: 'phish-slayer-an-open-source-framework-for-context-aware-social-engineering-resilience',
-    },
-  },
-  {
-    title: 'Prompt Butler',
-    repoName: 'PromptButler',
-    problem: 'Context switching between development environments and prompt scratchpads disrupts AI-assisted workflows.',
-    approach:
-      'Always-on-top JavaFX desktop overlay for instant fuzzy-searching, templating, and clipboard injection of reusable engineering prompts.',
-    tags: ['Java', 'JavaFX', 'Desktop UI', 'Prompt Engineering', 'Productivity'],
-    link: 'https://github.com/viruchith/PromptButler',
-    relatedArticle: {
-      title: 'Supercharge Your AI Workflow: Introducing Prompt Butler',
-      slug: 'supercharge-your-ai-workflow-introducing-prompt-butler',
-    },
-  },
-  {
     title: 'RaagaDex',
     repoName: 'raagadex',
     problem: 'Musicians lack unified digital tooling to organize Indian classical ragams, compositions, and film repertoires.',
@@ -107,15 +116,6 @@ export const moreProjects: Project[] = [
       'Full-featured web application for Indian classical music indexing, audio/media lookup tables, and Firebase-backed collaborative curation.',
     tags: ['SvelteKit', 'Tailwind CSS', 'Firebase Auth & Firestore'],
     link: 'https://github.com/viruchith/raagadex',
-  },
-  {
-    title: 'Android Shredder',
-    repoName: 'AndroidShredder',
-    problem: 'Standard file deletion on Android storage leaves sensitive remnants recoverable by forensic inspection.',
-    approach:
-      'High-security mobile utility implementing cryptographic multi-pass shredding algorithms to permanently destroy files and directories.',
-    tags: ['Android', 'Kotlin', 'Cryptographic Security', 'File I/O'],
-    link: 'https://github.com/viruchith/AndroidShredder',
   },
   {
     title: 'Beaver Expense Tracker',

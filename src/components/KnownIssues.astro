@@ -1,0 +1,23 @@
+---
+import Section from './ui/Section.astro';
+---
+
+<Section id="known-issues" title="Known issues">
+  <div class="flex max-w-[62ch] flex-col gap-4">
+    <p class="text-body">
+      <strong class="font-semibold text-ink">May meow.</strong>
+      Status: WONTFIX, by design. The cat was filed as a bug and kept as a feature. It sleeps through your visit and
+      wakes only when you ask, and its 3D body and sound arrive only then. Ask nicely. Everything else on this page is
+      documented; the cat is the one thing here that was never meant to be explained.
+    </p>
+    <div class="js-only flex flex-wrap items-center gap-x-4 gap-y-2">
+      <button type="button" class="btn btn-secondary btn-sm" aria-pressed="false" data-cat-toggle>
+        <span data-cat-label>Let the cat out</span>
+      </button>
+      <span class="text-small text-faint" role="status" data-cat-status>The cat is asleep.</span>
+    </div>
+    <noscript>
+      <p class="text-small text-muted">The cat needs JavaScript, so it stays asleep.</p>
+    </noscript>
+  </div>
+</Section>

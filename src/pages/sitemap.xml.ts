@@ -17,6 +17,7 @@ export const GET: APIRoute = async () => {
 
   const urls = [
     { loc: `${site}/`, lastmod: new Date().toISOString() },
+    { loc: `${site}/projects/`, lastmod: new Date().toISOString() },
     { loc: `${site}/articles/`, lastmod: posts[0]?.data.publishDate.toISOString() ?? new Date().toISOString() },
     ...posts.map((post) => ({
       loc: `${site}/articles/${getBlogSlug(post)}/`,

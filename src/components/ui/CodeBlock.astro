@@ -1,0 +1,46 @@
+---
+import { Code } from 'astro:components';
+
+interface Props {
+  code?: string;
+  lang?: string;
+  title?: string;
+  class?: string;
+}
+
+const { code, lang = 'text', title, class: className } = Astro.props;
+---
+
+<figure class:list={['code-block', className]}>
+  {title && <figcaption class="code-block__title">{title}</figcaption>}
+  {
+    code ? (
+      <Code code={code} lang={lang as never} themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} />
+    ) : (
+      <pre class="code-block__plain"><code><slot /></code></pre>
+    )
+  }
+</figure>
+
+<style is:global>
+  :where(.code-block) {
+    margin: 0;
+  }
+
+  .code-block {
+    @apply overflow-hidden rounded border border-rule bg-raised;
+  }
+
+  .code-block__title {
+    @apply border-b border-rule px-4 py-2 font-mono text-meta text-muted;
+  }
+
+  .code-block pre {
+    @apply m-0 overflow-x-auto px-4 py-4 text-meta leading-6 md:text-small;
+    background: transparent !important;
+  }
+
+  .code-block__plain {
+    @apply text-ink;
+  }
+</style>

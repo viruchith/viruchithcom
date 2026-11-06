@@ -1,182 +1,145 @@
 ---
-import { Copy, Share2, Mail } from '@lucide/astro';
+import { Link2, Share2, Mail } from '@lucide/astro';
 import { siX, siFacebook, siWhatsapp } from 'simple-icons';
+import BrandLinkedin from './icons/BrandLinkedin.astro';
 
 interface Props {
   url: string;
   title: string;
   description?: string;
+  id: string;
 }
 
-const { url, title, description } = Astro.props;
+const { url, title, description, id } = Astro.props;
+const panelId = `share-panel-${id}`;
+const mailHref = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(description ? `${description}\n\n${url}` : url)}`;
 ---
 
-<div class="flex items-center gap-2">
-  <!-- Copy Link Button -->
+<div class="share relative flex flex-wrap items-center gap-2" data-share data-share-url={url} data-share-title={title}>
+  <button type="button" class="btn btn-secondary btn-sm" data-share-copy>
+    <Link2 class="h-4 w-4" stroke-width={1.75} aria-hidden="true" />
+    <span data-share-copy-label>Copy link</span>
+  </button>
   <button
     type="button"
-    class="icon-button"
-    data-copy-link={url}
-    aria-label="Copy article link"
-    title="Copy link"
+    class="btn btn-secondary btn-sm"
+    aria-expanded="false"
+    aria-controls={panelId}
+    data-share-toggle
   >
-    <Copy class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
+    <Share2 class="h-4 w-4" stroke-width={1.75} aria-hidden="true" />
+    Share
   </button>
+  <span class="sr-only" role="status" data-share-status></span>
 
-  <!-- Share Menu Toggle -->
-  <div class="relative group">
-    <button
-      type="button"
-      class="icon-button"
-      aria-label="Open sharing options"
-      title="Share article"
-      aria-expanded="false"
-      aria-haspopup="menu"
-    >
-      <Share2 class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
-    </button>
-
-    <!-- Share Dropdown Menu -->
-    <div
-      class="absolute right-0 top-full mt-2 hidden w-48 rounded-lg border border-outline-variant/15 bg-surface-container shadow-lg group-hover:block z-10"
-      role="menu"
-    >
-      <!-- Twitter Share -->
-      <button
-        type="button"
-        class="sharer w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container-high transition-colors"
-        data-sharer="twitter"
-        data-url={url}
-        data-title={title}
-        role="menuitem"
-        aria-label="Share on Twitter"
-      >
-        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d={siX.path} />
-        </svg>
-        <span class="text-sm">Twitter / X</span>
+  <ul
+    id={panelId}
+    class="absolute right-0 top-full z-20 mt-2 w-52 border border-rule-strong bg-raised py-1 md:left-auto"
+    hidden
+    data-share-panel
+  >
+    <li>
+      <button type="button" class="share__item sharer" data-sharer="twitter" data-url={url} data-title={title}>
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={siX.path} /></svg>
+        X
       </button>
-
-      <!-- Facebook Share -->
-      <button
-        type="button"
-        class="sharer w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container-high transition-colors border-t border-outline-variant/15"
-        data-sharer="facebook"
-        data-url={url}
-        role="menuitem"
-        aria-label="Share on Facebook"
-      >
-        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d={siFacebook.path} />
-        </svg>
-        <span class="text-sm">Facebook</span>
+    </li>
+    <li>
+      <button type="button" class="share__item sharer" data-sharer="linkedin" data-url={url}>
+        <BrandLinkedin class="h-4 w-4" />
+        LinkedIn
       </button>
-
-      <!-- LinkedIn Share -->
-      <button
-        type="button"
-        class="sharer w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container-high transition-colors border-t border-outline-variant/15"
-        data-sharer="linkedin"
-        data-url={url}
-        role="menuitem"
-        aria-label="Share on LinkedIn"
-      >
-    
-        <span class="text-sm">LinkedIn</span>
+    </li>
+    <li>
+      <button type="button" class="share__item sharer" data-sharer="facebook" data-url={url}>
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={siFacebook.path} /></svg>
+        Facebook
       </button>
-
-      <!-- WhatsApp Share -->
-      <button
-        type="button"
-        class="sharer w-full text-left flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container-high transition-colors border-t border-outline-variant/15"
-        data-sharer="whatsapp"
-        data-url={url}
-        data-title={title}
-        role="menuitem"
-        aria-label="Share on WhatsApp"
-      >
-        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d={siWhatsapp.path} />
-        </svg>
-        <span class="text-sm">WhatsApp</span>
+    </li>
+    <li>
+      <button type="button" class="share__item sharer" data-sharer="whatsapp" data-url={url} data-title={title}>
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={siWhatsapp.path} /></svg>
+        WhatsApp
       </button>
-
-      <!-- Email Share -->
-      <a
-        href={`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(description ? `${description}\n\n${url}` : url)}`}
-        class="flex items-center gap-3 px-4 py-3 text-on-surface hover:bg-surface-container-high transition-colors border-t border-outline-variant/15"
-        role="menuitem"
-        aria-label="Share via Email"
-      >
-        <Mail class="h-4 w-4" stroke-width={1.8} aria-hidden="true" />
-        <span class="text-sm">Email</span>
+    </li>
+    <li>
+      <a href={mailHref} class="share__item">
+        <Mail class="h-4 w-4" stroke-width={1.75} aria-hidden="true" />
+        Email
       </a>
-    </div>
-  </div>
+    </li>
+  </ul>
 </div>
 
-<script is:inline src="/sharer.min.js"></script>
-<script is:inline>
-  function initShareButtons() {
-    // Handle copy link functionality
-    document.querySelectorAll('[data-copy-link]').forEach(function (button) {
-      if (button.dataset.copyInit === '1') return;
-      button.dataset.copyInit = '1';
-
-      button.addEventListener('click', async function (e) {
-        e.preventDefault();
-        const linkUrl = button.getAttribute('data-copy-link');
-        if (!linkUrl) return;
-
-        try {
-          await navigator.clipboard.writeText(linkUrl);
-          button.setAttribute('aria-label', 'Article link copied');
-          button.classList.add('is-copied');
-          window.setTimeout(function () {
-            button.setAttribute('aria-label', 'Copy article link');
-            button.classList.remove('is-copied');
-          }, 1600);
-        } catch {
-          window.prompt('Copy article URL', linkUrl);
-        }
-      });
-    });
-
-    // Handle share menu toggle
-    document.querySelectorAll('[aria-haspopup="menu"]').forEach(function (button) {
-      if (button.dataset.shareInit === '1') return;
-      button.dataset.shareInit = '1';
-
-      const menu = button.nextElementSibling;
-      if (!menu) return;
-
-      button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const isExpanded = button.getAttribute('aria-expanded') === 'true';
-        button.setAttribute('aria-expanded', String(!isExpanded));
-        menu.classList.toggle('hidden');
-      });
-
-      // Close menu when clicking outside
-      document.addEventListener('click', function (e) {
-        if (!button.contains(e.target) && !menu.contains(e.target)) {
-          button.setAttribute('aria-expanded', 'false');
-          menu.classList.add('hidden');
-        }
-      });
-    });
+<style is:global>
+  .share__item {
+    @apply flex min-h-10 w-full items-center gap-3 px-3 text-left text-small text-ink;
+    transition:
+      background-color 120ms ease-out,
+      color 120ms ease-out;
   }
 
-  initShareButtons();
-  document.addEventListener('astro:after-swap', initShareButtons);
-</script>
-
-<style>
-  .icon-button {
-    @apply inline-flex items-center justify-center rounded-full p-2 transition-colors hover:bg-surface-container-high;
-  }
-
-  .icon-button.is-copied {
-    @apply text-primary-container;
+  .share__item:hover,
+  .share__item:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
   }
 </style>
+
+<script is:inline src="/sharer.min.js"></script>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-share]').forEach((root) => {
+    if (root.dataset.bound) return;
+    root.dataset.bound = '1';
+
+    const url = root.dataset.shareUrl ?? location.href;
+    const title = root.dataset.shareTitle ?? document.title;
+    const copyButton = root.querySelector<HTMLButtonElement>('[data-share-copy]');
+    const copyLabel = root.querySelector('[data-share-copy-label]');
+    const toggle = root.querySelector<HTMLButtonElement>('[data-share-toggle]');
+    const panel = root.querySelector<HTMLElement>('[data-share-panel]');
+    const status = root.querySelector('[data-share-status]');
+
+    copyButton?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        if (copyLabel) copyLabel.textContent = 'Copied';
+        if (status) status.textContent = 'Article link copied to clipboard';
+      } catch {
+        window.prompt('Copy the article link', url);
+      }
+      window.setTimeout(() => {
+        if (copyLabel) copyLabel.textContent = 'Copy link';
+      }, 2000);
+    });
+
+    const setOpen = (open: boolean) => {
+      if (!panel || !toggle) return;
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+    };
+
+    toggle?.addEventListener('click', async () => {
+      if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+        try {
+          await navigator.share({ title, url });
+          return;
+        } catch (error) {
+          if ((error as DOMException).name === 'AbortError') return;
+        }
+      }
+      setOpen(panel?.hidden ?? false);
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!root.contains(event.target as Node)) setOpen(false);
+    });
+
+    root.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && panel && !panel.hidden) {
+        setOpen(false);
+        toggle?.focus();
+      }
+    });
+  });
+</script>

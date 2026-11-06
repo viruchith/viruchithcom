@@ -1,0 +1,31 @@
+---
+import type { HTMLTag } from 'astro/types';
+
+interface Props {
+  as?: HTMLTag;
+  size?: 'meta' | 'small' | 'body' | 'lead';
+  tone?: 'ink' | 'body' | 'muted' | 'faint';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { as: Tag = 'p', size = 'body', tone = 'body', class: className, ...rest } = Astro.props;
+
+const sizeClasses = {
+  meta: 'text-meta',
+  small: 'text-small',
+  body: 'text-body',
+  lead: 'text-lead',
+} as const;
+
+const toneClasses = {
+  ink: 'text-ink',
+  body: 'text-body',
+  muted: 'text-muted',
+  faint: 'text-faint',
+} as const;
+---
+
+<Tag class:list={[sizeClasses[size], toneClasses[tone], className]} {...rest}>
+  <slot />
+</Tag>

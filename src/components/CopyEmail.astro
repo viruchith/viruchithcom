@@ -1,0 +1,42 @@
+---
+import { siteConfig } from '../config/site';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<p class:list={['flex flex-wrap items-center gap-x-2 gap-y-1 text-small text-muted', className]}>
+  <span>Or write to</span>
+  <a href={`mailto:${siteConfig.email}`} class="link font-mono text-meta">{siteConfig.email}</a>
+  <button type="button" class="btn btn-ghost btn-sm js-only" data-copy-email={siteConfig.email}>
+    <span data-copy-label>Copy address</span>
+  </button>
+  <span class="sr-only" role="status" data-copy-status></span>
+</p>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach((button) => {
+    if (button.dataset.bound) return;
+    button.dataset.bound = '1';
+    const label = button.querySelector('[data-copy-label]');
+    const status = button.parentElement?.querySelector('[data-copy-status]');
+
+    button.addEventListener('click', async () => {
+      const address = button.dataset.copyEmail ?? '';
+      try {
+        await navigator.clipboard.writeText(address);
+        if (label) label.textContent = 'Copied';
+        if (status) status.textContent = `${address} copied to clipboard`;
+      } catch {
+        if (label) label.textContent = 'Copy failed, select the address';
+        if (status) status.textContent = 'Copy failed. Select the address to copy it.';
+      }
+      window.setTimeout(() => {
+        if (label) label.textContent = 'Copy address';
+      }, 2000);
+    });
+  });
+</script>
