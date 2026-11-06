@@ -1,59 +1,80 @@
 @font-face {
-  font-family: 'Manrope';
+  font-family: 'Schibsted Grotesk';
   font-style: normal;
   font-display: swap;
-  font-weight: 200 800;
-  src: url('@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2')
+  font-weight: 400 900;
+  src: url('@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2')
     format('woff2-variations');
   unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+0304,
-    U+0308,
-    U+0329,
-    U+2000-206F,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
-    U+FFFD;
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'Inter';
-  font-style: normal;
+  font-family: 'Schibsted Grotesk';
+  font-style: italic;
   font-display: swap;
-  font-weight: 100 900;
-  src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2')
+  font-weight: 400 900;
+  src: url('@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-italic.woff2')
     format('woff2-variations');
   unicode-range:
-    U+0000-00FF,
-    U+0131,
-    U+0152-0153,
-    U+02BB-02BC,
-    U+02C6,
-    U+02DA,
-    U+02DC,
-    U+0304,
-    U+0308,
-    U+0329,
-    U+2000-206F,
-    U+20AC,
-    U+2122,
-    U+2191,
-    U+2193,
-    U+2212,
-    U+2215,
-    U+FEFF,
-    U+FFFD;
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2')
+    format('woff2-variations');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Width-matched local faces. While the web fonts load, the browser paints these
+   instead of the generic families, so the swap does not change line breaks.
+   The percentages are advance-width ratios against Segoe UI and Consolas. */
+@font-face {
+  font-family: 'Schibsted Grotesk Fallback';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Segoe UI');
+  size-adjust: 105.15%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Schibsted Grotesk Fallback';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Segoe UI');
+  size-adjust: 105.15%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Schibsted Grotesk Fallback';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Segoe UI Semibold');
+  size-adjust: 104.67%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Fallback';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: local('Consolas');
+  size-adjust: 109.13%;
+  line-gap-override: 0%;
 }
 
 @tailwind base;
@@ -61,53 +82,143 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    @apply scroll-smooth antialiased;
-    color-scheme: dark;
-    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  :root,
+  :root[data-theme='light'] {
+    color-scheme: light;
+    --paper: #fafaf8;
+    --raised: #ffffff;
+    --ink: #111111;
+    --ink-body: #262626;
+    --muted: #5c5c5c;
+    --faint: #6f6f6f;
+    --rule: #e5e5e1;
+    --rule-strong: #cfcfca;
+    --accent: #1f45c9;
+    --accent-wash: #e6ecfb;
+    --bar-h: 3.5rem;
+    --subnav-h: 2.5rem;
+    --header-h: calc(var(--bar-h) + var(--subnav-h) + 2px);
   }
 
-  /* Prevent sticky header from covering anchor jump targets */
-  section[id],
-  [id] {
-    scroll-margin-top: 6.5rem;
+  @media (min-width: 1024px) {
+    :root {
+      --header-h: calc(var(--bar-h) + 1px);
+    }
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    --paper: #0a0a0b;
+    --raised: #141416;
+    --ink: #f0f0ee;
+    --ink-body: #d6d6d3;
+    --muted: #a1a1a0;
+    --faint: #8b8b8a;
+    --rule: #242427;
+    --rule-strong: #38383d;
+    --accent: #8ba5ff;
+    --accent-wash: #18213f;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+      color-scheme: dark;
+      --paper: #0a0a0b;
+      --raised: #141416;
+      --ink: #f0f0ee;
+      --ink-body: #d6d6d3;
+      --muted: #a1a1a0;
+      --faint: #8b8b8a;
+      --rule: #242427;
+      --rule-strong: #38383d;
+      --accent: #8ba5ff;
+      --accent-wash: #18213f;
+    }
+  }
+
+  html {
+    @apply bg-paper font-sans text-body antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'kern';
+    scrollbar-color: var(--rule-strong) var(--paper);
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
-    @apply bg-background font-body text-on-surface;
-    transition:
-      background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-      color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    text-rendering: optimizeLegibility;
-    background-image:
-      radial-gradient(circle at 12% 12%, rgba(0, 240, 255, 0.1), transparent 22%),
-      radial-gradient(circle at 88% 18%, rgba(49, 49, 192, 0.12), transparent 20%),
-      linear-gradient(180deg, rgba(11, 19, 38, 1) 0%, rgba(11, 19, 38, 1) 100%);
+    @apply min-h-screen bg-paper text-body;
   }
 
-  /* Keep shell transitions subtle across route changes. */
-  :where(header, main, footer, section, nav, article) {
-    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
-    transition-duration: 0.5s;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-ink;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   ::selection {
-    @apply bg-primary-container/30 text-on-primary;
+    background: var(--ink);
+    color: var(--paper);
   }
 
-  /* Soften route transitions in Chromium. */
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-duration: 0.45s;
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  input,
+  textarea {
+    caret-color: var(--accent);
+  }
+
+  code,
+  kbd,
+  samp,
+  pre {
+    @apply font-mono;
+    font-feature-settings: 'calt' 0;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  td {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .figure {
+    font-variant-numeric: lining-nums;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--paper);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--rule-strong);
+    border: 3px solid var(--paper);
+    border-radius: 6px;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto !important;
-    }
-
     *,
     *::before,
     *::after {
@@ -117,66 +228,200 @@
       scroll-behavior: auto !important;
     }
   }
-
-
 }
 
 @layer components {
-  .skip-to-content {
+  .skip-link {
     @apply sr-only;
   }
 
-  .skip-to-content:focus {
-    @apply fixed left-4 top-4 z-[100] m-0 inline-flex h-auto w-auto overflow-visible rounded-lg bg-surface-container-highest px-4 py-2 text-sm font-medium text-on-surface outline-none ring-2 ring-primary/40;
+  .skip-link:focus {
+    @apply not-sr-only fixed left-4 top-3 z-[100] bg-ink px-4 py-2 text-small font-medium text-paper;
   }
 
-  .stitch-gradient-primary {
-    @apply bg-gradient-to-r from-primary-container to-primary text-on-primary shadow-cta;
+  .no-js .js-only,
+  .js .no-js-only {
+    display: none !important;
   }
 
-  .stitch-gradient-hero {
-    @apply bg-gradient-to-r from-primary-container to-primary text-on-primary shadow-hero;
+  /* Links: ink text with an accent underline; hover and focus invert. */
+  .link {
+    @apply text-ink underline decoration-accent decoration-1 underline-offset-[0.22em];
+    transition:
+      background-color 120ms ease-out,
+      color 120ms ease-out,
+      text-decoration-color 120ms ease-out;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
-  /* Render below-the-fold blocks lazily for faster initial paint */
-  .deferred-render {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 900px;
+  .link:hover,
+  .link:focus-visible,
+  .xref:hover,
+  .xref:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration-color: transparent;
   }
 
-  .glass-panel {
-    background: rgba(45, 52, 73, 0.38);
-    -webkit-backdrop-filter: blur(18px) saturate(180%);
-    backdrop-filter: blur(18px) saturate(180%);
+  .title-link {
+    @apply text-ink no-underline;
+    transition:
+      background-color 120ms ease-out,
+      color 120ms ease-out;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
-  .chip {
-    @apply inline-flex items-center rounded-full bg-surface-container-high px-3 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.2em] text-secondary;
+  .title-link:hover,
+  .title-link:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
   }
 
-  .chip--accent {
-    @apply bg-primary-container/15 text-primary;
+  .link-quiet {
+    @apply text-muted no-underline;
+    transition: color 120ms ease-out;
   }
 
-  .carousel-button {
-    @apply inline-flex h-12 w-12 items-center justify-center rounded-full border border-outline-variant/20 bg-surface-variant/30 text-on-surface transition hover:border-primary-container/35 hover:text-primary-container;
+  .link-quiet:hover,
+  .link-quiet:focus-visible {
+    @apply text-ink underline decoration-accent decoration-1 underline-offset-[0.22em];
   }
 
-  .icon-button {
-    @apply inline-flex h-10 w-10 items-center justify-center rounded-full border border-outline-variant/20 bg-surface-variant/30 text-on-surface transition hover:border-primary-container/35 hover:text-primary-container;
+  /* Cross-references: claims that point at their evidence. */
+  .xref {
+    @apply text-ink underline decoration-accent decoration-dotted decoration-1 underline-offset-[0.24em];
+    transition:
+      background-color 120ms ease-out,
+      color 120ms ease-out;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
-  .icon-button.is-copied {
-    @apply border-primary-container/50 text-primary-container;
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap rounded border px-4 text-small font-medium md:min-h-10;
+    transition:
+      background-color 120ms ease-out,
+      color 120ms ease-out,
+      border-color 120ms ease-out,
+      transform 120ms ease-out;
   }
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .btn:active {
+    transform: translateY(1px);
   }
 
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  .btn-primary {
+    @apply border-ink bg-ink text-paper;
+  }
+
+  .btn-primary:hover {
+    @apply bg-paper text-ink;
+  }
+
+  .btn-secondary {
+    @apply border-rule-strong bg-transparent text-ink;
+  }
+
+  .btn-secondary:hover {
+    @apply border-ink bg-ink text-paper;
+  }
+
+  .btn-ghost {
+    @apply border-transparent bg-transparent px-2 text-muted;
+  }
+
+  .btn-ghost:hover {
+    @apply bg-ink text-paper;
+  }
+
+  .btn-sm {
+    @apply min-h-9 px-3 text-meta md:min-h-8;
+  }
+
+  .btn[aria-pressed='true'] {
+    @apply border-ink bg-ink text-paper;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded border border-rule px-1.5 py-px text-meta text-muted;
+  }
+
+  .row-label {
+    @apply pt-1 font-mono text-meta text-faint;
+  }
+
+  .anchor-id {
+    @apply font-mono text-meta text-faint no-underline;
+    transition:
+      color 120ms ease-out,
+      background-color 120ms ease-out;
+  }
+
+  .anchor-id:hover,
+  .anchor-id:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-light);
+  }
+
+  :root[data-theme='dark'] .astro-code,
+  :root[data-theme='dark'] .astro-code span {
+    color: var(--shiki-dark);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .astro-code,
+    :root:not([data-theme]) .astro-code span {
+      color: var(--shiki-dark);
+    }
+  }
+
+  .bullets > li {
+    @apply relative pl-5;
+  }
+
+  .bullets > li::before {
+    content: '';
+    @apply absolute left-0 top-[0.8em] h-px w-2.5 bg-faint;
   }
 }
 
+/* Unlayered so these beat the sticky utility. A short window keeps only the bar stuck. */
+@media (max-height: 40rem) {
+  :root {
+    --header-h: calc(var(--bar-h) + 1px);
+  }
+
+  [data-site-header] {
+    position: static;
+    border-bottom: 0;
+  }
+
+  [data-header-bar] {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background-color: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+}
+
+/* Text scaling enlarges the header without changing this media query. The header script sets the attribute. */
+[data-site-header][data-header-fit='bar'] {
+  position: static;
+  border-bottom: 0;
+}
+
+[data-site-header][data-header-fit='bar'] [data-header-bar] {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}

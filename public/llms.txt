@@ -8,6 +8,7 @@ Viruchith Ganesan is a backend engineer with 3+ years of experience engineering 
 
 - [Home & Portfolio](https://viruchith.com/): Primary portfolio, experience, architectural case studies, and engineering background.
 - [Resume (PDF)](https://drive.google.com/file/d/1eff3_O4tFQ69MNB9Y_gj-QQZtvYsKNxv/view?usp=sharing): Current resume detailing enterprise backend experience, certifications, and technical stack.
+- [Projects](https://viruchith.com/projects/): Archive of open-source projects, backend and platform work first, with source links and write-ups.
 - [Technical Articles](https://viruchith.com/articles/): Comprehensive index of 30+ deep-dive engineering articles on Java, Spring Boot, distributed systems, and AI architecture.
 - [RSS Feed](https://viruchith.com/rss.xml): Full-text RSS feed for technical publications and engineering case studies.
 - [Sitemap](https://viruchith.com/sitemap.xml): XML sitemap indexing all published articles and pages.

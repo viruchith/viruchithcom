@@ -1,0 +1,95 @@
+---
+import { ChevronLeft, ChevronRight } from '@lucide/astro';
+import Section from './ui/Section.astro';
+import ArticleItem from './ui/ArticleItem.astro';
+import SearchArticles from './SearchArticles.astro';
+import { ARTICLES_DESCRIPTION, ARTICLES_PER_PAGE, type BlogPostSummary } from '../lib/blog';
+
+interface Props {
+  posts: BlogPostSummary[];
+  page: number;
+  totalPages: number;
+  total: number;
+}
+
+const { posts, page, totalPages, total } = Astro.props;
+
+const pageUrl = (n: number) => (n === 1 ? '/articles/' : `/articles/page/${n}/`);
+const prevUrl = page > 1 ? pageUrl(page - 1) : undefined;
+const nextUrl = page < totalPages ? pageUrl(page + 1) : undefined;
+const first = (page - 1) * ARTICLES_PER_PAGE + 1;
+---
+
+<header class="grid gap-y-4 pb-10 pt-8 md:grid-cols-12 md:gap-x-8 md:pb-12 md:pt-14">
+  <p class="row-label hidden md:col-span-3 md:block" aria-hidden="true">Index</p>
+  <div class="min-w-0 md:col-span-9">
+    <h1 class="text-page font-semibold">Articles</h1>
+    <p class="mt-4 max-w-[56ch] text-lead text-muted">{ARTICLES_DESCRIPTION}</p>
+    <p class="mt-3 text-small text-faint">
+      <span class="figure">{total}</span> articles · <a href="/rss.xml" class="link-quiet">RSS feed</a>
+    </p>
+    <div class="mt-8 min-w-0 max-w-2xl">
+      <SearchArticles />
+    </div>
+  </div>
+</header>
+
+<div hidden data-search-region>
+  <Section id="results" title="Results" showAnchor={false}>
+    <ul class="border-t border-rule" data-search-results aria-label="Search results"></ul>
+  </Section>
+</div>
+
+<div data-search-default>
+<Section id="index" title={page === 1 ? 'Latest' : `Page ${page}`} showAnchor={false}>
+  <p slot="aside" class="text-small text-faint md:mt-2">
+    <span class="figure">{first}–{first + posts.length - 1}</span> of <span class="figure">{total}</span>
+  </p>
+  <div>
+    <ul class="border-t border-rule">
+      {posts.map((post) => <ArticleItem post={post} />)}
+    </ul>
+
+    {totalPages > 1 && (
+      <nav class="mt-8 flex flex-wrap items-center justify-between gap-4" aria-label="Pagination">
+        {prevUrl ? (
+          <a href={prevUrl} rel="prev" class="btn btn-secondary btn-sm">
+            <ChevronLeft class="h-4 w-4" stroke-width={1.75} aria-hidden="true" />
+            Newer
+          </a>
+        ) : (
+          <span class="btn btn-sm cursor-default border-rule text-faint" aria-disabled="true">
+            <ChevronLeft class="h-4 w-4" stroke-width={1.75} aria-hidden="true" />
+            Newer
+          </span>
+        )}
+
+        <ol class="flex items-center gap-1">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+            <li>
+              <a
+                href={pageUrl(n)}
+                class="nav-link figure min-w-8 justify-center"
+                aria-current={n === page ? 'page' : undefined}
+                aria-label={`Page ${n}`}
+              >{n}</a>
+            </li>
+          ))}
+        </ol>
+
+        {nextUrl ? (
+          <a href={nextUrl} rel="next" class="btn btn-secondary btn-sm">
+            Older
+            <ChevronRight class="h-4 w-4" stroke-width={1.75} aria-hidden="true" />
+          </a>
+        ) : (
+          <span class="btn btn-sm cursor-default border-rule text-faint" aria-disabled="true">
+            Older
+            <ChevronRight class="h-4 w-4" stroke-width={1.75} aria-hidden="true" />
+          </span>
+        )}
+      </nav>
+    )}
+  </div>
+</Section>
+</div>

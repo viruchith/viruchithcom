@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { formatArticleDate } from '../../lib/blog';
+import { formatIsoDay } from '../../lib/format';
+
+interface Props {
+  post?: {
+    slug: string;
+    title: string;
+    description: string;
+    publishDate: Date;
+    category: string;
+    readingTime: string;
+    heroImage?: ImageMetadata;
+    heroAlt?: string;
+  };
+  level?: 2 | 3;
+  showDescription?: boolean;
+}
+
+const { post, level = 3, showDescription = true } = Astro.props;
+const Tag = level === 2 ? 'h2' : 'h3';
+const href = post ? `/articles/${post.slug}/` : '#';
+const iso = post ? formatIsoDay(post.publishDate) : '';
+---
+
+<li
+  class="grid grid-cols-[7.25rem_minmax(0,1fr)] items-start gap-x-4 border-b border-rule py-5 md:grid-cols-[7.5rem_8.5rem_minmax(0,1fr)] md:gap-x-8"
+  data-article-item
+>
+  <time
+    datetime={iso}
+    class="hidden pt-0.5 font-mono text-meta text-faint md:block"
+    data-item-date
+  >{iso}</time>
+  <a href={href} class="block" tabindex="-1" aria-hidden="true" data-item-thumb>
+    {
+      post?.heroImage ? (
+        <Image
+          src={post.heroImage}
+          alt=""
+          widths={[160, 240, 320]}
+          sizes="(min-width: 768px) 8.5rem, 7.25rem"
+          class="aspect-[16/10] w-full border border-rule object-cover"
+        />
+      ) : (
+        <img alt="" data-item-image class="aspect-[16/10] w-full border border-rule bg-raised object-cover" width="320" height="200" />
+      )
+    }
+  </a>
+  <div class="min-w-0">
+    <Tag class="text-title font-semibold">
+      <a href={href} class="title-link" data-item-link data-item-title>{post?.title}</a>
+    </Tag>
+    {showDescription && (
+      <p class="mt-1.5 line-clamp-2 text-small text-muted" data-item-description>{post?.description}</p>
+    )}
+    <p class="mt-2 text-meta text-faint">
+      <time datetime={iso} class="md:hidden" data-item-date-short>{post ? formatArticleDate(post.publishDate) : ''}</time><span class="md:hidden" aria-hidden="true"> · </span><span data-item-category>{post?.category}</span><span aria-hidden="true"> · </span><span data-item-reading>{post?.readingTime}</span>
+    </p>
+  </div>
+</li>

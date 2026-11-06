@@ -31,7 +31,7 @@ When you run multiple coding agents in parallel, the orchestrator must solve thr
 2. **Deadlock Avoidance:** Agents must be aware of dependencies between tasks to prevent circular waits and stalled execution
 3. **Convergence:** After parallel execution, the orchestrator must merge the agents’ work
 
-![Parallel Agent Execution Architecture](/articles/images/parallel-agent-execution-architecture.webp "Parallel Agent Execution Architecture")
+![Parallel Agent Execution Architecture](../../assets/articles/parallel-agent-execution-architecture.webp "Parallel Agent Execution Architecture")
 ### The Three-Layer Architecture Model
 
 Modern parallel agent systems are built on a tiered architecture that directly addresses the isolation, deadlock avoidance, and convergence problems outlined above:

@@ -15,16 +15,27 @@ export default defineConfig({
   },
   integrations: [
     mermaid({
-      theme: 'dark',
+      theme: 'default',
       autoTheme: true,
     }),
     mdx(),
   ],
   markdown: {
+    shikiConfig: {
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+      defaultColor: false,
+    },
     processor: unified({
       remarkPlugins: [remarkMath],
       rehypePlugins: [rehypeKatex],
     }),
+  },
+  image: {
+    layout: 'constrained',
+    responsiveStyles: true,
   },
   build: {
     inlineStylesheets: 'always',

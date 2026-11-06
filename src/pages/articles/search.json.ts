@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { getImage } from 'astro:assets';
 import { getAllBlogPosts, getReadingTime, getBlogSlug } from '../../lib/blog';
 
 function stripMarkdown(md: string): string {
@@ -42,7 +43,7 @@ function stripMarkdown(md: string): string {
 export const GET: APIRoute = async () => {
   const posts = await getAllBlogPosts();
 
-  const data = posts.map((post) => ({
+  const data = await Promise.all(posts.map(async (post) => ({
     slug: getBlogSlug(post),
     title: post.data.title,
     description: post.data.description,
@@ -55,11 +56,11 @@ export const GET: APIRoute = async () => {
       year: 'numeric',
     }).format(post.data.publishDate),
     readingTime: getReadingTime(post.body ?? ''),
-    heroImage: post.data.heroImage.src,
+    heroImage: (await getImage({ src: post.data.heroImage, width: 320, height: 200 })).src,
     heroAlt: post.data.heroAlt,
     featured: post.data.featured,
     body: stripMarkdown(post.body ?? ''),
-  }));
+  })));
 
   return new Response(JSON.stringify(data), {
     headers: {

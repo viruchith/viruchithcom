@@ -1,0 +1,122 @@
+---
+import { Monitor, Sun, Moon } from '@lucide/astro';
+
+interface Props {
+  name: string;
+  showLabels?: boolean;
+  class?: string;
+}
+
+const { name, showLabels = false, class: className } = Astro.props;
+
+const options = [
+  { value: 'system', label: 'System', Icon: Monitor },
+  { value: 'light', label: 'Light', Icon: Sun },
+  { value: 'dark', label: 'Dark', Icon: Moon },
+] as const;
+---
+
+<fieldset class:list={['theme-switch js-only', className]} data-theme-switch>
+  <legend class="sr-only">Colour theme</legend>
+  {
+    options.map(({ value, label, Icon }) => (
+      <label class:list={['theme-switch__option', showLabels && 'theme-switch__option--labelled']} title={showLabels ? undefined : `${label} theme`}>
+        <input type="radio" name={name} value={value} class="sr-only" checked={value === 'system'} />
+        <Icon class="h-4 w-4 shrink-0" stroke-width={1.75} aria-hidden="true" />
+        <span class={showLabels ? 'text-small' : 'sr-only'}>{label}</span>
+      </label>
+    ))
+  }
+</fieldset>
+
+<style is:global>
+  .theme-switch {
+    @apply m-0 inline-flex items-center gap-0.5 rounded border border-rule p-0.5;
+  }
+
+  .theme-switch__option {
+    @apply inline-flex h-7 min-w-7 cursor-pointer items-center justify-center gap-2 rounded px-1.5 text-muted;
+    transition:
+      background-color 120ms ease-out,
+      color 120ms ease-out;
+  }
+
+  .theme-switch__option svg {
+    pointer-events: none;
+  }
+
+  .theme-switch__option--labelled {
+    @apply h-10 flex-1 px-3;
+  }
+
+  .theme-switch__option:hover {
+    @apply text-ink;
+    background: var(--rule);
+  }
+
+  .theme-switch__option:has(input:checked) {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .theme-switch__option:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = 'theme';
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function readPreference() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored === 'light' || stored === 'dark' ? stored : 'system';
+    } catch {
+      return 'system';
+    }
+  }
+
+  function applyTheme(preference: string) {
+    const root = document.documentElement;
+    const isDark = preference === 'dark' || (preference === 'system' && media.matches);
+    root.dataset.theme = isDark ? 'dark' : 'light';
+    root.dataset.themePreference = preference;
+    const color = document.querySelector<HTMLMetaElement>('meta[data-theme-color]');
+    if (color) color.content = isDark ? '#0a0a0b' : '#fafaf8';
+  }
+
+  function syncRadios(preference: string) {
+    document.querySelectorAll<HTMLInputElement>('[data-theme-switch] input').forEach((input) => {
+      input.checked = input.value === preference;
+    });
+  }
+
+  function initThemeSwitch() {
+    const preference = readPreference();
+    syncRadios(preference);
+
+    document.querySelectorAll<HTMLInputElement>('[data-theme-switch] input').forEach((input) => {
+      if (input.dataset.bound) return;
+      input.dataset.bound = '1';
+      input.addEventListener('change', () => {
+        if (!input.checked) return;
+        try {
+          if (input.value === 'system') localStorage.removeItem(STORAGE_KEY);
+          else localStorage.setItem(STORAGE_KEY, input.value);
+        } catch {
+          /* Storage can be unavailable in private modes; the choice still applies to this page. */
+        }
+        applyTheme(input.value);
+        syncRadios(input.value);
+      });
+    });
+  }
+
+  media.addEventListener('change', () => {
+    if (readPreference() === 'system') applyTheme('system');
+  });
+
+  initThemeSwitch();
+</script>

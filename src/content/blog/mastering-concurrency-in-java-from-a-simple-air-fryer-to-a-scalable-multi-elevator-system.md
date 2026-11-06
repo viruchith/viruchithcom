@@ -199,7 +199,7 @@ By using Java's built-in `wait()` and `notify()`, the elevator cabin thread cons
 
 ## 3. Scaling to a Multi-Elevator System
 
-![Scaled Elevator Architecture](/articles/images/java-concurrency-elevator-architecture.webp) 
+![Scaled Elevator Architecture](../../assets/articles/java-concurrency-elevator-architecture.webp) 
 
 What happens when a high-rise building needs three, five, or fifty elevators running concurrently?
 

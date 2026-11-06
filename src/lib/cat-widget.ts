@@ -70,6 +70,12 @@ class CatWidget {
 
   private visibilityTimer = 10 + Math.random() * 20;
 
+  private frameId = 0;
+
+  private disposed = false;
+
+  private reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   constructor(containerId: string, private modelUrl: string, meowUrl: string) {
     this.container = document.getElementById(containerId);
 
@@ -113,6 +119,10 @@ class CatWidget {
     loader.load(
       this.modelUrl,
       (gltf) => {
+        if (this.disposed) {
+          return;
+        }
+
         this.catModel = gltf.scene;
 
         this.catModel.traverse((child) => {
@@ -249,7 +259,9 @@ diffuseColor.rgb = spatialColor;`,
 
         globalThis.addEventListener("resize", this.onWindowResize);
         globalThis.addEventListener("click", this.onClick);
-        this.scheduleNextMove();
+        if (!this.reducedMotion) {
+          this.scheduleNextMove();
+        }
         this.animate();
       },
       undefined,
@@ -350,6 +362,11 @@ diffuseColor.rgb = spatialColor;`,
       return;
     }
 
+    if (this.reducedMotion) {
+      this.playMeow();
+      return;
+    }
+
     if (this.isStaring) {
       this.isStaring = false;
     }
@@ -388,8 +405,31 @@ diffuseColor.rgb = spatialColor;`,
     );
   }
 
+  destroy() {
+    this.disposed = true;
+    cancelAnimationFrame(this.frameId);
+    globalThis.removeEventListener("resize", this.onWindowResize);
+    globalThis.removeEventListener("click", this.onClick);
+    this.meowAudio.pause();
+    this.timer.disconnect();
+
+    if (this.renderer) {
+      this.renderer.dispose();
+      this.renderer.domElement.remove();
+    }
+  }
+
   private animate(timestamp?: number) {
-    requestAnimationFrame(this.animate);
+    if (this.disposed) {
+      return;
+    }
+
+    if (this.reducedMotion) {
+      this.renderer?.render(this.scene, this.camera);
+      return;
+    }
+
+    this.frameId = requestAnimationFrame(this.animate);
 
     this.timer.update(timestamp);
     const delta = Math.min(this.timer.getDelta(), 0.1);

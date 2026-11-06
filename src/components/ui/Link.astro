@@ -1,0 +1,35 @@
+---
+import { ArrowUpRight } from '@lucide/astro';
+
+interface Props {
+  href: string;
+  variant?: 'default' | 'quiet' | 'xref';
+  external?: boolean;
+  /** Names the destination in the running header while hovered or focused. */
+  trail?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { href, variant = 'default', external = false, trail, class: className, ...rest } = Astro.props;
+
+const variantClasses = {
+  default: 'link',
+  quiet: 'link-quiet',
+  xref: 'xref',
+} as const;
+---
+
+<a
+  href={href}
+  class:list={[variantClasses[variant], className]}
+  data-trail={trail}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  {...rest}
+><slot />{external && (
+    <>
+      <ArrowUpRight class="ml-0.5 inline-block h-[0.85em] w-[0.85em] -translate-y-px align-baseline" stroke-width={2} aria-hidden="true" />
+      <span class="sr-only"> (opens in a new tab)</span>
+    </>
+  )}</a>

@@ -1,22 +1,24 @@
 # viruchith.com
 
-Dark editorial portfolio and article platform built with Astro and Tailwind CSS. The site combines a personal portfolio with a markdown-authored engineering blog focused on backend systems, architecture, delivery, and platform engineering.
+Editorial portfolio and article platform built with Astro and Tailwind CSS. The site combines a personal portfolio with a markdown-authored engineering blog focused on backend systems, architecture, delivery, and platform engineering. The visual design follows a "Manual Page" direction: hanging-indent sections, hairline rules, and light, dark, and system themes.
 
 ## Documentation
 
 - 📖 **[Blog Authoring Guide](./BLOG_GUIDE.md)**: Content workflow, frontmatter requirements, inline images, KaTeX math, and Mermaid diagram examples.
+- 🎨 **[Design System](./DESIGN.md)**: Tokens, typography, colour roles, and component patterns for the Manual Page design.
 - 📋 **[Changelog](./CHANGELOG.md)**: Release history, bug fixes, and feature additions.
 
 ## What is included
 
 - Static Astro site with minimal client-side JavaScript.
-- Dark-only visual system inspired by the supplied Obsidian / Indigo design direction.
-- Homepage sections for profile, expertise, experience, projects, education, and latest articles.
-- Articles homepage carousel showing the latest 5 posts.
+- Light, dark, and system themes with a theme switch that remembers the visitor's choice.
+- Homepage sections for profile, latest articles, experience, featured projects, expertise, education, and contact.
+- Projects archive at `/projects/` and a custom 404 page.
+- Optional 3D cat widget, opt-in only, which loads its model and sound on request.
 - Markdown-powered blog using Astro content collections.
 - Interactive Mermaid.js diagram rendering with automated dark theme support via `astro-mermaid`.
 - KaTeX mathematical expression rendering via `remark-math` and `rehype-katex`.
-- Article listing page with SEO-friendly URL path-based pagination (`/articles/page/2/`, `/articles/page/3/`, etc.) and instant client-side fuzzy search.
+- Article listing page with SEO-friendly URL path-based pagination (`/articles/page/2/`, `/articles/page/3/`, 12 per page) and instant client-side search with thumbnails and highlighted matches.
 - Article detail pages with optimized images, canonical metadata, Open Graph tags, and structured data.
 - Structured JSON-LD schemas (`Person`, `WebSite`, `ProfilePage`, `BlogPosting`) with cross-linking between articles and the portfolio author.
 - Full-text RSS feed (`/rss.xml`) and agentic LLM crawler discovery file (`/llms.txt`).
@@ -26,14 +28,14 @@ Dark editorial portfolio and article platform built with Astro and Tailwind CSS.
 
 | Area | Choice |
 |------|--------|
-| Framework | [Astro](https://astro.build/) 7.2 (with experimental incremental static builds) |
+| Framework | [Astro](https://astro.build/) 7.3 (with experimental incremental static builds) |
 | Styling | [Tailwind CSS](https://tailwindcss.com/) 3.x |
 | Content | Astro content collections |
 | Diagrams | [Mermaid.js](https://mermaid.js.org/) via [`astro-mermaid`](https://www.npmjs.com/package/astro-mermaid) |
 | Math | [KaTeX](https://katex.org/) via `remark-math` & `rehype-katex` |
 | Images | `astro:assets` |
 | Icons | [@lucide/astro](https://lucide.dev/) |
-| Fonts | [@fontsource-variable/manrope](https://fontsource.org/), [@fontsource-variable/inter](https://fontsource.org/) |
+| Fonts | [@fontsource-variable/schibsted-grotesk](https://fontsource.org/), [@fontsource-variable/jetbrains-mono](https://fontsource.org/) |
 | Search | [Fuse.JS](https://www.fusejs.io/) 7.x |
 | Tooling | Vite via Astro, PostCSS, Autoprefixer, cssnano, `@vitejs/plugin-legacy` |
 
@@ -98,8 +100,10 @@ For the full publishing workflow, authoring rules, and recommended patterns, see
 ## Key routes
 
 - `/` homepage and portfolio sections
-- `/articles/` article index (first page, 6 articles per page)
-- `/articles/page/[number]/` paginated article listings
+- `/projects/` projects archive
+- `/articles/` article index (first page, 12 articles per page)
+- `/articles/page/[number]/` paginated article listings (pages 2 and 3; older page numbers return the 404 page)
+- `/404` custom not-found page
 - `/articles/search.json` generated fuzzy search index
 - `/articles/[slug]/` individual article pages
 - `/sitemap.xml` generated sitemap
@@ -165,15 +169,15 @@ pnpm exec wrangler deploy
 
 The current site state includes:
 
-- current release version: **v1.6.0**
+- current release version: **v1.7.0**
+- Manual Page redesign applied across all pages, with light, dark, and system themes
 - SEO & technical authority optimization in place (JSON-LD schemas, OG cards, RSS feed, llms.txt)
-- portfolio redesign and role clarity rewrite applied
 - markdown article publishing in place
 - Mermaid.js diagrams enabled in Markdown via `astro-mermaid`
 - KaTeX math expression rendering enabled
-- homepage article carousel in place
-- article fuzzy search (Fuse.JS) and pagination in place
-- Astro 7.2 upgrade complete (Vite 8, Rolldown bundler, incremental static builds, session-free SSR/static optimization)
-- production build verified
+- homepage latest-articles list with thumbnails in place
+- article search (Fuse.JS) with thumbnails and pagination in place
+- Astro 7.3 upgrade complete (Vite 8, Rolldown bundler, incremental static builds, session-free SSR/static optimization)
+- production build and type check verified
 
 For detailed release notes, see [CHANGELOG.md](./CHANGELOG.md).
