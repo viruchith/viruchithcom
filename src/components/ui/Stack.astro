@@ -24,6 +24,6 @@ const gapClasses: Record<Gap, string> = {
 };
 ---
 
-<Tag class:list={['flex flex-col', gapClasses[gap], className]} {...rest}>
+<Tag class:list={['flex flex-col', gapClasses[gap as Gap], className]} {...rest}>
   <slot />
 </Tag>

@@ -6,6 +6,44 @@ Related documentation:
 - [Project Overview & Setup Guide](./README.md)
 - [Blog Authoring & Content Guide](./BLOG_GUIDE.md)
  
+## [Unreleased]
+
+### Changed
+- Upgraded **Astro** to `7.4.7` (from `7.3.2`, direct range `^7.3.3`).
+- Upgraded **sharp** to `0.35.5` (from `0.35.4`).
+- Upgraded **KaTeX** to `0.19.1` (direct range `^0.19.0`, from `^0.17.0`).
+- Upgraded **Vitest** to `4.1.12`.
+- Typed the class lookups in `src/components/ui/Grid.astro`, `Stack.astro`, and `Text.astro` so `pnpm typecheck` passes under Astro 7.4's stricter checks. Rendered markup is unchanged.
+
+### Security
+- Remediated all 58 `pnpm audit` findings (1 critical, 19 high, 25 moderate, 13 low), bringing `pnpm audit` to 0 vulnerabilities:
+  - **`dompurify`**: Overridden to `3.4.17` (fixes critical GHSA-cg2g-xh64-v4q7 and high GHSA-mrv2-3pqr-j5jr, plus three low-severity advisories), pulled in by `mermaid`.
+  - **`undici`**: Overridden to `7.30.1` (fixes six high advisories, including GHSA-4w7w-5xrc-9h26, GHSA-qrxm-fqhp-jwvm, and GHSA-xjj6-f33q-929c, plus moderate and low advisories), pulled in by `wrangler`.
+  - **`vite`**: Overridden to `8.1.6` (fixes high GHSA-587h-7wmj-h5pm and four moderate and low advisories), pulled in by `@vitejs/plugin-legacy`.
+  - **`devalue`**: Overridden to `5.9.3` (fixes four high advisories, including GHSA-j22f-vq7h-c4qm, and several moderate and low advisories), pulled in by `astro`.
+  - **`zod`**: Overridden to `4.6.6` (fixes high GHSA-mrhx-c7xc-m3w5, memory exhaustion on oversized collections), pulled in by `@astrojs/rss`.
+  - **`sharp`**: Upgraded to `0.35.5` (fixes high GHSA-wq5f-xc86-pv6w, a librsvg dependency issue).
+  - **`source-map-js`**: Overridden to `1.2.2` (fixes high GHSA-68fv-2mgg-jv7q, CVE-2026-93749, event-loop DoS).
+  - **`brace-expansion`**: Scoped overrides for `@1` (`1.1.21`) and `@5` (`5.0.12`) (fix high GHSA-6j4f-fj2g-mc7p and GHSA-qhr7-859c-m2p7, plus moderate GHSA-q2hr-2g5m-vwhr).
+  - **`fast-uri`**: Overridden to `3.1.9` (fixes moderate GHSA-w74x-v6f9-j3xg, GHSA-wjr9-j795-jxcr, and GHSA-hrr3-gc8f-f4qj, plus low advisories).
+  - **`smol-toml`**: Overridden to `1.9.0` (fixes moderate GHSA-r4xh-jqrq-34v2, quadratic-time parse).
+  - **`minimatch`**: Overridden to `11.0.1` for the `@10` line (fixes moderate GHSA-g3hv-75wg-m249, globparts DoS), pulled in by `typescript-eslint`.
+  - **`postcss-selector-parser`**: Scoped `@6` override raised to `6.1.5` (fixes moderate GHSA-rj75-hqrm-r3gf, quadratic flat-selector parsing).
+  - **`katex`**: Upgraded to `0.19.1` (fixes low GHSA-238p-pmpm-9mq7).
+  - **`astro`**: Upgraded to `7.4.7` (fixes low GHSA-mpr7-6m5w-76rw).
+  - **`@vitest/mocker`**: Resolved to `4.1.12` (fixes moderate GHSA-xp26-3454-mjgp and GHSA-qxg6-89mg-rqv8).
+
+### Verification
+- `pnpm audit` reports no known vulnerabilities.
+- `pnpm typecheck` reports 0 errors and 0 warnings across 55 Astro files.
+- `pnpm test` passes all 7 tests.
+- `pnpm build` completes with 39 pages.
+- `pnpm exec eslint src` is clean. The full `pnpm lint` still reports 94 problems, all in the vendored Impeccable tooling under `.cursor/skills/impeccable/scripts/`.
+- Rendered an article with KaTeX math on the production build in the browser: all formulas render with no KaTeX errors in dark mode.
+
+### Infrastructure
+- Regenerated `pnpm-lock.yaml`. The project version stays at `1.7.0`.
+
 ## [1.7.0] - 2026-11-06
 
 ### Added

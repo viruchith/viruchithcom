@@ -26,6 +26,6 @@ const toneClasses = {
 } as const;
 ---
 
-<Tag class:list={[sizeClasses[size], toneClasses[tone], className]} {...rest}>
+<Tag class:list={[sizeClasses[size as keyof typeof sizeClasses], toneClasses[tone as keyof typeof toneClasses], className]} {...rest}>
   <slot />
 </Tag>

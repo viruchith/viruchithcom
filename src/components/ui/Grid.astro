@@ -21,7 +21,7 @@ const colClasses = {
 <Tag
   class:list={[
     'grid gap-x-8',
-    colClasses[cols],
+    colClasses[cols as 1 | 2 | 3],
     ruled ? 'gap-y-0 border-t border-rule [&>*]:border-b [&>*]:border-rule' : 'gap-y-8',
     className,
   ]}
