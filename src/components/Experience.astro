@@ -1,77 +1,56 @@
 ---
-import { Briefcase, ArrowRight, BookOpen } from '@lucide/astro';
+import Section from './ui/Section.astro';
+import Link from './ui/Link.astro';
 import { experiences } from '../data/experience';
+import { slugify } from '../lib/format';
 
 function renderBulletText(text: string) {
-  // Replace markdown **bold** with strong tags
-  return text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-medium text-on-surface">$1</strong>');
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-ink">$1</strong>');
 }
 ---
 
-<section id="experience" class="mb-40 px-6 md:px-12 lg:px-24" aria-labelledby="experience-heading">
-  <div class="mb-16 flex items-end justify-between border-b border-surface-container-low pb-8 transition-colors">
-    <div>
-      <h2 id="experience-heading" class="font-headline mb-2 text-3xl font-bold text-on-background md:text-4xl">
-        Experience
-      </h2>
-      <p class="font-body text-on-surface-variant">Professional arc and engineering impact.</p>
-    </div>
-    <Briefcase class="h-10 w-10 shrink-0 text-primary opacity-50 md:h-11 md:w-11" stroke-width={1.25} aria-hidden="true" />
-  </div>
-
-  <div class="space-y-12 border-l border-outline-variant/30 pl-4 transition-colors md:pl-8">
+<Section id="experience" title="Experience">
+  <ol class="flex flex-col">
     {
-      experiences.map((exp) => (
-        <div class="group relative">
-          <div
-            class="absolute -left-[41px] top-1.5 h-4 w-4 rounded-full border-2 border-primary bg-surface transition-colors group-hover:bg-primary md:-left-[49px]"
-            aria-hidden="true"
-          />
-
-          <article class="ml-6 overflow-hidden rounded-2xl border border-outline-variant/15 bg-surface-container-low p-8 transition-all hover:bg-surface-container/90">
-            <header class="mb-6 flex flex-col md:flex-row md:items-start md:justify-between gap-2">
-              <div>
-                <h3 class="font-headline text-2xl font-bold text-on-background">{exp.role}</h3>
-                <p class="text-lg font-medium text-primary">{exp.company}</p>
-                <p class="text-xs text-on-surface-variant/80 mt-0.5">{exp.companyContext}</p>
-                <p class="mt-1 font-body text-sm text-on-surface-variant">
-                  {exp.location} ·{' '}
-                  <time datetime={exp.startIso}>{exp.startDate}</time> –{' '}
-                  {exp.endIso ? <time datetime={exp.endIso}>{exp.endDate}</time> : <span>{exp.endDate}</span>}
-                </p>
-              </div>
-              {exp.isCurrent && (
-                <span class="font-label rounded-full border border-primary-container/30 bg-primary-container/10 px-3 py-1 text-xs uppercase tracking-widest text-primary">
-                  Current
-                </span>
-              )}
-            </header>
-
-            <div class="space-y-4 font-body leading-relaxed text-on-surface-variant">
+      experiences.map((exp, index) => (
+        <li
+          id={`exp-${slugify(exp.role)}`}
+          class:list={['grid gap-x-8 gap-y-1 py-6 lg:grid-cols-9', index === 0 ? 'pt-0' : 'border-t border-rule']}
+        >
+          <p class="hidden pt-0.5 font-mono text-meta text-faint lg:col-span-2 lg:block">
+            <time datetime={exp.startIso}>{exp.startIso}</time>
+            <span aria-hidden="true"> — </span>
+            <span class="sr-only"> to </span>
+            {exp.endIso ? <time datetime={exp.endIso}>{exp.endIso}</time> : <span>now</span>}
+          </p>
+          <div class="min-w-0 lg:col-span-7">
+            <h3 class="text-title font-semibold">{exp.role}</h3>
+            <p class="mt-1 text-small text-muted">
+              {exp.company} · {exp.location}
+              <span class="lg:hidden">
+                {' · '}
+                <time datetime={exp.startIso}>{exp.startDate}</time> – {exp.endDate}
+              </span>
+            </p>
+            <ul class="bullets mt-4 flex max-w-[68ch] flex-col gap-3 text-body">
               {exp.bullets.map((bullet) => (
-                <div class="flex flex-col gap-2">
-                  <div class="flex gap-3">
-                    <ArrowRight class="mt-1 h-4 w-4 shrink-0 text-primary" stroke-width={2} aria-hidden="true" />
-                    <span set:html={renderBulletText(bullet.text)} />
-                  </div>
+                <li>
+                  <span set:html={renderBulletText(bullet.text)} />
                   {bullet.relatedArticle && (
-                    <div class="ml-7 text-xs">
-                      <a
+                    <span class="mt-1.5 block text-small">
+                      <Link
                         href={`/articles/${bullet.relatedArticle.slug}/`}
-                        class="inline-flex items-center gap-1.5 font-medium text-primary hover:underline"
-                      >
-                        <BookOpen class="h-3.5 w-3.5" aria-hidden="true" />
-                        <span>{bullet.relatedArticle.title}</span>
-                        <ArrowRight class="h-3 w-3" aria-hidden="true" />
-                      </a>
-                    </div>
+                        variant="xref"
+                        trail={`Article: ${bullet.relatedArticle.title}`}
+                      >{bullet.relatedArticle.title}</Link>
+                    </span>
                   )}
-                </div>
+                </li>
               ))}
-            </div>
-          </article>
-        </div>
+            </ul>
+          </div>
+        </li>
       ))
     }
-  </div>
-</section>
+  </ol>
+</Section>

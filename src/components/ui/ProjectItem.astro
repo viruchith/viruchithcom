@@ -1,0 +1,36 @@
+---
+import type { Project } from '../../data/projects';
+import { slugify } from '../../lib/format';
+import Badge from './Badge.astro';
+import Link from './Link.astro';
+
+interface Props {
+  project: Project;
+  level?: 3 | 4;
+}
+
+const { project, level = 3 } = Astro.props;
+const Tag = level === 3 ? 'h3' : 'h4';
+const id = `project-${slugify(project.repoName ?? project.title)}`;
+---
+
+<article id={id} class="flex flex-col py-6">
+  <Tag class="text-title font-semibold">{project.title}</Tag>
+  <p class="mt-2 text-small text-muted">{project.problem}</p>
+  <p class="mt-2 text-body">{project.approach}</p>
+  <ul class="mt-4 flex flex-wrap gap-1.5" aria-label="Technologies">
+    {project.tags.map((tag) => <li><Badge>{tag}</Badge></li>)}
+  </ul>
+  <div class="mt-4 flex flex-col gap-2 text-small sm:flex-row sm:flex-wrap sm:gap-x-6">
+    {project.link && (
+      <Link href={project.link} external>Source on GitHub</Link>
+    )}
+    {project.relatedArticle && (
+      <Link
+        href={`/articles/${project.relatedArticle.slug}/`}
+        variant="xref"
+        trail={`Article: ${project.relatedArticle.title}`}
+      >Write-up: {project.relatedArticle.title}</Link>
+    )}
+  </div>
+</article>

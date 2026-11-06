@@ -1,109 +1,79 @@
 ---
-import { Mail, Rss } from '@lucide/astro';
-import BrandGithub from './icons/BrandGithub.astro';
-import BrandLinkedin from './icons/BrandLinkedin.astro';
-import BrandX from './icons/BrandX.astro';
+import Container from './ui/Container.astro';
+import ThemeSwitch from './ThemeSwitch.astro';
 import { siteConfig } from '../config/site';
+import { formatIsoDay } from '../lib/format';
 import { version } from '../../package.json';
 
-const year = new Date().getFullYear();
+const built = formatIsoDay(new Date());
 
-const navLinks = [
-  { href: '/#experience', label: 'Experience' },
-  { href: '/#projects', label: 'Projects' },
-  { href: '/#skills', label: 'Skills' },
-  { href: '/articles/', label: 'Articles' },
-  { href: '/#contact', label: 'Contact' },
+const groups = [
+  {
+    title: 'Site',
+    links: [
+      { href: '/', label: 'Home' },
+      { href: '/projects/', label: 'Projects' },
+      { href: '/articles/', label: 'Articles' },
+      { href: '/rss.xml', label: 'RSS feed' },
+    ],
+  },
+  {
+    title: 'Elsewhere',
+    links: [
+      { href: siteConfig.socials.github, label: 'GitHub', external: true },
+      { href: siteConfig.socials.linkedin, label: 'LinkedIn', external: true },
+      { href: siteConfig.socials.x, label: 'X', external: true },
+    ],
+  },
+  {
+    title: 'Contact',
+    links: [
+      { href: `mailto:${siteConfig.email}`, label: siteConfig.email },
+      ...(siteConfig.resumeUrl ? [{ href: siteConfig.resumeUrl, label: 'Resume (PDF)', external: true }] : []),
+    ],
+  },
 ];
 ---
 
-<footer
-  class="w-full border-t border-outline-variant/10 bg-background transition-colors duration-500 ease-out"
->
-  <div class="mx-auto max-w-7xl px-6 py-12 md:px-8 lg:px-12">
-    <!-- Top tier: Brand & Site Navigation -->
-    <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between pb-8 border-b border-outline-variant/10">
-      <div class="space-y-1">
-        <a
-          href="/"
-          class="font-headline text-lg font-extrabold tracking-[-0.08em] text-on-background transition-colors hover:text-primary"
-        >
-          VIRUCHITH.COM
-        </a>
-        <p class="font-body text-xs text-on-surface-variant/80">
-          Backend Engineer · Java, Spring Boot &amp; Distributed Systems
-        </p>
+<footer class="mt-8 border-t border-rule">
+  <Container>
+    <div class="grid gap-y-8 py-10 md:grid-cols-12 md:gap-x-8">
+      <div class="md:col-span-3">
+        <p class="text-small font-semibold text-ink">{siteConfig.name}</p>
+        <p class="mt-1 text-small text-muted">{siteConfig.headlineRole}, {siteConfig.location}</p>
+        <div class="mt-4">
+          <ThemeSwitch name="theme-footer" />
+        </div>
       </div>
-
-      <nav class="flex flex-wrap items-center gap-x-6 gap-y-2.5 font-body text-sm font-medium tracking-wide text-on-surface-variant" aria-label="Footer navigation">
+      <nav aria-label="Footer" class="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 md:col-span-9">
         {
-          navLinks.map((link) => (
-            <a
-              href={link.href}
-              class="transition-colors hover:text-primary"
-            >
-              {link.label}
-            </a>
+          groups.map((group) => (
+            <div class="min-w-0">
+              <h2 class="text-meta text-faint">{group.title}</h2>
+              <ul class="mt-3 flex flex-col gap-2 text-small">
+                {group.links.map((link) => (
+                  <li class="min-w-0 break-words">
+                    <a
+                      href={link.href}
+                      class="link-quiet"
+                      target={link.external ? '_blank' : undefined}
+                      rel={link.external ? 'noopener noreferrer' : undefined}
+                    >
+                      {link.label}
+                      {link.external && <span class="sr-only"> (opens in a new tab)</span>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))
         }
       </nav>
     </div>
-
-    <!-- Bottom tier: Copyright, Socials & Meta -->
-    <div class="flex flex-col-reverse items-center justify-between gap-6 pt-6 sm:flex-row">
-      <p class="font-body text-xs tracking-wide text-on-surface-variant/75 text-center sm:text-left">
-        © {year} {siteConfig.name}. Built with precision.
-        <span class="ml-2 font-mono text-[11px] opacity-60">v{version}</span>
-      </p>
-
-      <div class="flex items-center gap-1 sm:gap-2" aria-label="Social and syndication links">
-        <a
-          class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-on-surface-variant transition-colors hover:bg-white/5 hover:text-primary"
-          href={siteConfig.socials.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub profile"
-          title="GitHub"
-        >
-          <BrandGithub class="h-4 w-4" />
-        </a>
-        <a
-          class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-on-surface-variant transition-colors hover:bg-white/5 hover:text-primary"
-          href={siteConfig.socials.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn profile"
-          title="LinkedIn"
-        >
-          <BrandLinkedin class="h-4 w-4" />
-        </a>
-        <a
-          class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-on-surface-variant transition-colors hover:bg-white/5 hover:text-primary"
-          href={siteConfig.socials.x}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="X (Twitter) profile"
-          title="X"
-        >
-          <BrandX class="h-4 w-4" />
-        </a>
-        <a
-          class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-on-surface-variant transition-colors hover:bg-white/5 hover:text-primary"
-          href={`mailto:${siteConfig.email}`}
-          aria-label="Email Viruchith"
-          title={`Email (${siteConfig.email})`}
-        >
-          <Mail class="h-4 w-4" stroke-width={1.75} aria-hidden="true" />
-        </a>
-        <a
-          class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-on-surface-variant transition-colors hover:bg-white/5 hover:text-primary"
-          href="/rss.xml"
-          aria-label="RSS Feed"
-          title="RSS Feed"
-        >
-          <Rss class="h-4 w-4" stroke-width={1.75} aria-hidden="true" />
-        </a>
-      </div>
+    <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t border-rule py-4 font-mono text-meta text-faint">
+      <span>viruchith.com</span>
+      <span>v{version} · built <time datetime={built}>{built}</time></span>
+      <span aria-hidden="true">VIRUCHITH</span>
     </div>
-  </div>
+  </Container>
 </footer>

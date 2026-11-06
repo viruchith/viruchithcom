@@ -18,6 +18,11 @@ export interface BlogPostSummary {
 
 const WORDS_PER_MINUTE = 220;
 
+export const ARTICLES_PER_PAGE = 12;
+
+export const ARTICLES_DESCRIPTION =
+  'Technical writing on architecture, platform engineering, cloud-native delivery, observability, and resilient backend systems.';
+
 export function formatArticleDate(date: Date) {
   return new Intl.DateTimeFormat('en-US', {
     month: 'short',

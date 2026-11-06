@@ -1,0 +1,25 @@
+---
+import Section from './ui/Section.astro';
+import Link from './ui/Link.astro';
+import ArticleItem from './ui/ArticleItem.astro';
+import type { BlogPostSummary } from '../lib/blog';
+
+interface Props {
+  posts: BlogPostSummary[];
+  total: number;
+}
+
+const { posts, total } = Astro.props;
+---
+
+<Section id="articles" title="Articles">
+  <p class="max-w-[62ch] text-body text-muted">
+    Recent writing on backend systems, infrastructure, and security.
+  </p>
+  <ul class="mt-4 border-t border-rule">
+    {posts.map((post) => <ArticleItem post={post} />)}
+  </ul>
+  <p class="mt-6 text-small">
+    <Link href="/articles/" variant="xref" trail="Articles: the full index">All {total} articles</Link>
+  </p>
+</Section>

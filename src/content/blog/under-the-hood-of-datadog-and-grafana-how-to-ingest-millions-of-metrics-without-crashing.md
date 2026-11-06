@@ -23,7 +23,7 @@ These systems process over **10 million** events per second simultaneously, comp
 
 At a high level, modern observability platforms behave less like a single database and more like a carefully isolated assembly line:
 
-![Observability Architecture](/articles/images/observability-platform-architecture.webp "Observability Architecture")
+![Observability Architecture](../../assets/articles/observability-platform-architecture.webp "Observability Architecture")
 
 1. Edge gateways accept and normalize telemetry.
 2. A durable transport layer absorbs bursts and decouples producers from storage.

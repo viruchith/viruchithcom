@@ -1,7 +1,9 @@
 ---
 import "../styles/global.css";
-import manropeWoff2 from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
-import interWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import sansWoff2 from "@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url";
+import monoWoff2 from "@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url";
+import SiteHeader, { type NavKey } from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { siteConfig } from "../config/site";
 
 interface Props {
@@ -15,6 +17,8 @@ interface Props {
     srcset?: string;
     sizes?: string;
   };
+  current?: NavKey;
+  trail?: string;
 }
 
 const {
@@ -24,6 +28,8 @@ const {
   ogType = "website",
   structuredData,
   preloadImage,
+  current,
+  trail,
 } = Astro.props;
 
 const canonical = new URL(
@@ -100,17 +106,41 @@ const baseWebSiteSchema = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        root.classList.remove("no-js");
+        root.classList.add("js");
+        var preference = "system";
+        try {
+          var stored = localStorage.getItem("theme");
+          if (stored === "light" || stored === "dark") preference = stored;
+        } catch {}
+        var isDark =
+          preference === "dark" ||
+          (preference === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        root.dataset.theme = isDark ? "dark" : "light";
+        root.dataset.themePreference = preference;
+        var color = document.createElement("meta");
+        color.name = "theme-color";
+        color.setAttribute("data-theme-color", "");
+        color.content = isDark ? "#0a0a0b" : "#fafaf8";
+        document.head.appendChild(color);
+      })();
+    </script>
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="keywords" content={siteConfig.keywords.join(", ")} />
     <meta name="author" content={siteConfig.name} />
     <meta name="robots" content="index,follow,max-image-preview:large" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafaf8" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a0b" />
 
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title={`${siteConfig.name} — Technical Articles`} href="/rss.xml" />
@@ -118,8 +148,6 @@ const baseWebSiteSchema = {
     <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
     <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-
-    <meta name="theme-color" content="#0b1326" />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={resolvedTitle} />
@@ -130,10 +158,7 @@ const baseWebSiteSchema = {
     <meta property="og:image" content={resolvedOgImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content={siteConfig.ogImageAlt}
-    />
+    <meta property="og:image:alt" content={siteConfig.ogImageAlt} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={resolvedTitle} />
@@ -150,8 +175,8 @@ const baseWebSiteSchema = {
         <script type="application/ld+json" is:inline set:html={JSON.stringify(item)} />
       ))
     }
-    <link rel="preload" href={manropeWoff2} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={monoWoff2} as="font" type="font/woff2" crossorigin />
     {
       preloadImage && (
         <link
@@ -164,7 +189,7 @@ const baseWebSiteSchema = {
         />
       )
     }
-    <!-- Google Tag Manager is deferred to protect initial paint on mobile -->
+    <slot name="head" />
     <style>
       #cat-widget-container {
         position: fixed;
@@ -178,7 +203,7 @@ const baseWebSiteSchema = {
       }
     </style>
   </head>
-  <body class="min-h-screen bg-background text-on-background">
+  <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript
       ><iframe
@@ -188,8 +213,13 @@ const baseWebSiteSchema = {
         style="display:none;visibility:hidden"></iframe></noscript
     >
     <!-- End Google Tag Manager (noscript) -->
+    <a href="#main" class="skip-link">Skip to content</a>
     <div id="cat-widget-container" aria-hidden="true"></div>
-    <slot />
+    <SiteHeader current={current} trail={trail} />
+    <main id="main" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <SiteFooter />
     <script>
       const browserWindow = window as Record<string, any>;
 
@@ -255,72 +285,75 @@ const baseWebSiteSchema = {
 
       scheduleGtm();
 
-      let widgetLoaded = false;
-      let widgetTimerId = 0;
-      const WIDGET_DELAY_MS = 60_000;
+      // The cat is opt-in: three.js and the model load only after the visitor enables it.
+      const CAT_KEY = "cat";
+      let cat: { destroy(): void } | null = null;
+      let catLoading = false;
 
-      const bootCatWidget = () => {
-        if (widgetLoaded) {
-          return;
+      const readCatPreference = () => {
+        try {
+          return localStorage.getItem(CAT_KEY) === "on";
+        } catch {
+          return false;
         }
-
-        widgetLoaded = true;
-        import("../lib/cat-widget")
-          .then(({ initCatWidget }) => {
-            initCatWidget();
-          })
-          .catch((error) => {
-            console.warn("Cat widget failed to load", error);
-          });
       };
 
-      const scheduleCatWidgetBoot = () => {
-        if (widgetLoaded) {
-          return;
-        }
-
-        if (widgetTimerId) {
-          globalThis.clearTimeout(widgetTimerId);
-        }
-
-        widgetTimerId = globalThis.setTimeout(() => {
-          widgetTimerId = 0;
-
-          if (document.visibilityState !== "visible") {
-            const onVisible = () => {
-              if (document.visibilityState !== "visible") {
-                return;
-              }
-
-              document.removeEventListener("visibilitychange", onVisible);
-              bootCatWidget();
-            };
-
-            document.addEventListener("visibilitychange", onVisible, {
-              once: true,
-            });
-            return;
-          }
-
-          bootCatWidget();
-        }, WIDGET_DELAY_MS);
-      };
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", scheduleCatWidgetBoot, {
-          once: true,
+      const syncCatControls = (enabled: boolean) => {
+        document.querySelectorAll<HTMLButtonElement>("[data-cat-toggle]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(enabled));
+          const label = button.querySelector("[data-cat-label]");
+          if (label) label.textContent = enabled ? "Put the cat away" : "Let the cat out";
         });
-      } else {
-        scheduleCatWidgetBoot();
-      }
+        document.querySelectorAll("[data-cat-status]").forEach((status) => {
+          status.textContent = enabled ? "The cat is out." : "The cat is asleep.";
+        });
+      };
 
-      document.addEventListener("astro:page-load", scheduleCatWidgetBoot);
-      globalThis.addEventListener("pagehide", () => {
-        if (widgetTimerId) {
-          globalThis.clearTimeout(widgetTimerId);
-          widgetTimerId = 0;
+      const enableCat = async () => {
+        if (cat || catLoading) return;
+        catLoading = true;
+        try {
+          const { initCatWidget } = await import("../lib/cat-widget");
+          if (catWanted) cat = initCatWidget();
+        } catch (error) {
+          console.warn("Cat widget failed to load", error);
+        } finally {
+          catLoading = false;
         }
+      };
+
+      const disableCat = () => {
+        cat?.destroy();
+        cat = null;
+      };
+
+      const setCat = (enabled: boolean) => {
+        catWanted = enabled;
+        try {
+          localStorage.setItem(CAT_KEY, enabled ? "on" : "off");
+        } catch {
+          /* Without storage the choice lasts for this page only. */
+        }
+        syncCatControls(enabled);
+        if (enabled) void enableCat();
+        else disableCat();
+      };
+
+      document.addEventListener("click", (event) => {
+        const toggle = (event.target as Element | null)?.closest?.("[data-cat-toggle]");
+        if (!toggle) return;
+        setCat(toggle.getAttribute("aria-pressed") !== "true");
       });
+
+      let catWanted = readCatPreference();
+      syncCatControls(catWanted);
+      if (catWanted) {
+        if ("requestIdleCallback" in browserWindow) {
+          browserWindow.requestIdleCallback(() => void enableCat(), { timeout: 4000 });
+        } else {
+          globalThis.setTimeout(() => void enableCat(), 1500);
+        }
+      }
     </script>
   </body>
 </html>
