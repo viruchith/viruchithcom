@@ -48,7 +48,7 @@ const title = `${article.title} | Viruchith Ganesan`;
 const description = article.description;
 const articleUrl = `https://viruchith.com/articles/${article.slug}/`;
 
-const heroImageSizes = '(max-width: 767px) 100vw, (max-width: 1200px) 75vw, 880px';
+const heroImageSizes = '(max-width: 767px) calc(100vw - 2.5rem), (max-width: 1200px) 70vw, 840px';
 const heroImageWidths = [360, 480, 720, 960, 1200, 1600];
 
 const optimizedHero = await getImage({

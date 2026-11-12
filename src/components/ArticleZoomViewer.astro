@@ -656,16 +656,8 @@ import { ZoomIn, ZoomOut, RotateCcw, X } from '@lucide/astro';
 
         if (!pre.dataset.zoomBound) {
           pre.dataset.zoomBound = 'true';
-          pre.setAttribute('tabindex', '0');
-          pre.setAttribute('role', 'button');
-          pre.setAttribute('aria-label', 'Zoom architecture diagram');
+          pre.title = 'Click to zoom diagram';
           pre.addEventListener('click', triggerOpen);
-          pre.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              triggerOpen();
-            }
-          });
         }
 
         if (zoomBtn && !zoomBtn.dataset.bound) {

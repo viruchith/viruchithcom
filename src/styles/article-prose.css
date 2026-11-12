@@ -122,6 +122,19 @@
   @apply mt-0;
 }
 
+/* Shiki code comments: ensure github-dark comment tokens clear 4.5:1 contrast against raised-dark */
+html[data-theme='dark'] .article-prose .astro-code span[style*='#6A737D'],
+html[data-theme='dark'] .article-prose .astro-code span[style*='#6a737d'] {
+  color: var(--faint) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .article-prose .astro-code span[style*='#6A737D'],
+  html:not([data-theme='light']) .article-prose .astro-code span[style*='#6a737d'] {
+    color: var(--faint) !important;
+  }
+}
+
 .article-prose .code-frame__copy {
   @apply absolute right-1.5 top-1.5 bg-raised;
   opacity: 0;
