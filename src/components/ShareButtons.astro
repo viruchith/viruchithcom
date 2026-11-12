@@ -86,7 +86,6 @@ const mailHref = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIC
   }
 </style>
 
-<script is:inline src="/sharer.min.js"></script>
 <script>
   document.querySelectorAll<HTMLElement>('[data-share]').forEach((root) => {
     if (root.dataset.bound) return;
@@ -111,6 +110,26 @@ const mailHref = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIC
       window.setTimeout(() => {
         if (copyLabel) copyLabel.textContent = 'Copy link';
       }, 2000);
+    });
+
+    // Native window.open sharing handlers (eliminates external blocking sharer.min.js script)
+    panel?.querySelectorAll<HTMLButtonElement>('[data-sharer]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const network = btn.getAttribute('data-sharer');
+        let shareLink = '';
+        if (network === 'twitter') {
+          shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
+        } else if (network === 'linkedin') {
+          shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        } else if (network === 'facebook') {
+          shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+        } else if (network === 'whatsapp') {
+          shareLink = `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`;
+        }
+        if (shareLink) {
+          window.open(shareLink, '_blank', 'noopener,noreferrer,width=600,height=480');
+        }
+      });
     });
 
     const setOpen = (open: boolean) => {

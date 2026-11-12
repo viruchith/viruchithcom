@@ -9,6 +9,7 @@ import Section from '../../components/ui/Section.astro';
 import Badge from '../../components/ui/Badge.astro';
 import ArticleItem from '../../components/ui/ArticleItem.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
+import ArticleZoomViewer from '../../components/ArticleZoomViewer.astro';
 import 'katex/dist/katex.min.css';
 import '../../styles/article-prose.css';
 
@@ -47,7 +48,7 @@ const title = `${article.title} | Viruchith Ganesan`;
 const description = article.description;
 const articleUrl = `https://viruchith.com/articles/${article.slug}/`;
 
-const heroImageSizes = '(max-width: 767px) 100vw, (max-width: 1200px) 75vw, 880px';
+const heroImageSizes = '(max-width: 767px) calc(100vw - 2.5rem), (max-width: 1200px) 70vw, 840px';
 const heroImageWidths = [360, 480, 720, 960, 1200, 1600];
 
 const optimizedHero = await getImage({
@@ -151,7 +152,8 @@ const structuredData = {
             loading="eager"
             decoding="async"
             fetchpriority="high"
-            class="aspect-[16/9] w-full border border-rule object-cover"
+            class="aspect-[16/9] w-full border border-rule object-cover cursor-zoom-in transition-colors hover:border-rule-strong"
+            data-zoomable
           />
         </figure>
       </div>
@@ -194,6 +196,7 @@ const structuredData = {
       </Section>
     )}
   </Container>
+  <ArticleZoomViewer />
 </BaseLayout>
 
 <style is:global>

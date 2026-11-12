@@ -42,10 +42,20 @@ const iso = post ? formatIsoDay(post.publishDate) : '';
           alt=""
           widths={[160, 240, 320]}
           sizes="(min-width: 768px) 8.5rem, 7.25rem"
+          quality={75}
           class="aspect-[16/10] w-full border border-rule object-cover"
         />
       ) : (
-        <img alt="" data-item-image class="aspect-[16/10] w-full border border-rule bg-raised object-cover" width="320" height="200" />
+        <img
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"
+          alt=""
+          data-item-image
+          class="aspect-[16/10] w-full border border-rule bg-raised object-cover"
+          width="320"
+          height="200"
+          loading="lazy"
+          decoding="async"
+        />
       )
     }
   </a>

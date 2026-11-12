@@ -92,7 +92,11 @@
 }
 
 .article-prose :where(img) {
-  @apply h-auto max-w-full border border-rule;
+  @apply h-auto max-w-full border border-rule cursor-zoom-in transition-colors duration-150;
+}
+
+.article-prose :where(img):hover {
+  @apply border-rule-strong;
 }
 
 .article-prose :where(figcaption) {
@@ -116,6 +120,19 @@
 
 .article-prose .code-frame > pre {
   @apply mt-0;
+}
+
+/* Shiki code comments: ensure github-dark comment tokens clear 4.5:1 contrast against raised-dark */
+html[data-theme='dark'] .article-prose .astro-code span[style*='#6A737D'],
+html[data-theme='dark'] .article-prose .astro-code span[style*='#6a737d'] {
+  color: var(--faint) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .article-prose .astro-code span[style*='#6A737D'],
+  html:not([data-theme='light']) .article-prose .astro-code span[style*='#6a737d'] {
+    color: var(--faint) !important;
+  }
 }
 
 .article-prose .code-frame__copy {
@@ -154,8 +171,40 @@
 }
 
 .article-prose :where(pre.mermaid) {
-  @apply overflow-x-auto rounded border border-rule p-4 text-center;
+  @apply overflow-x-auto rounded border border-rule p-4 text-center cursor-zoom-in transition-colors duration-150;
   background-color: var(--raised) !important;
+}
+
+.article-prose :where(pre.mermaid):hover {
+  @apply border-rule-strong;
+}
+
+.article-prose .diagram-frame {
+  @apply relative mt-5;
+}
+
+.article-prose .diagram-frame > pre.mermaid {
+  @apply mt-0;
+}
+
+.article-prose .diagram-frame__zoom {
+  @apply absolute right-1.5 top-1.5 z-10 flex items-center gap-1.5 rounded border border-rule bg-raised px-2 py-1 text-meta text-muted transition-all duration-150;
+  opacity: 0;
+}
+
+.article-prose .diagram-frame:hover .diagram-frame__zoom,
+.article-prose .diagram-frame__zoom:focus-visible {
+  opacity: 1;
+}
+
+.article-prose .diagram-frame__zoom:hover {
+  @apply border-ink bg-ink text-paper;
+}
+
+@media (hover: none) {
+  .article-prose .diagram-frame__zoom {
+    opacity: 1;
+  }
 }
 
 /* Mermaid bakes its own label colours. Restate them in the page tokens so dark-mode edge labels clear 4.5:1, and give the label its own inset. */

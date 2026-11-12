@@ -8,6 +8,14 @@ Related documentation:
  
 ## [Unreleased]
 
+## [1.8.0] - 2026-11-12
+
+### Added
+- **Article media zoom viewer**: Interactive modal zoom viewer (`src/components/ArticleZoomViewer.astro`) for all article body images, hero images, and Mermaid.js architecture diagrams.
+  - Smooth pan and zoom canvas supporting zoom in/out controls, keyboard shortcuts (`+`, `-`, `0`, `Esc`, arrow keys), mouse-wheel zoom centered on cursor, multi-touch pinch-to-zoom on mobile, and double-click/double-tap to toggle 2x zoom.
+  - Hover-revealed (and touch-persistent) "Zoom" action button on Mermaid diagram frames (`.diagram-frame__zoom`) alongside full click-to-zoom interaction.
+  - Accessible dialog (`<dialog>` with `aria-modal="true"`, focus management returning to trigger upon close, and keyboard navigation).
+
 ### Changed
 - Upgraded **Astro** to `7.4.7` (from `7.3.2`, direct range `^7.3.3`).
 - Upgraded **sharp** to `0.35.5` (from `0.35.4`).
@@ -19,6 +27,13 @@ Related documentation:
 - Enabled Astro's constrained image layout with responsive styles (`image.layout: 'constrained'`) in `astro.config.mjs`.
 
 ### Fixed
+- **Lighthouse performance & render-blocking scripts**: Removed synchronous `sharer.min.js` and replaced it with native inline sharing handlers in `src/components/ShareButtons.astro`, eliminating a 155ms render-blocking resource and achieving 100/100 Lighthouse Performance across pages.
+- **Article diagram accessible naming (WCAG 2.5.3)**: Removed redundant `role="button"` and `aria-label` from `<pre.mermaid>`, allowing the dedicated `.diagram-frame__zoom` button to serve as the accessible name target and eliminating Label-in-Name mismatch.
+- **Dark mode code comment contrast (WCAG 1.4.3)**: Overrode Shiki GitHub Dark `#6A737D` comments in dark mode with design token `var(--faint)`, lifting contrast from 3.8:1 to 5.3:1 against dark surfaces.
+- **RSS link in text block (WCAG 1.4.1)**: Replaced `link-quiet` with standard underlined `.link` for the inline RSS feed anchor on the articles index.
+- **Image delivery & sizes optimization**: Refined responsive `sizes` attribute on article hero images and added `quality={75}` to article list thumbnails.
+- **Mermaid diagram zoom rendering**: Fixed an issue where clicking a Mermaid diagram opened an empty square by preserving the diagram's scoped SVG ID (retaining internal `<style>` node/edge styling and arrow markers) and calculating explicit responsive dimensions from the SVG `viewBox` coordinates to prevent shrink-wrap layout collapse inside flex containers.
+- **Diagram edge label contrast in zoom view**: Added dark and light mode surface/ink overrides for Mermaid edge labels inside the zoom modal.
 - **Mobile layout shift on the homepage** (Lighthouse CLS 0.248): when Schibsted Grotesk and JetBrains Mono replaced the system fallback fonts, the hero description block moved by about 35px at 412px wide. Added width-matched fallback faces (`Schibsted Grotesk Fallback` and `JetBrains Mono Fallback`), built with `local()` and `size-adjust` against Segoe UI, Segoe UI Semibold, and Consolas, and placed them in the font stacks in `tailwind.config.mjs` ahead of the generic families. Measured layout shift for the swap dropped from 0.2479 to 0.0002 at 412px, and to 0.0011 at desktop width. Platforms without these local fonts use their usual fallback, so the swap there is unchanged.
 - **Short phone screens**: below 40rem of viewport height, the header no longer stays sticky as a full block. Only the top bar stays pinned. At 200% text size, a script also pins only the bar when the full header would take more than 22% of the viewport. The `--header-h` offset is adjusted to match.
 - **Articles index at 200% text size**: the search field and article column no longer overflow horizontally (`min-w-0` on the grid column and search field).
@@ -54,7 +69,8 @@ Related documentation:
 - Rendered an article with KaTeX math on the production build in the browser: all formulas render with no KaTeX errors in dark mode.
 
 ### Infrastructure
-- Regenerated `pnpm-lock.yaml`. The project version stays at `1.7.0`.
+- Bumped version to `1.8.0`.
+- Regenerated `pnpm-lock.yaml`.
 
 ## [1.7.0] - 2026-11-06
 
