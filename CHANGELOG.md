@@ -8,6 +8,8 @@ Related documentation:
  
 ## [Unreleased]
 
+## [1.8.0] - 2026-11-12
+
 ### Added
 - **Article media zoom viewer**: Interactive modal zoom viewer (`src/components/ArticleZoomViewer.astro`) for all article body images, hero images, and Mermaid.js architecture diagrams.
   - Smooth pan and zoom canvas supporting zoom in/out controls, keyboard shortcuts (`+`, `-`, `0`, `Esc`, arrow keys), mouse-wheel zoom centered on cursor, multi-touch pinch-to-zoom on mobile, and double-click/double-tap to toggle 2x zoom.
@@ -67,7 +69,8 @@ Related documentation:
 - Rendered an article with KaTeX math on the production build in the browser: all formulas render with no KaTeX errors in dark mode.
 
 ### Infrastructure
-- Regenerated `pnpm-lock.yaml`. The project version stays at `1.7.0`.
+- Bumped version to `1.8.0`.
+- Regenerated `pnpm-lock.yaml`.
 
 ## [1.7.0] - 2026-11-06
 

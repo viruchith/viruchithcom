@@ -170,7 +170,7 @@ pnpm exec wrangler deploy
 
 The current site state includes:
 
-- current release version: **v1.7.0**
+- current release version: **v1.8.0**
 - Manual Page redesign applied across all pages, with light, dark, and system themes
 - SEO & technical authority optimization in place (JSON-LD schemas, OG cards, RSS feed, llms.txt)
 - markdown article publishing in place
@@ -179,7 +179,7 @@ The current site state includes:
 - KaTeX math expression rendering enabled
 - homepage latest-articles list with thumbnails in place
 - article search (Fuse.JS) with thumbnails and pagination in place
-- Astro 7.3 upgrade complete (Vite 8, Rolldown bundler, incremental static builds, session-free SSR/static optimization)
+- Astro 7.4 upgrade complete (Vite 8, Rolldown bundler, incremental static builds, session-free SSR/static optimization)
 - production build and type check verified
 
 For detailed release notes, see [CHANGELOG.md](./CHANGELOG.md).
