@@ -9,6 +9,7 @@ import Section from '../../components/ui/Section.astro';
 import Badge from '../../components/ui/Badge.astro';
 import ArticleItem from '../../components/ui/ArticleItem.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
+import ArticleZoomViewer from '../../components/ArticleZoomViewer.astro';
 import 'katex/dist/katex.min.css';
 import '../../styles/article-prose.css';
 
@@ -151,7 +152,8 @@ const structuredData = {
             loading="eager"
             decoding="async"
             fetchpriority="high"
-            class="aspect-[16/9] w-full border border-rule object-cover"
+            class="aspect-[16/9] w-full border border-rule object-cover cursor-zoom-in transition-colors hover:border-rule-strong"
+            data-zoomable
           />
         </figure>
       </div>
@@ -194,6 +196,7 @@ const structuredData = {
       </Section>
     )}
   </Container>
+  <ArticleZoomViewer />
 </BaseLayout>
 
 <style is:global>

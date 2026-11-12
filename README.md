@@ -17,6 +17,7 @@ Editorial portfolio and article platform built with Astro and Tailwind CSS. The 
 - Optional 3D cat widget, opt-in only, which loads its model and sound on request.
 - Markdown-powered blog using Astro content collections.
 - Interactive Mermaid.js diagram rendering with automated dark theme support via `astro-mermaid`.
+- Interactive media zoom viewer for article images, hero images, and Mermaid.js diagrams with pan, multi-touch pinch, wheel zoom, and keyboard navigation.
 - KaTeX mathematical expression rendering via `remark-math` and `rehype-katex`.
 - Article listing page with SEO-friendly URL path-based pagination (`/articles/page/2/`, `/articles/page/3/`, 12 per page) and instant client-side search with thumbnails and highlighted matches.
 - Article detail pages with optimized images, canonical metadata, Open Graph tags, and structured data.
@@ -174,6 +175,7 @@ The current site state includes:
 - SEO & technical authority optimization in place (JSON-LD schemas, OG cards, RSS feed, llms.txt)
 - markdown article publishing in place
 - Mermaid.js diagrams enabled in Markdown via `astro-mermaid`
+- interactive media zoom viewer for article images and Mermaid architecture diagrams
 - KaTeX math expression rendering enabled
 - homepage latest-articles list with thumbnails in place
 - article search (Fuse.JS) with thumbnails and pagination in place
