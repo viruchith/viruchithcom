@@ -1,6 +1,6 @@
 ---
 title: "Token Spend Is the New Lines of Code: Why Your AI Productivity Dashboard Is Lying"
-description: "A JetBrains × CMU study of 3.1M coding-agent calls from 404 engineers shows token spend barely tracks shipped work. Here's the data — and what to measure instead."
+description: "A JetBrains × CMU study of 3.1M coding-agent calls from 404 engineers shows token spend barely tracks shipped work. Here is the data, and what to measure instead."
 publishDate: 2026-11-13
 category: "LLM"
 tags:
@@ -26,28 +26,26 @@ import tokenPerPrIllustration from '../../assets/blog/token-per-pr-illlustration
 import goodhartIllustration from '../../assets/blog/toke-spend-goodhart-illustration.png';
 import tokenUsageMetricTrashedIllustration from '../../assets/blog/token-usage-metric-trashed-illustration.png'
 
-> **TL;DR** — Researchers linked 5 weeks of metered token usage to the actual commits of 404 engineers at JetBrains, plus a 412-person internal survey. A week with **twice an engineer's usual commits costs only ~20% more tokens**. A week with **twice the usual tokens produces only ~10% more commits**. Up to **39% of spend never varies with the week's output at all**, and **89% of agent use in the survey wasn't coding**. Token spend measures *how much you use agents*, not *what you shipped*.
+> **TL;DR**: Researchers linked five weeks of metered token telemetry to the commit activity of 404 engineers at JetBrains, paired with an internal survey of 412 developers. Doubling an engineer's weekly commits costs approximately 20% more tokens, while doubling token spend corresponds to only ~10% more commits. Up to 39% of token spend does not vary with weekly output, and 89% of surveyed agent tasks involved activities other than direct coding. Token spend measures agent interaction frequency rather than shipped output.
 
 
 ---
 
 ## The "how many lines of code did you write?" of 2026
 
-Every few years, leadership asks for a number that is easy to collect and looks like progress.
+Engineering leadership frequently seeks metrics that are straightforward to collect and appear to track development progress.
 
-For a long time, it was lines of code. You've probably lived through this — the instinct to ask "just tell me how many lines each engineer wrote this week" makes every senior engineer in the room quietly die inside. LOC survived for decades because program size correlated loosely enough with effort to feed cost models (Fenton & Pfleeger; Albrecht). Eventually, it became a target and, per Goodhart's law as Strathern framed it, stopped being a good measure.
+For decades, that metric was lines of code (LOC). LOC persisted because software size correlated loosely enough with effort to inform estimation models. Over time, it was adopted as an evaluation target and, following Goodhart's law as Strathern framed it, ceased to provide a meaningful measure of productivity.
 
-The 2026 remix is **token spend**.
+Today, organizations increasingly track **token spend**.
 
-Meta had an internal leaderboard where engineers competed to be the company's top token user; it got taken down after press coverage. Nvidia and Meta execs have said a good engineer should burn tokens worth a large share of their salary. Salesforce set minimum monthly spending targets. Uber burned its entire 2026 AI coding-tool budget in four months, and its COO admitted the link between token spend and shipped features "is not there yet."
+Meta introduced and later removed an internal leaderboard ranking engineers by token consumption. Executives at Nvidia and Meta publicly suggested high-performing engineers should consume tokens proportional to substantial fractions of their compensation. Salesforce introduced monthly spending minimums, while Uber consumed its annual 2026 AI developer tool budget within four months, with leadership acknowledging that the link between token spend and delivered functionality remained unproven.
 
-Analytics vendors are already selling the ratio: **tokens ÷ merged pull requests = "return on investment."**
+Analytics vendors have begun packaging this into return-on-investment metrics, frequently dividing token volume by merged pull requests.
 
-So a team at CMU and JetBrains measured it on the same engineers over time.
+To evaluate whether token consumption actually reflects engineering productivity, researchers from Carnegie Mellon University and JetBrains analyzed telemetry from professional developers over five weeks.
 
-> **Paper:** *["The AI Era's Lines of Code? A Case Study on What an Engineer's Token Spend Measures"* — Agarwal, Lvova, Sergeyuk, Serova, Bryksin, Zimmermann, Vasilescu. arXiv:2611.13396](https://arxiv.org/abs/2611.13396).
-
-The numbers are brutal.
+> **Paper:** *["The AI Era's Lines of Code? A Case Study on What an Engineer's Token Spend Measures,"* Agarwal, Lvova, Sergeyuk, Serova, Bryksin, Zimmermann, Vasilescu. arXiv:2611.13396](https://arxiv.org/abs/2611.13396).
 
 <Image src={increasedTokenSpendImage} alt="Increased Token Spend" style={{marginTop:"1rem",marginBottom:"0.5rem"}} />
 
@@ -55,7 +53,7 @@ The numbers are brutal.
 
 ## The setup: 3.1 million agent calls, 1,827 engineer-weeks
 
-JetBrains (~2,600 employees) runs an internal gateway that meters every coding-agent call in a consistent format. This allows for consistent comparison because everyone goes through the same door, regardless of model, harness, or caching regime.
+JetBrains runs an internal gateway that meters all coding assistant requests in a uniform schema, standardizing comparison across different models, client interfaces, and caching strategies.
 
 ```mermaid
 flowchart LR
@@ -68,11 +66,11 @@ flowchart LR
     C["Anonymous survey<br/>412 respondents · 525 evaluations"] --> E["What agents are actually used for"]
 ```
 
-Five complete weeks of overlap (2026-06-29 → 2026-08-02) provide the unit of analysis: the **person-week**. 404 engineers, 1,827 person-weeks, 88% of which have metered use. Median active week: 8 commits.
+Five weeks of concurrent telemetry (2026-06-29 to 2026-08-02) establish the primary panel dataset: 404 engineers across 1,827 person-weeks, 88% of which record metered agent activity. The median active week recorded 8 commits.
 
-Two caveats:
-1. These are associations, not causal effects. Engineers chose how much to use agents; nobody was randomized.
-2. The setting is unusual. JetBrains builds AI coding tools, so some metered use may be dogfooding.
+Two analytical considerations apply:
+1. The findings reflect observational associations rather than randomized experiments, as developers determined their own tool usage.
+2. JetBrains develops commercial software engineering tooling, meaning a portion of internal agent calls reflects internal dogfooding.
 
 <Image src={tokenFunnelImage} alt="Token Funnel" style={{marginTop:"1.0rem",marginBottom:"0.5rem"}} />
 
@@ -80,34 +78,32 @@ Two caveats:
 
 ## Finding #1: Double the commits, get 20% more spend
 
-This is the headline number.
-
-Fitting a Poisson model with person and week fixed effects (comparing each engineer's weeks to their own), the elasticity of tokens on commits is:
+Fitting a Poisson model with person and week fixed effects (evaluating each engineer's weeks relative to their own baseline), the elasticity of tokens on commits is:
 
 | Estimate | Value | 95% CI |
 |---|---|---|
-| Tokens on commits (within person) | **0.26** | [0.19, 0.32] |
-| Commits on tokens (within person) | **0.13** | [0.03, 0.32] |
+| Tokens on commits (within person) | 0.26 | [0.19, 0.32] |
+| Commits on tokens (within person) | 0.13 | [0.03, 0.32] |
 
-In plain English:
-- **2× commits → ~20% more tokens** (2^0.26 ≈ 1.20)
-- **2× tokens → ~10% more commits** (2^0.13 ≈ 1.09)
+This indicates:
+- Doubling an engineer's commits corresponds to approximately 20% more tokens (2^0.26 ≈ 1.20).
+- Doubling token spend corresponds to approximately 10% more commits (2^0.13 ≈ 1.09).
 
-If spend were proportional to output — which is what "tokens per merged PR" assumes — both slopes would be ≈ 1.0. The product of the two slopes is **0.03**. Proportionality is rejected at every time unit tested, p < 0.001.
+If spend were proportional to output, as assumed by "tokens per merged PR" metrics, both regression slopes would equal ~1.0. The product of the two slopes is 0.03, rejecting strict proportionality across every tested aggregation interval (p < 0.001).
 
-The authors also addressed common objections:
+The researchers tested alternative specifications to evaluate potential confounders:
 
-| Objection | What they did | Result |
+| Objection | Analytical check | Result |
 |---|---|---|
-| "Commits are a noisy proxy" | Instrumented commits with **lines changed** | Slope rises to 0.48 — still nowhere near 1 |
-| "Output arrives later than spend" | Day-level cross-correlation, ±10 working days | Peaks **same day** (0.33), gone after ~4 working days |
-| "Wrong time unit" | 1 day → 4 weeks | 0.30 (1 day), 0.21 (2 weeks) |
-| "Wrong output metric" | Lines changed / days-with-commit | 0.19 / 0.40 |
-| "Heavy-spend weeks just write bigger commits" | Commit size, platform share, issue linkage | No effect at p < 0.05 |
+| "Commits are a noisy proxy" | Instrumented commits with lines changed | Slope rises to 0.48, remaining well below 1.0 |
+| "Output arrives later than spend" | Day-level cross-correlation across ±10 working days | Output peaks same-day (0.33) and dissipates after ~4 working days |
+| "Wrong time unit" | Tested 1 day to 4 weeks | 0.30 (1 day), 0.21 (2 weeks) |
+| "Wrong output metric" | Evaluated lines changed and commit-days | Elasticity is 0.19 for lines, 0.40 for commit-days |
+| "Heavy-spend weeks write larger commits" | Controlled for commit size, platform share, issue links | No statistically significant effect (p < 0.05) |
 
-Between engineers, the slope is 0.38 on person. Engineers who spend 2× as much have about 8% more commits. Ten times the spend buys roughly **30% more output between engineers, 35% within** [7%, 109%].
+Between engineers, the cross-sectional slope is 0.38. Engineers consuming 2× as many tokens average approximately 8% more commits. A tenfold increase in spend correlates with roughly 30% more output across engineers and 35% within an individual engineer's history [7%, 109%].
 
-Prior estimates align with this shape: Jellyfish's usage deciles (~10× spend → ~40% more output), a press summary of vendor data (10× → 2×), and He et al.'s enterprise "2× mandate" study (2.09× throughput, **≥20× spend**). Nobody's dashboard reflects it.
+Prior industry observations show a similar pattern: [Jellyfish usage analysis](https://jellyfish.co/blog/is-tokenmaxxing-cost-effective-new-data-from-jellyfish-explains/) identified that ~10× spend yielded ~40% more output, vendor summaries indicated 10× spend for 2× output, and enterprise field studies by He et al. documented 2.09× throughput at ≥20× token spend.
 
 <Image src={tokenVsCommitImage} alt="Token vs Commit" style={{marginTop:"1.0rem",marginBottom:"0.5rem"}} />
 
@@ -115,9 +111,7 @@ Prior estimates align with this shape: Jellyfish's usage deciles (~10× spend �
 
 ## Finding #2: Same output, 39–240× different spend
 
-If spend tracked output, two engineers shipping the same number of commits should cost roughly the same. They don't.
-
-Within **every quintile of weekly commit counts**, the 90th percentile of token spend is **39 to 240 times** the 10th percentile. Even after controlling for all four activity metrics, the 90th-percentile person-week still uses **58×** the tokens of the 10th.
+If spend tracked output, engineers shipping identical commit counts would generate similar token consumption. Instead, within every quintile of weekly commit counts, the 90th percentile of token spend was 39 to 240 times that of the 10th percentile. Even after controlling for all four developer activity metrics, the 90th-percentile person-week consumed 58× the tokens of the 10th percentile.
 
 ```mermaid
 pie showData
@@ -126,34 +120,32 @@ pie showData
     "Tied to the week's output" : 61
 ```
 
-Over the full five weeks, the engineer at the 90th percentile of spend used **71×** the tokens of the engineer at the 10th.
+Over the full five-week observation window, the engineer at the 90th percentile of spend consumed 71× the tokens of the engineer at the 10th percentile.
 
-The spread is wide because a token isn't a unit of work — it's a unit of *context*. **The median agent call sends about 400× as many tokens as it receives.** You're not paying for code; you're paying to re-send the conversation, the file contents, the terminal output, and the tool schemas on every turn.
+This disparity occurs because tokens measure context exchange rather than completed work units. In this dataset, the median agent call transmits roughly 400 times as many input tokens as it receives in output tokens. Billed usage primarily reflects re-sending conversation history, file contents, terminal logs, and tool schemas on every interaction turn.
 
 <Image src={tokenSpendVsOutputImage} alt="Token Spend vs Output" style={{marginTop:"1.0rem",marginBottom:"0.5rem"}} />
 
 ---
 
-## Finding #3: It's a personality trait, not a productivity signal
-
-This part ends the leaderboard debate.
+## Finding #3: Individual habits drive spend rather than productivity
 
 | Predictor set | Share of between-person variance explained (held-out) | Share of within-person variance explained (held-out) |
 |---|---|---|
-| Commits, lines changed, bug-linked commits, commit-days | **38%** | **13%** |
+| Commits, lines changed, bug-linked commits, commit-days | 38% | 13% |
 | Commits + lines changed alone | 38% | — |
 | Add issue-tracker activity | +0 pts | — |
 | Add pre-period work mix | +3 pts | — |
-| Role + manager flag + team | **−6%** (worse than the weekly average!) | — |
-| "Which person" (in-sample, so optimistic) | **79%** | — |
+| Role + manager flag + team | −6% | — |
+| Individual identity (in-sample) | 79% | — |
 
-Who the engineer is explains 79% of the variance in weekly token spend *in sample*. Your job title, your team, and your org chart explain **less than nothing** on held-out engineers.
+Individual identity explains 79% of the in-sample variance in weekly token spend. Conversely, organizational factors including job title, team, and manager status have negative explanatory power (−6%) when applied to held-out engineers.
 
-Heavy spenders stay heavy spenders. Split-half rank correlation for spend is 0.77, projecting to **0.87 over the full five weeks** — the same stability as commits (0.87). Engineers who spend the most in week 0 are largely the same ones in week 4.
+High-volume spenders remain high-volume spenders consistently over time. The split-half rank correlation for spend is 0.77, projecting to 0.87 across the full five weeks, matching the longitudinal stability of commit counts (0.87). Engineers who registered the highest consumption in week 0 were largely the same individuals in week 4.
 
-**Stable ≠ valid.** A metric can be perfectly reliable and still measure the wrong thing. Token spend is a highly reliable measurement of *"this person likes using agents a lot."* That is useful for capacity planning, but not for productivity.
+Reliability does not equate to validity. A metric can be statistically stable while capturing the wrong variable. Token spend reliably measures how frequently an engineer interacts with coding assistants, which assists infrastructure capacity planning rather than engineering evaluation.
 
-Tokens per commit is *not* stable at the top. Of the 34 engineers in the top decile by tokens-per-commit in odd weeks, only **17** remain there in even weeks. The "efficiency" leaderboard reshuffles by coin flip at the top.
+By contrast, tokens per commit is unstable at the top decile. Of the 34 engineers in the top decile by tokens-per-commit during odd weeks, only 17 remained there during even weeks.
 
 <Image src={tokenWrongMeasureImage} alt="Token Wrong Measure" style={{marginTop:"1.0rem",marginBottom:"0.5rem"}} />
 
@@ -161,16 +153,16 @@ Tokens per commit is *not* stable at the top. Of the 34 engineers in the top dec
 
 ## Finding #4: Up to two-fifths of spend never touches a commit
 
-Unlike LOC, tokens count an **input**, recorded whether or not anything is produced.
+Unlike lines of code, tokens measure an input accumulated regardless of output.
 
-The authors bounded the untethered share two ways:
+The authors calculated bounds on this untethered consumption through two methods:
 
-- **Floor (lower bound):** weeks with *zero* commits account for **4%** of all tokens. Restricting to above-median-spend no-commit weeks: **3.0%** [1.8%, 4.5%].
-- **Curve estimate (upper bound):** a week with no commit still costs **77% of that engineer's average week**. Fit the curve four ways and see how much spend is attributed to zero output: raw counts 89%, square root 63%, log(1+x) 42%, spline **39% [31%, 46%]**. The authors trust the last two (the diagnostics rank raw counts dead last).
+- Lower bound (floor): weeks with zero commits accounted for 4% of total token spend (or 3.0% [1.8%, 4.5%] when filtering to above-median-spend weeks).
+- Upper bound (curve estimation): a week with zero commits still incurred 77% of that engineer's average weekly token spend. Fitting the curve through spline estimation attributes 39% [31%, 46%] of spend to zero output, while a log(1+x) transformation attributes 42%.
 
-Somewhere between **4% and 39%** of tokens don't move with the week's commits. Most of that untethered spend isn't sitting in empty weeks — it's hiding *inside* weeks that did produce commits.
+Between 4% and 39% of token spend does not vary with weekly commits. Most of that untethered spend occurs inside weeks that actively produced commits.
 
-The heaviest third of users (79% of all tokens) have **36%** untethered spend. Team, role, manager flag, and prior work mix together explain only **11%** of that variation.
+The top third of users by volume (accounting for 79% of all tokens) exhibited 36% untethered spend. Team assignment, role, manager status, and historical work mix jointly explained only 11% of that variance.
 
 <Image src={diverseTokenSpendImage} alt="Diverse Token Spend" style={{marginTop:"1.0rem",marginBottom:"0.5rem"}} />
 
@@ -178,13 +170,11 @@ The heaviest third of users (79% of all tokens) have **36%** untethered spend. T
 
 ## Finding #5: 89% of agent use isn't coding
 
-If tokens were a proxy for commits, you'd expect agents to be doing… commits. The survey says otherwise.
-
-Of 197 evaluations of the two coding agents by 184 technical respondents:
+Agent interactions extend well beyond code synthesis. In the JetBrains internal survey, 184 technical respondents provided 197 evaluations of their usage across two coding assistants:
 
 | Activity | Share of evaluations naming it |
 |---|---|
-| Coding and development | **63%** |
+| Coding and development | 63% |
 | Processing and analyzing data | 52% |
 | Brainstorming / exploring ideas | 49% |
 | Research on a topic or project | 44% |
@@ -195,16 +185,16 @@ Of 197 evaluations of the two coding agents by 184 technical respondents:
 | Onboarding | 15% |
 | Emails, messages, presentations | 8% |
 
-**89% of evaluations reported at least one non-coding activity.** And the hours saved scale with *breadth*, not with coding:
+Eighty-nine percent of evaluations reported at least one non-coding activity. Furthermore, reported time savings correlated with activity breadth rather than coding tasks:
 
-- Median hours saved: **3** for coding-only users → **10** for users with 2+ non-coding activities.
-- Regression on reported hours saved (R² = 0.43): number of non-coding activity types → **0.24** [0.06, 0.43]; colleagues the work would otherwise have needed → **0.43** [0.23, 0.61]; *used it for coding* → **0.08** [−0.10, 0.27], not significant.
+- Median reported time saved rose from 3 hours per week for coding-only users to 10 hours for engineers reporting two or more non-coding activities.
+- In a regression model of reported hours saved (R² = 0.43), the count of non-coding activity types had a coefficient of 0.24 [0.06, 0.43], while colleagues the work would have otherwise required had a coefficient of 0.43 [0.23, 0.61]. Direct coding use was not statistically significant (0.08 [−0.10, 0.27]).
 
-What people say it's *for*, in their own words: 36% of "enabled work" examples were work in an unfamiliar codebase, language, or stack; 25% were tasks that would otherwise have been deferred or handed to someone else; 23% were prototypes and experiments. Only **one of 44** said the work would have happened anyway, just slower.
+When asked to describe work enabled by agents, 36% of respondents cited tasks in unfamiliar codebases, languages, or stacks; 25% completed work that would have otherwise been deferred or reassigned; and 23% built prototypes or exploratory experiments. Only one of 44 respondents indicated the work would have proceeded unaltered at a slower pace.
 
-On the cost side, from 67 free-text answers: **49%** named wrong, plausible-but-wrong, or low-quality output — the single most common complaint. 24% named tooling friction, 21% prompting/context/steering, 18% verification overhead ("there is a point where time spent on prompting and reviewing exceeds the time savings").
+Among 67 free-text responses detailing friction, 49% cited incorrect, plausible-sounding, or low-quality output as their primary complaint. Tooling friction accounted for 24%, prompt steering and context management accounted for 21%, and verification overhead accounted for 18% ("there is a point where time spent on prompting and reviewing exceeds the time savings").
 
-Plus the costs that never show up on the invoice: **31%** of technical agent users report *higher* cognitive load, and **55%** of respondents report handling colleagues' suspected AI-generated material at a mean cost of **1.6 hours/week** [1.2, 2.1].
+Beyond direct compute costs, 31% of technical users reported increased cognitive load, and 55% reported reviewing or debugging suspected AI-generated material submitted by peers, costing an average of 1.6 hours per week [1.2, 2.1].
 
 <Image src={tokenSpreadImage} alt="Token Spread" style={{marginTop:"1.0rem",marginBottom:"0.5rem"}} />
 
@@ -212,7 +202,7 @@ Plus the costs that never show up on the invoice: **31%** of technical agent use
 
 ## Why "tokens per PR" is worse than a useless metric
 
-Vendors divide spend by merged PRs and call it ROI. The paper lists four mechanical reasons that ratio cannot tell you what you want:
+Vendors divide spend by merged PRs and label the ratio ROI. Four structural factors explain why this metric misleads:
 
 ```mermaid
 flowchart TD
@@ -225,29 +215,29 @@ flowchart TD
     J["A commit written by hand"] --> K["Counted as return, never as cost"]
 ```
 
-1. **The ratio falls as output rises.** Because spend grows sublinearly (d ≈ 0.26), a week with 2× commits has ~1.2× tokens → tokens/commit drops ~40%. Your best week looks like your most "efficient" week, for purely arithmetic reasons.
-2. **It's unstable at the top.** 17 of 34 top-decile engineers stay there. The aggregate rank reliability is 0.80 — fine for a cohort, useless for a person.
-3. **It assumes every token goes to a commit and every commit comes from tokens.** Neither is true. Hand-written commits are free return; prototypes are free cost.
-4. **It moves when your vendor ships.** Weeks on the newly released frontier model had **45% more tokens at the same commit count** (p = 0.03). Your ROI chart just went down because someone deployed a better model.
+1. The ratio falls as output rises. Because token consumption scales sublinearly (d ≈ 0.26), a week with 2× commits consumes only ~1.2× tokens, causing tokens per commit to drop ~40%. The most productive weeks appear artificially efficient through arithmetic alone.
+2. The metric is unstable at the top decile. Only 17 of 34 top-decile engineers in odd weeks remained in the top decile during even weeks. The aggregate rank reliability of 0.80 functions for cohort analysis, but fails for individual evaluations.
+3. The calculation assumes all tokens generate commits and all commits originate from tokens. Neither assumption holds: unassisted commits register as cost-free output, while prototypes and research register as pure expense.
+4. The ratio shifts when model providers update releases. Weeks evaluated on newly released frontier models logged 45% more tokens at identical commit counts (p = 0.03). The measured metric degrades simply because a newer model was deployed.
 
-Same problem for **adoption monitoring by token threshold**. When Steve Yegge accused Google of shallow AI adoption, Google answered with 40,000 weekly agent users and Yegge with a threshold of 4 million tokens/day. Both were right — they were reading opposite ends of one extremely skewed distribution. In this data, the **heaviest third of users accounts for 79% of all tokens**, so "weekly active users" and "engineers above threshold X" can differ by an order of magnitude depending on where you draw the line. The line moves every model release.
+Adoption tracking through token thresholds encounters the same distortion. During public debates over enterprise adoption rates, aggregate user counts and high-volume thresholds often reflect opposite ends of a heavily skewed distribution. In the JetBrains dataset, the heaviest third of users accounted for 79% of all tokens. Metrics like weekly active users and headcount above a token threshold can diverge by an order of magnitude based on arbitrary boundary choices, and that boundary moves with every model release.
 
 <Image src={tokenPerPrIllustration} alt="Token Per PR" style={{marginTop:"1.0rem",marginBottom:"0.5rem"}} />
 
 ---
 
-## Goodhart already collected on this one
+## Goodhart's Law and token metrics
 
-The paper is careful, but the grey literature is not subtle:
+Industry attempts to track token consumption show similar patterns:
 
-- **Meta** built and then removed an internal token leaderboard; Meta later told engineers token counts won't be used to evaluate impact.
-- **Amazon** shut down a usage leaderboard and called token usage a **"deeply flawed"** measure of teams' AI use, telling engineers to be pickier.
-- **Uber** blew its 2026 AI tooling budget in four months.
-- **Salesforce** set minimum monthly spending targets.
+- Meta launched and subsequently dismantled an internal token leaderboard, notifying engineers that token counts would not inform impact evaluations.
+- Amazon shut down an internal leaderboard, describing token volume as a "deeply flawed" metric for team adoption and urging engineers to be selective.
+- Uber exhausted its 2026 AI tooling budget in four months.
+- Salesforce introduced minimum monthly spending quotas.
 
-This is the classic pattern: a convenient proxy becomes a target, engineers optimize the proxy, the proxy stops meaning anything. But the important point in this paper is that **spend is a weak measure of output even without a target**. In this setting, where the company set no spending target at all, the p90/p10 ratio within every commit quintile was still **39–240×**.
+When a convenient proxy becomes a target, engineers optimize for the metric, and it loses its informational value. The findings in this study demonstrate that token spend fails to reflect output even in the absence of explicit targets. Without any spending mandates, the ratio between the 90th and 10th percentiles of spend within every commit quintile still spanned 39× to 240×.
 
-Removing the leaderboard fixes the gaming. It doesn't fix the metric.
+Removing leaderboards removes gaming incentives, but does not correct the underlying measurement flaw.
 
 <Image src={goodhartIllustration} alt="Goodhart Illustration" style={{marginTop:"1.0rem",marginBottom:"0.5rem"}} />
 
@@ -255,7 +245,7 @@ Removing the leaderboard fixes the gaming. It doesn't fix the metric.
 
 ## What to actually do instead
 
-None of this means token data is worthless. It means you have to be precise about what question it answers.
+Token telemetry remains useful for operational budgeting, provided teams match the metric to its intended scope:
 
 ```mermaid
 flowchart TD
@@ -267,51 +257,40 @@ flowchart TD
     Q -->|"How do we cut the bill?"| E["Reduce context, cache, route<br/>DON'T cap people"]
 ```
 
-Concretely, five things:
+1. Use spend for resource accounting at multi-week granularity. Five-week totals rank engineers reliably (projected 0.87), whereas two single weeks correlate at only 0.4 to 0.6. Weekly token counts are statistical noise; quarterly totals serve as budget inputs.
 
-**1. Use spend for resource accounting, at multi-week granularity.**
-Five-week totals rank engineers reliably (projected 0.87). Two single weeks correlate at only 0.4–0.6. Weekly token counts are noise; quarterly ones are a budget input.
+2. Log the task at the gateway. The most effective instrumentation change is recording which issue, ticket, or session prompted each agent call. This allows teams to link spend directly to shipped features, closed issues, or architectural decisions rather than raw commit counts.
 
-**2. Log the task at the gateway.**
-The single highest-leverage change: record which issue, ticket, or session served each agent call. Then you can join spend to *outcomes* (a shipped feature, a decision a prototype informed, a bug closed) rather than to whether a commit happened.
+3. Measure value beyond code artifacts. Frameworks like SPACE and DORA grow noisy when similar outputs combine varying proportions of automated and human effort. While validated hybrid metrics develop, practical proxies offer better signal: 58% of surveyed engineers reported agents allowed them to complete tasks they would have otherwise abandoned. This indicates new work enabled rather than net value, but provides more context than token volume alone.
 
-**3. Measure value with something other than artifacts.**
-SPACE and DORA were designed for human-written code and get noisier when the same number can come from different mixes of human and agent work. Until validated measures exist, one cheap proxy: the paper found **58% of coding-agent evaluations** reported the agent let the person complete tasks they'd otherwise have skipped. That's a leading indicator of *new work*, not of value — but it beats a token count.
+4. Reduce costs at the API call level rather than capping individual engineers. Because context tokens are resent on every turn, capping individuals curtails productive and untethered usage indiscriminately. Heavy users (accounting for 79% of tokens) exhibited the lowest proportion of untethered spend (36%). Effective cost reductions focus on context caching, prompt compression, and routing routine tasks to lighter models. Teams should track billed currency rather than token counts: one evaluation found pruning 38.4% of tool output tokens increased billed spend by 6.8% because agents repeatedly retrieved missing context.
 
-**4. Cut cost at the call level, not the person level.**
-Most tokens are context re-sent every turn. Capping people cuts output-tied spend and untethered spend indiscriminately — and the heaviest users, who hold 79% of the tokens, have the *lowest* untethered share (36%). Instead: compress context, cache repeated context, route routine calls to cheaper models. And measure **billed cost, not tokens** — one study found removing 38.4% of tool-output tokens *raised* billed cost 6.8% because the agent re-read what was deleted.
-
-**5. Stop shipping the ratio.**
-If a dashboard divides tokens by commits, it is telling you a story about arithmetic, not about engineering.
+5. Avoid publishing tokens-per-commit or tokens-per-PR ratios. Dividing token consumption by merged pull requests produces an artifact of arithmetic rather than an index of engineering productivity.
 
 <Image src={tokenUsageMetricTrashedIllustration} alt="Token Usage Metric Trashed" style={{marginTop:"1.0rem",marginBottom:"0.5rem"}} />
 
 ---
 
-## The caveats you should quote back at me
+## Study limitations
 
-To be a good engineer about this:
+- The dataset reflects five weeks at a single organization. JetBrains develops developer tools, and its engineers work on mature codebases where productivity gains from AI may differ from greenfield projects or consulting environments.
+- Participation was voluntary without mandatory usage quotas. Imposing explicit spending targets could alter developer behavior and token consumption patterns.
+- Git commits omit substantial engineering contributions, including code reviews, architectural planning, system design, mentoring, and the 89% of agent tasks that do not involve direct code generation.
+- The 39% upper-bound estimate includes baseline overhead from initializing agent sessions alongside usage supporting uncommitted exploration.
 
-- **One company, five weeks.** JetBrains builds AI tooling; its engineers work on mature codebases where AI gains are documented to be smaller. Effects may differ in greenfield or agency work.
-- **Voluntary use, no mandate.** These are associations. A company that *imposes* a token budget might get a different (probably worse) curve.
-- **Commits miss a lot.** Review, design, mentoring, and the 89% of agent use that isn't coding are all invisible to the output variable.
-- **The 39% upper bound is an upper bound.** It includes the fixed cost of using an agent at all and the spend behind hand-written commits.
-
-None of these caveats rescue the productivity dashboard. They all point in the same direction: **the metric is measuring the wrong noun.**
+These constraints do not validate token-based productivity tracking. Rather, they confirm that token consumption measures usage intensity instead of delivered engineering output.
 
 ---
 
 ## The takeaway
 
-Lines of code measured *output* and survived for decades because program size at least loosely tracked effort. Token spend measures an **input** — one that's recorded whether or not anything ships — and in this data it tracks output more weakly than LOC ever did.
+Lines of code measured output and survived for decades because program size loosely tracked effort. Token spend measures an input that accumulates whether or not anything ships, and in this dataset it correlates with output far more weakly than lines of code ever did.
 
-The critic quoted in the paper put it best: token spend is "the lines-of-code metric of the AI era: easy to measure, easy to game, and disconnected from actual productivity." The data now backs that up with 3.1 million calls, 1,827 engineer-weeks, and a 412-person survey.
+As noted in the paper, token spend functions as "the lines-of-code metric of the AI era: easy to measure, easy to game, and disconnected from actual productivity." The telemetry from 3.1 million calls across 1,827 engineer-weeks and 412 surveyed engineers supports that conclusion.
 
-So here's the rule I'd put on the wall:
+> **If you would not deploy a lines-of-code leaderboard, do not deploy a token leaderboard.**
 
-> **If you wouldn't ship a lines-of-code leaderboard, don't ship a token leaderboard.**
-
-Use spend to budget. Use telemetry to understand. Use task-linked records to measure value. And when someone asks for a per-engineer token number in the next planning meeting, send them this paper.
+Track token spend for capacity budgeting, use gateway telemetry to diagnose workflow bottlenecks, and tie task-level records directly to shipped outcomes rather than counting raw tokens. When asked for per-engineer token counts in planning reviews, share the empirical findings from this study.
 
 ---
 
