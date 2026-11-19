@@ -8,6 +8,14 @@ Related documentation:
  
 ## [Unreleased]
 
+### Changed
+- Upgraded **Astro** to `7.4.13` (from `7.4.7`, direct range `^7.4.13`) along with `@astrojs/mdx` `8.1.6`, `@astrojs/markdown-remark` `7.3.10`, and `@astrojs/check` `0.9.12`.
+- Upgraded dependencies including `@lucide/astro` to `1.75.0`, `wrangler` to `4.165.0`, `typescript-eslint` to `8.73.0`, `postcss` to `8.5.33`, `autoprefixer` to `10.6.2`, `terser` to `5.51.2`, and `fuse.js` to `7.5.0`.
+
+### Fixed
+- Resolved `fast-xml-parser` vulnerability (`GHSA-474x-hrwr-fgx4`) with `fast-xml-parser@5.12.1` via `@astrojs/rss` update (0 `pnpm audit` vulnerabilities).
+
+
 ## [1.8.0] - 2026-11-12
 
 ### Added
