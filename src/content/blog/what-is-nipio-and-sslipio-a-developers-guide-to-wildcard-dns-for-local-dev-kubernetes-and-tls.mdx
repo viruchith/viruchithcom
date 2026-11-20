@@ -1,0 +1,279 @@
+---
+title: "What Is nip.io and sslip.io? A Developer's Guide to Wildcard DNS for Local Dev, Kubernetes and TLS"
+description: "nip.io and sslip.io are free wildcard DNS services that turn any hostname with an embedded IP into that IP. Learn how they work, how to use them with Docker, Traefik, Kubernetes and Let's Encrypt, and when not to."
+publishDate: 2026-11-20
+category: "Networking"
+tags:
+  - "nip.io"
+  - "sslip.io"
+  - "Wildcard DNS"
+  - "Local Development"
+  - "Kubernetes"
+  - "Traefik"
+  - "Let's Encrypt"
+  - "TLS"
+heroImage: "../../assets/blog/what-is-nipio-and-sslipio-a-developers-guide-to-wildcard-dns-for-local-dev-kubernetes-and-tls-cover.png"
+heroAlt: "nipio-sslip-io-wildcard-dns-local-dev-kubernetes-tls"
+featured: false
+draft: false
+---
+
+# TL;DR
+
+[nip.io](https://nip.io) and [sslip.io](https://sslip.io) operate public wildcard DNS servers under two interchangeable domain names. Querying a hostname containing an IP address returns that IP: `app.10.0.0.5.nip.io` resolves directly to `10.0.0.5`. The service requires no registration, configuration, or `/etc/hosts` modifications, providing routable hostnames for local development, Kubernetes clusters, and public Let's Encrypt TLS certificates.
+
+## What are nip.io and sslip.io?
+
+Both services run authoritative Domain Name System (DNS) servers that extract embedded IP addresses from queried hostnames and return them in resolution answers. The domains share infrastructure and resolve identically.
+
+Project timeline:
+
+- Sam Stephenson created xip.io as the original inspiration; the domain is no longer active.
+- Roopinder Singh registered the **[nip.io](https://nip.io)** domain on June 8, 2012.
+- Brian Cunnie, Tyler Schultz, and Alvaro Perez-Shirley created **[sslip.io](https://sslip.io)** during a Pivotal Software Hack Day on August 11, 2015.
+- Following Roopinder Singh's passing in May 2024, the nip.io domain transferred to Brian Cunnie in July 2025. Brian Cunnie and Kenneth Lakin maintain both services.
+
+The platform handles over 20,000 queries per second across more than a decade of operation. Documentation from Google Cloud, AWS, Azure, and IBM references the service, commonly as the default domain provider in Knative and Kubernetes tutorials.
+
+## Why it exists
+
+Modern web applications often require valid hostnames rather than bare `localhost` or IP addresses:
+
+- Virtual hosting routed by HTTP `Host` headers
+- Tenant-specific subdomains such as `acme.myapp.test`
+- Ingress controllers configured for hostname matching
+- OAuth and OIDC redirect URIs that disallow IP addresses
+- TLS certificates, which public Certificate Authorities issue only for hostnames
+
+Standard workarounds require manual intervention: editing `/etc/hosts` across development devices without wildcard capability, configuring local dnsmasq resolvers, purchasing extra domains, or managing temporary DNS records. Wildcard resolution embedding the IP address in the hostname removes this overhead.
+
+## How it works
+
+The system operates statelessly as an authoritative DNS server without a backing database or user accounts. Upon receiving a query, it parses the hostname labels, extracts the embedded IP address, and returns an A or AAAA record.
+
+Resolution can be verified using `dig`:
+
+```bash
+dig 192.168.0.1.nip.io +short
+# 192.168.0.1
+
+dig www-10-0-0-5.sslip.io +short
+# 10.0.0.5
+```
+
+## Supported hostname formats
+
+The DNS server parses several separator and notation styles:
+
+| Hostname | Resolves to | Notes |
+| --- | --- | --- |
+| `64.176.22.9.nip.io` | 64.176.22.9 | Dot separators |
+| `64-176-22-9.nip.io` | 64.176.22.9 | Dash separators |
+| `www.192.168.0.1.nip.io` | 192.168.0.1 | Any subdomain in front |
+| `www.192-168-0-1.nip.io` | 192.168.0.1 | Subdomain plus dashes |
+| `www-78-46-204-247.nip.io` | 78.46.204.247 | Dash-separated prefix |
+| `--1.nip.io` | ::1 | IPv6 loopback: always use dashes |
+| `2a01-4f8-c17-b8f--2.nip.io` | 2a01:4f8:c17:b8f::2 | IPv6 address |
+| `40B01609.nip.io` | 64.176.22.9 | Hexadecimal notation |
+
+Key resolution rules:
+
+1. Any label preceding the IP is ignored during resolution. For example, `api.v2.staging.10.0.0.5.nip.io` resolves directly to `10.0.0.5`.
+2. IPv6 addresses must use dashes instead of colons or dots.
+3. Command-line tools like `dig` interpret leading hyphens as CLI flags (such as `--1.nip.io`). Query them using `dig -q --1.nip.io aaaa`.
+
+## Use case 1: Local development with Docker and a reverse proxy
+
+Assign local routes to `127.0.0.1` and let the reverse proxy route incoming traffic by `Host` header:
+
+```yaml
+# docker-compose.yml
+services:
+  traefik:
+    image: traefik:v3
+    command:
+      - --providers.docker=true
+      - --entrypoints.web.address=:80
+    ports: ["80:80"]
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock:ro"]
+
+  api:
+    image: my-api
+    labels:
+      - traefik.http.routers.api.rule=Host(`api.127.0.0.1.nip.io`)
+
+  web:
+    image: my-web
+    labels:
+      - traefik.http.routers.web.rule=Host(`web.127.0.0.1.nip.io`)
+```
+
+Both `http://api.127.0.0.1.nip.io` and `http://web.127.0.0.1.nip.io` resolve locally without `/etc/hosts` changes, providing reproducible URLs across team machines. The same pattern applies to Nginx `server_name`, Caddy site blocks, HAProxy ACLs, and Apache `VirtualHost` definitions.
+
+## Use case 2: Testing from other devices on a LAN
+
+To test applications across mobile devices or other machines on the same local network, substitute the host machine's LAN IP address:
+
+```text
+http://app.192-168-1-42.nip.io:3000
+```
+
+Because public resolvers handle the lookup, the hostname resolves across all local devices while supporting subdomain routing.
+
+## Use case 3: Kubernetes ingress and Knative
+
+On a cluster without a provisioned domain, expose services by pairing the ingress load balancer IP with nip.io. Knative uses this convention for default domain routing.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: demo.203.0.113.10.nip.io   # 203.0.113.10 = your LB IP
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demo
+                port:
+                  number: 80
+```
+
+For local clusters using kind, minikube, or k3d, map `127.0.0.1` or the node IP in the same manner. This provides routable ingress endpoints for preview environments and CI pipelines without custom DNS provisioning.
+
+## Use case 4: TLS certificates without owning a domain
+
+Let's Encrypt issues browser-trusted certificates for nip.io and sslip.io hostnames via the HTTP-01 ACME challenge, provided the host is publicly reachable on port 80. [Caddy](https://caddyserver.com/) automates this process:
+
+```text
+# Caddyfile (server has public IP 64.176.22.9)
+64.176.22.9.nip.io {
+    reverse_proxy localhost:8080
+}
+```
+
+Caddy requests and renews certificates for specific hostnames like `64.176.22.9.nip.io`, `www.64.176.22.9.nip.io`, or `prod.www-64-176-22-9.nip.io`.
+
+Operational constraints:
+
+- Wildcard certificates are not supported; each hostname requires an individual certificate through HTTP-01.
+- Shared domain volume can trigger Let's Encrypt rate limits. When throttled, alternate between nip.io and sslip.io, request an IP address certificate, or self-host.
+- Purely private IPs cannot complete HTTP-01 challenges because the Certificate Authority must reach the server publicly on port 80.
+
+Historical warnings regarding sslip.io security stem from an incident in August 2015 when a wildcard certificate's private key was published and revoked. Neither service issues wildcard certificates today; per-host certificates issued via ACME are isolated, private, and secure.
+
+## Use case 5: OAuth, OIDC and webhook callbacks
+
+Many identity providers reject `http://192.168.x.x` redirect URIs but accept valid hostnames. A nip.io domain provides an eligible callback address during local development:
+
+```text
+https://app.64-176-22-9.nip.io/auth/callback
+```
+
+This approach also supports testing external webhooks on cloud virtual machines. Registering `hooks.<your-ip>.nip.io` satisfies external provider requirements before switching to a production domain.
+
+## Use case 6: Multi-tenant and subdomain testing
+
+When developing multi-tenant applications that assign subdomains to individual accounts, wildcard DNS allows tenant routing without updating DNS records:
+
+```text
+acme.127.0.0.1.nip.io
+globex.127.0.0.1.nip.io
+initech.127.0.0.1.nip.io
+```
+
+Application middleware can parse the leading label to identify the tenant, enabling end-to-end testing of tenant isolation, cookie scoping, and cross-subdomain CORS policies locally.
+
+## Use case 7: VMs, Vagrant, home labs and demos
+
+For virtual machines, home labs, and live demonstrations, services hosted at `192.168.56.10` resolve immediately under `grafana.192.168.56.10.nip.io` and `registry.192.168.56.10.nip.io`. This removes the prerequisite of modifying `/etc/hosts` on attendee or client machines.
+
+## Use case 8: Custom domain delegation (white label)
+
+Custom domains can delegate wildcard resolution by pointing NS records for a subdomain (such as `nip.example.com`) to the service nameservers:
+
+| Nameserver | Location |
+| --- | --- |
+| `ns-00.nip.io.` | Singapore |
+| `ns-01.nip.io.` | USA |
+| `ns-ovh.sslip.io.` | Poland |
+
+Verify the delegation with `dig`:
+
+```bash
+dig @ns-ovh.nip.io. 169-254-169-254.nip.example.com +short
+# 169.254.169.254
+```
+
+Note that nameserver hostnames and IP addresses were updated on June 6, 2026; un-migrated delegations return SERVFAIL errors. Consult the upstream documentation for current nameserver records prior to delegation.
+
+## Use case 9: Run your own server
+
+For environments requiring zero third-party dependencies, the DNS server is open source. Pre-built binaries are available, or the server can be built from source via the project's [sslip.io GitHub repository](https://github.com/cunnie/sslip.io):
+
+```bash
+docker run -it --rm fedora
+curl -L https://github.com/cunnie/sslip.io/releases/download/6.1.0/sslip.io-dns-server-linux-amd64 -o dns-server
+chmod +x dns-server
+./dns-server 2> dns-server.log &
+dnf install -y bind-utils
+dig @localhost 127-0-0-1.nip.io +short   # returns 127.0.0.1
+```
+
+Self-hosting is suitable for air-gapped networks, corporate environments with strict egress firewalls, and isolated CI runners.
+
+## Gotchas and limitations
+
+1. DNS rebinding protection: Many consumer routers and corporate resolvers drop public DNS responses that return RFC 1918 or loopback IP ranges (`10.0.0.0/8`, `192.168.0.0/16`, `127.0.0.0/8`). If queries resolve through `8.8.8.8` but fail on local resolvers, allowlist the domain or configure an alternative upstream DNS server.
+2. Rate limits and certificate restrictions: Let's Encrypt rate limits apply across the shared domain, and wildcard certificates are unavailable via HTTP-01.
+3. Exposed IP addresses: Any embedded IP address is visible in plain text within query logs, URLs, and browser histories.
+4. Lack of production SLA: Because the service is operated as a free public utility without availability guarantees, production workloads should rely on dedicated DNS records or self-hosted instances.
+5. Abuse policy enforcement: The operators monitor reports and handle abuse notices sent to `abuse@nip.io`.
+6. Private address certificate constraints: Public Certificate Authorities will not issue trusted certificates for private, non-routable IP addresses. Local HTTPS development on private ranges requires a local trust store like `mkcert`.
+
+## Alternatives and related services
+
+- traefik.me, which provides wildcard DNS based on the original nip.io backend.
+- backname.io, a Go-based wildcard DNS implementation.
+- FreeDNS (afraid.org), offering free DNS hosting without embedding IPs in the record name.
+- ipq.co, providing compact DNS routing.
+- Local dnsmasq or CoreDNS instances configured with wildcard records.
+
+## Best-practice checklist
+
+- Use dashes (`10-0-0-5`) instead of dots when the IP must occupy a single subdomain label, and always format IPv6 addresses with dashes.
+- Limit use to development, preview environments, and testing.
+- Issue individual per-hostname certificates through HTTP-01 and automate renewals with Caddy or Certbot.
+- Alternate between nip.io and sslip.io or self-host if rate limits are encountered.
+- Consider supporting the maintainers and Let's Encrypt through operational donations.
+
+## FAQ
+
+**Are nip.io and sslip.io the same service?**
+Yes. Both domains share the same infrastructure and can be used interchangeably.
+
+**Is there any cost or registration required?**
+No. Resolution requires no accounts, API keys, or payment.
+
+**Can TLS certificates be issued for these domains?**
+Yes, on a per-hostname basis using Let's Encrypt HTTP-01 challenges. Wildcard certificates are not supported.
+
+**Is IPv6 supported?**
+Yes. IPv6 addresses must be formatted with dashes instead of colons, such as `2a01-4f8-c17-b8f--2.nip.io`.
+
+**Why does resolution fail on local networks?**
+Routers or internal DNS resolvers often enforce DNS rebinding protection against responses returning private IP addresses.
+
+**Should nip.io or sslip.io be used in production?**
+No. Use dedicated domain records for production environments to avoid reliance on unmanaged public infrastructure.
+
+## Conclusion
+
+By encoding IP addresses directly into hostnames, nip.io and sslip.io eliminate manual `/etc/hosts` synchronization, simplify reverse-proxy routing, and enable automated TLS certificate issuance across local and staging environments without requiring custom DNS infrastructure.
+
+*Source: official documentation from [nip.io](https://nip.io/) and [sslip.io](https://sslip.io/). Verify upstream nameserver addresses and binary releases before deployment.*
